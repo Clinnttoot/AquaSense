@@ -1298,4 +1298,250 @@
   <!-- ========== TAB: CONCLUSION ========== -->
   <div id="tab-conclusion" class="tab-content">
     <section class="section-card" id="conclusion">
-      <div class="section-title
+      <div class="section-title">
+        <span class="number">4</span>
+        <div>
+          <h2>Conclusion</h2>
+          <div class="underline"></div>
+        </div>
+      </div>
+
+      <div class="conclusion-copy">
+        <p>
+          AquaSense presents a proposed solar-powered IoT approach to
+          monitoring selected freshwater parameters: pH, turbidity,
+          and temperature. By combining sensors, a microcontroller,
+          wireless communication, and a web dashboard, the concept
+          aims to make readings easier to review and support timely follow-up.
+        </p>
+
+        <p>
+          The current webpage is a presentation prototype. Its changing
+          values are simulated, so they do not demonstrate verified sensor
+          accuracy, live connectivity, or actual water conditions.
+        </p>
+
+        <p>
+          Future work may include physical deployment, calibration against
+          reference instruments, extended durability and power testing,
+          connectivity evaluation, and field validation with appropriate permissions.
+        </p>
+      </div>
+
+      <div class="quote">
+        <span>🌿</span>
+        <div>
+          “AquaSense is a step toward more accessible freshwater
+          monitoring and healthier aquatic ecosystems.”
+        </div>
+      </div>
+    </section>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">💧 Aqua<span>Sense</span></div>
+
+  <div class="footer-copy">
+    Mitigating Freshwater Degradation via AquaSense<br>
+    For a more sustainable future
+  </div>
+
+  <div class="footer-location">
+    ⌖ &nbsp; Barangay Ibaba West<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Calapan City, Oriental Mindoro
+  </div>
+
+  <div class="sdgs">
+    <div class="sdg">💧</div>
+    <div>SDG 6<br>Clean Water</div>
+    <div class="sdg">🌊</div>
+    <div>SDG 14<br>Life Below Water</div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+
+  /* ---------- TAB SWITCHING ---------- */
+  const tabs = {
+    home: 'tab-home',
+    introduction: 'tab-introduction',
+    methodology: 'tab-methodology',
+    results: 'tab-results',
+    conclusion: 'tab-conclusion'
+  };
+
+  function switchTab(tabId) {
+    // Hide all tab content
+    document.querySelectorAll('.tab-content').forEach(el => {
+      el.classList.remove('active-tab');
+    });
+
+    // Show the selected tab
+    const target = $(tabs[tabId]);
+    if (target) {
+      target.classList.add('active-tab');
+    }
+
+    // Update nav active state
+    document.querySelectorAll('.navlinks a').forEach(link => {
+      const linkTab = link.dataset.tab;
+      link.classList.toggle('active', linkTab === tabId);
+    });
+
+    // Close mobile menu if open
+    const menu = $('navlinks');
+    menu.classList.remove('open');
+  }
+
+  // Attach click listeners to all elements with data-tab
+  document.querySelectorAll('[data-tab]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const tabId = el.dataset.tab;
+      if (tabId) {
+        switchTab(tabId);
+        // For anchor links, update hash without jumping
+        if (el.tagName === 'A') {
+          history.replaceState(null, '', el.getAttribute('href') || '#' + tabId);
+        }
+      }
+    });
+  });
+
+  /* ---------- MOBILE MENU ---------- */
+  $('menuBtn').addEventListener('click', () => {
+    $('navlinks').classList.toggle('open');
+  });
+
+  /* ---------- SIMULATED SENSOR DATA (unchanged) ---------- */
+  const state = {
+    ph: 7.42,
+    turb: 12.36,
+    temp: 27.8
+  };
+
+  const history = {
+    ph: [],
+    turb: [],
+    temp: []
+  };
+
+  const maxPoints = 22;
+
+  function pushHistory(key, value) {
+    history[key].push(value);
+    if (history[key].length > maxPoints) {
+      history[key].shift();
+    }
+  }
+
+  function drawChart(canvasId, values, color, minFixed, maxFixed) {
+    const canvas = $(canvasId);
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const width = Math.max(150, Math.floor(rect.width));
+    const height = 52;
+    const dpr = window.devicePixelRatio || 1;
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+
+    const ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, width, height);
+
+    const left = 7, right = 7, top = 7, bottom = 7;
+
+    ctx.strokeStyle = "#e6f0f5";
+    ctx.lineWidth = 1;
+    for (let i = 1; i <= 2; i++) {
+      const y = top + (height - top - bottom) * i / 3;
+      ctx.beginPath();
+      ctx.moveTo(left, y);
+      ctx.lineTo(width - right, y);
+      ctx.stroke();
+    }
+
+    if (!values.length) return;
+
+    let min = minFixed ?? Math.min(...values);
+    let max = maxFixed ?? Math.max(...values);
+
+    if (max - min < 0.001) max = min + 1;
+
+    const xAt = i => left + i * (width - left - right) / Math.max(values.length - 1, 1);
+    const yAt = value => height - bottom - ((value - min) / (max - min)) * (height - top - bottom);
+
+    ctx.beginPath();
+    values.forEach((value, i) => {
+      if (i === 0) ctx.moveTo(xAt(i), yAt(value));
+      else ctx.lineTo(xAt(i), yAt(value));
+    });
+
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+    ctx.stroke();
+
+    const last = values.length - 1;
+    ctx.beginPath();
+    ctx.arc(xAt(last), yAt(values[last]), 2.8, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
+  function render() {
+    $("heroPh").textContent = state.ph.toFixed(2);
+    $("heroTurb").textContent = state.turb.toFixed(2);
+    $("heroTemp").textContent = state.temp.toFixed(1);
+
+    $("phChartLatest").textContent = state.ph.toFixed(2);
+    $("turbChartLatest").textContent = state.turb.toFixed(2);
+    $("tempChartLatest").textContent = state.temp.toFixed(1);
+
+    $("heroPhStatus").textContent =
+      state.ph < 6.5 || state.ph > 8.5 ? "Outside example range" : "Sample value";
+    $("heroTurbStatus").textContent =
+      state.turb > 5 ? "Elevated sample value" : "Sample value";
+
+    pushHistory("ph", state.ph);
+    pushHistory("turb", state.turb);
+    pushHistory("temp", state.temp);
+
+    drawChart("phChart", history.ph, "#0aa7d7", 5, 10);
+    drawChart("turbChart", history.turb, "#10a981", 0, 30);
+    drawChart("tempChart", history.temp, "#e7a13c", 15, 40);
+  }
+
+  function next() {
+    state.ph = Math.max(5.8, Math.min(9.2, state.ph + (Math.random() - 0.5) * 0.22));
+    state.turb = Math.max(0.5, Math.min(29, state.turb + (Math.random() - 0.5) * 2.8));
+    state.temp = Math.max(18, Math.min(35, state.temp + (Math.random() - 0.5) * 1.1));
+    render();
+  }
+
+  window.addEventListener("resize", render);
+
+  // Seed history
+  for (let i = 0; i < 8; i++) {
+    history.ph.push(state.ph + (Math.random() - 0.5) * 0.3);
+    history.turb.push(Math.max(0.5, state.turb + (Math.random() - 0.5) * 3));
+    history.temp.push(state.temp + (Math.random() - 0.5) * 1.2);
+  }
+
+  render();
+  setInterval(next, 3000);
+
+  // Ensure initial tab is Home (already active in HTML)
+})();
+</script>
+
+</body>
+</html>
