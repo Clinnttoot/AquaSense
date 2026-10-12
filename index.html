@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#082943">
+<title>AquaSense | Water Quality Monitoring Research</title>
+
+<style>
+:root {
+  --navy: #082943;
+  --navy2: #10496b;
+  --blue: #087db6;
+  --cyan: #28c9dc;
+  --pale: #eef8fc;
+  --ink: #173b56;
+  --muted: #6d879a;
+  --line: #d9eaf3;
+  --green: #13a982;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 76px;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  color: var(--ink);
+  background: #f1f8fc;
+  font-size: 14px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+/* NAVIGATION */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 12px 3.5%;
+  color: white;
+  background: linear-gradient(105deg, #07233a, #0b3d5b);
+  box-shadow: 0 3px 18px #05263b25;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.logo-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #48d9e5, #0783c5);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+}
+
+.logo-name {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -.5px;
+}
+
+.logo-name span,
+.footer-brand span {
+  color: #35d4e6;
+}
+
+.logo small {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  color: #b3d5e7;
+  margin-top: 2px;
+}
+
+.navlinks {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2.3vw, 32px);
+  font-size: 12px;
+  color: #d3e4ed;
+}
+
+.navlinks a {
+  padding: 8px 0;
+  border-bottom: 2px solid transparent;
+  transition: .2s;
+}
+
+.navlinks a:hover,
+.navlinks a.active {
+  color: #62e1ed;
+  border-color: #37d2e2;
+}
+
+.navright {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  font-size: 11px;
+  color: #cbe0eb;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  display: inline-block;
+  border-radius: 50%;
+  background: #31d7a4;
+  box-shadow: 0 0 0 4px #31d7a420;
+}
+
+.menu-btn {
+  display: none;
+  background: transparent;
+  border: 1px solid #42647b;
+  color: white;
+  border-radius: 8px;
+  padding: 7px 10px;
+}
+
+/* HERO */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 330px;
+  color: white;
+  background: #0b5277;
+}
+
+.hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    90deg,
+    rgba(4,37,62,.92) 0%,
+    rgba(4,47,75,.76) 42%,
+    rgba(3,42,68,.15) 76%,
+    rgba(3,39,63,.5) 100%
+  );
+}
+
+.hero-inner {
+  max-width: 1440px;
+  margin: auto;
+  min-height: 330px;
+  padding: 38px 4%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 310px;
+  align-items: center;
+  gap: 35px;
+}
+
+.kicker {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #8cebf1;
+  font-weight: 800;
+}
+
+.hero h1 {
+  font-size: clamp(42px, 5vw, 65px);
+  letter-spacing: -2px;
+  line-height: 1;
+  margin: 10px 0 13px;
+}
+
+.hero h1 span {
+  color: #41d2e2;
+}
+
+.hero h2 {
+  font-size: 17px;
+  line-height: 1.5;
+  margin: 0 0 8px;
+  font-weight: 750;
+}
+
+.hero p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #e0edf4;
+  max-width: 650px;
+  margin: 0;
+}
+
+.mottos {
+  display: flex;
+  gap: 17px;
+  flex-wrap: wrap;
+  margin: 15px 0 20px;
+  font-size: 11px;
+  color: #b9f4f5;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  border: 0;
+  border-radius: 30px;
+  background: #dffaff;
+  color: #07517a;
+  font-weight: 800;
+  padding: 11px 19px;
+  cursor: pointer;
+  box-shadow: 0 5px 18px #001e3b35;
+  transition: .2s;
+}
+
+.cta:hover {
+  background: white;
+  transform: translateY(-1px);
+}
+
+/* SAMPLE SENSOR CARD */
+
+.live-card {
+  background: #073451d9;
+  border: 1px solid #a0d8e760;
+  backdrop-filter: blur(8px);
+  border-radius: 15px;
+  padding: 17px 18px;
+  box-shadow: 0 12px 30px #00182b30;
+}
+
+.live-card h3 {
+  font-size: 13px;
+  margin: 0 0 9px;
+  padding-bottom: 11px;
+  border-bottom: 1px solid #79b6d44d;
+}
+
+.reading {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #9bc7dc30;
+}
+
+.reading:last-of-type {
+  border-bottom: 0;
+}
+
+.reading-icon {
+  width: 29px;
+  height: 29px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #56d6e8;
+  border-radius: 50%;
+  color: #67e7f3;
+  font-size: 15px;
+}
+
+.reading span {
+  font-size: 12px;
+  color: #e1f1f7;
+}
+
+.reading strong {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.reading-status {
+  display: block;
+  margin-top: 3px;
+  color: #54e0bc;
+  font-size: 9px;
+}
+
+.disclaimer {
+  font-size: 10px;
+  line-height: 1.5;
+  color: #b9d7e5;
+  margin: 9px 0 0;
+}
+
+/* GENERAL SECTIONS */
+
+.wrap {
+  max-width: 1440px;
+  width: 95%;
+  margin: 14px auto 0;
+}
+
+.section-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 17px;
+  box-shadow: 0 4px 16px #16435a08;
+  min-width: 0;
+}
+
+.grid-two {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 13px;
+}
+
+.grid-bottom {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 13px;
+  margin-top: 13px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin: 0 0 15px;
+}
+
+.number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #0a3c5d, #087fb2);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.section-title h2 {
+  font-size: 17px;
+  color: #0b3c5b;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: .2px;
+}
+
+.underline {
+  height: 3px;
+  width: 42px;
+  background: var(--cyan);
+  margin-top: 6px;
+  border-radius: 3px;
+}
+
+/* INTRODUCTION */
+
+.intro-layout {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 16px;
+}
+
+.copy {
+  font-size: 11.5px;
+  line-height: 1.65;
+  color: #34536a;
+}
+
+.copy p {
+  margin: 0 0 10px;
+}
+
+.context-box {
+  background: #f0f9fd;
+  border: 1px solid #dceef6;
+  border-radius: 9px;
+  padding: 12px;
+}
+
+.context-box h3 {
+  font-size: 11px;
+  margin: 0 0 10px;
+  color: #173e59;
+}
+
+.context-row {
+  display: flex;
+  gap: 9px;
+  margin-bottom: 10px;
+  align-items: flex-start;
+}
+
+.context-row .symbol {
+  font-size: 18px;
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.context-row strong {
+  display: block;
+  font-size: 10.5px;
+  margin-bottom: 3px;
+}
+
+.context-row small {
+  display: block;
+  font-size: 10px;
+  color: #617d91;
+  line-height: 1.45;
+}
+
+.river-photo {
+  width: 100%;
+  height: 74px;
+  object-fit: cover;
+  border-radius: 7px;
+  margin-top: 2px;
+}
+
+.photo-caption {
+  font-size: 9px;
+  color: #66879b;
+  font-style: italic;
+  line-height: 1.45;
+  margin-top: 5px;
+}
+
+/* METHODOLOGY */
+
+.method-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.method-item {
+  border: 1px solid #dceef6;
+  background: #fbfdff;
+  border-radius: 9px;
+  padding: 11px;
+  display: flex;
+  gap: 10px;
+  min-width: 0;
+}
+
+.method-icon {
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #e7f5fb;
+  color: #0b6998;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+
+.method-item h3 {
+  font-size: 10.5px;
+  margin: 0 0 4px;
+  color: #134360;
+}
+
+.method-item p,
+.method-item li {
+  font-size: 9.5px;
+  line-height: 1.45;
+  color: #607d91;
+  margin: 0;
+}
+
+.method-item ul {
+  padding-left: 13px;
+  margin: 0;
+}
+
+.workflow {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 7px;
+  text-align: center;
+  background: #edf8fd;
+  border: 1px solid #d9eef7;
+  border-radius: 9px;
+  padding: 13px 8px;
+}
+
+.workflow .step {
+  font-size: 23px;
+  color: #0c6698;
+}
+
+.workflow small {
+  display: block;
+  font-size: 9px;
+  color: #385e75;
+  line-height: 1.4;
+  margin-top: 5px;
+}
+
+.workflow .arrow {
+  font-size: 15px;
+  color: #1594c0;
+}
+
+/* RESULTS AND CHARTS */
+
+.results-layout {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr .8fr;
+  gap: 12px;
+}
+
+.mini-panel {
+  border: 1px solid #dceef6;
+  border-radius: 9px;
+  padding: 10px;
+  min-width: 0;
+}
+
+.mini-panel h3 {
+  font-size: 10.5px;
+  color: #174765;
+  margin: 0 0 9px;
+}
+
+.mini-panel h3 small {
+  font-size: 9px;
+  color: #7892a4;
+  font-weight: 500;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 9.5px;
+}
+
+th,
+td {
+  border: 1px solid #d9eaf3;
+  padding: 7px 5px;
+  text-align: left;
+}
+
+th {
+  background: #eaf6fc;
+  color: #194864;
+  font-weight: 750;
+}
+
+td {
+  text-align: center;
+  color: #36586e;
+}
+
+td:first-child {
+  text-align: left;
+}
+
+.table-note {
+  font-size: 9px;
+  line-height: 1.5;
+  color: #6c8799;
+  margin: 9px 0 0;
+}
+
+.chart-block {
+  margin-bottom: 9px;
+}
+
+.chart-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: #315d75;
+  margin-bottom: 3px;
+}
+
+.chart-label b {
+  font-weight: 750;
+}
+
+canvas {
+  width: 100%;
+  height: 52px;
+  display: block;
+  background: #fbfdff;
+  border: 1px solid #e2eef4;
+  border-radius: 5px;
+}
+
+.performance-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: #eef8fd;
+  border: 1px solid #dfedf5;
+  padding: 9px;
+  border-radius: 7px;
+  margin-bottom: 7px;
+}
+
+.performance-item .symbol {
+  font-size: 19px;
+}
+
+.performance-item strong {
+  display: block;
+  font-size: 9.5px;
+  color: #204b67;
+}
+
+.performance-item small {
+  display: block;
+  font-size: 9px;
+  color: #668195;
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+.notice-strip {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: #edf8fd;
+  border: 1px solid #d9edf7;
+  padding: 12px 15px;
+  border-radius: 9px;
+  font-size: 10px;
+  color: #577b91;
+  line-height: 1.5;
+  margin-top: 13px;
+}
+
+.notice-strip strong {
+  color: #1a5878;
+}
+
+/* CONCLUSION */
+
+.conclusion-copy {
+  font-size: 11px;
+  line-height: 1.65;
+  color: #38596f;
+}
+
+.conclusion-copy p {
+  margin: 0 0 10px;
+}
+
+.quote {
+  background: #e9f9f6;
+  border: 1px solid #cbeee5;
+  border-radius: 8px;
+  padding: 11px;
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  color: #176a61;
+  font-size: 10px;
+  font-weight: 750;
+  line-height: 1.5;
+  margin-top: 12px;
+}
+
+.quote span {
+  font-size: 23px;
+}
+
+/* FOOTER */
+
+footer {
+  margin-top: 14px;
+  background: linear-gradient(100deg, #06243a, #0c4765);
+  color: #d4e7f1;
+  padding: 20px 4%;
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+  font-size: 10px;
+}
+
+.footer-brand {
+  font-size: 18px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.footer-copy {
+  font-style: italic;
+  line-height: 1.6;
+  color: #bad5e4;
+}
+
+.footer-location {
+  line-height: 1.6;
+}
+
+.sdgs {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  line-height: 1.4;
+}
+
+.sdg {
+  width: 35px;
+  height: 35px;
+  background: #159bca;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.sdg:last-child {
+  background: #24a7a0;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1050px) {
+  .navlinks {
+    gap: 13px;
+  }
+
+  .navright {
+    display: none;
+  }
+
+  .grid-two,
+  .grid-bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .results-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .results-layout .performance {
+    grid-column: 1 / -1;
+  }
+
+  .intro-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  footer {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .navbar {
+    flex-wrap: wrap;
+    padding: 10px 4%;
+  }
+
+  .menu-btn {
+    display: block;
+  }
+
+  .navlinks {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .navlinks.open {
+    display: flex;
+  }
+
+  .navlinks a {
+    padding: 12px 4px;
+    border-bottom: 1px solid #31516a;
+  }
+
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 30px 5%;
+  }
+
+  .hero {
+    min-height: 0;
+  }
+
+  .hero-inner {
+    min-height: 0;
+  }
+
+  .live-card {
+    max-width: 440px;
+  }
+
+  .wrap {
+    width: 94%;
+  }
+
+  .intro-layout,
+  .method-grid,
+  .results-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .results-layout .performance {
+    grid-column: auto;
+  }
+
+  .section-card {
+    padding: 14px;
+  }
+
+  .section-title h2 {
+    font-size: 15px;
+  }
+
+  footer {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .mottos {
+    gap: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+  <a class="logo" href="#home" aria-label="AquaSense home">
+    <div class="logo-mark">💧</div>
+    <div>
+      <div class="logo-name">Aqua<span>Sense</span></div>
+      <small>SMARTER WATER • SAFER TOMORROW</small>
+    </div>
+  </a>
+
+  <nav class="navlinks" id="navlinks">
+    <a class="active" href="#home">Home</a>
+    <a href="#introduction">Introduction</a>
+    <a href="#methodology">Methodology</a>
+    <a href="#results">Results and Discussion</a>
+    <a href="#conclusion">Conclusion</a>
+  </nav>
+
+  <div class="navright">
+    <span>♧</span> Demo Monitoring &nbsp;
+    <span class="live-dot"></span>
+  </div>
+
+  <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">☰</button>
+</header>
+
+<!-- HERO -->
+
+<section class="hero" id="home">
+  <img
+    class="hero-image"
+    alt=""
+    src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=2000&q=85"
+  >
+
+  <div class="hero-inner">
+    <div>
+      <div class="kicker">
+        Solar-powered • IoT-based • Prototype presentation
+      </div>
+
+      <h1>Aqua<span>Sense</span></h1>
+
+      <h2>Mitigating Freshwater Degradation via AquaSense</h2>
+
+      <p>
+        Through a proposed solar-powered IoT-based sensor network for
+        real-time pH, turbidity, and temperature assessment of freshwater
+        in Barangay Ibaba West, Calapan City.
+      </p>
+
+      <div class="mottos">
+        <span>◈ Cleaner Rivers</span>
+        <span>〰 Healthier Aquatic Life</span>
+        <span>✦ A Sustainable Future</span>
+      </div>
+
+      <a class="cta" href="#introduction">
+        Explore the Research <span>→</span>
+      </a>
+    </div>
+
+    <aside class="live-card" aria-label="Simulated sample readings">
+      <h3>⚗ SIMULATED SAMPLE READINGS</h3>
+
+      <div class="reading">
+        <div class="reading-icon">◉</div>
+        <span>pH</span>
+        <div>
+          <strong id="heroPh">7.42</strong>
+          <small class="reading-status" id="heroPhStatus">Normal</small>
+        </div>
+      </div>
+
+      <div class="reading">
+        <div class="reading-icon">〰</div>
+        <span>Turbidity</span>
+        <div>
+          <strong><span id="heroTurb">12.36</span> NTU</strong>
+          <small class="reading-status" id="heroTurbStatus">Sample value</small>
+        </div>
+      </div>
+
+      <div class="reading">
+        <div class="reading-icon">♨</div>
+        <span>Temperature</span>
+        <div>
+          <strong><span id="heroTemp">27.8</span> °C</strong>
+          <small class="reading-status">Sample value</small>
+        </div>
+      </div>
+
+      <p class="disclaimer">
+        ● Illustrative values change automatically for demonstration only.
+        No physical sensors are connected.
+      </p>
+    </aside>
+  </div>
+</section>
+
+<main class="wrap">
+
+  <!-- INTRODUCTION AND METHODOLOGY -->
+
+  <div class="grid-two">
+
+    <section class="section-card" id="introduction">
+      <div class="section-title">
+        <span class="number">1</span>
+        <div>
+          <h2>Introduction</h2>
+          <div class="underline"></div>
+        </div>
+      </div>
+
+      <div class="intro-layout">
+        <div class="copy">
+          <p>
+            Freshwater ecosystems, especially rivers, are vital for
+            biodiversity, human health, and local communities. However,
+            pollution, urbanization, and improper waste disposal can
+            contribute to declining water quality in many areas, including
+            communities around Calapan City.
+          </p>
+
+          <p>
+            Traditional water-quality monitoring often relies on manual
+            sampling and laboratory analysis. While these approaches can
+            provide useful measurements, they may be time-consuming,
+            labor-intensive, and unable to provide continuous updates.
+          </p>
+
+          <p>
+            AquaSense proposes a solar-powered IoT-based sensor network
+            that monitors pH, turbidity, and temperature. The concept
+            explores how more frequent readings could help identify
+            changes earlier and support informed environmental monitoring.
+          </p>
+        </div>
+
+        <aside class="context-box">
+          <h3>Research Context</h3>
+
+          <div class="context-row">
+            <span class="symbol">◎</span>
+            <div>
+              <strong>Global</strong>
+              <small>SDG 6: Clean Water and Sanitation<br>
+              SDG 14: Life Below Water</small>
+            </div>
+          </div>
+
+          <div class="context-row">
+            <span class="symbol">♧</span>
+            <div>
+              <strong>National</strong>
+              <small>Philippine water-quality protection and
+              environmental policies</small>
+            </div>
+          </div>
+
+          <div class="context-row">
+            <span class="symbol">⌖</span>
+            <div>
+              <strong>Local</strong>
+              <small>Barangay Ibaba West, Calapan City,
+              Oriental Mindoro</small>
+            </div>
+          </div>
+
+          <img
+            class="river-photo"
+            src="https://images.unsplash.com/photo-1437482078695-73f5ca6c96e2?auto=format&fit=crop&w=700&q=80"
+            alt="Freshwater river landscape"
+          >
+
+          <div class="photo-caption">
+            Healthy freshwater ecosystems support communities and aquatic life.
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section-card" id="methodology">
+      <div class="section-title">
+        <span class="number">2</span>
+        <div>
+          <h2>Methodology</h2>
+          <div class="underline"></div>
+        </div>
+      </div>
+
+      <div class="method-grid">
+
+        <article class="method-item">
+          <div class="method-icon">⚗</div>
+          <div>
+            <h3>Research Design</h3>
+            <p>
+              Quantitative research with a descriptive component,
+              subject to the final approved methodology.
+            </p>
+          </div>
+        </article>
+
+        <article class="method-item">
+          <div class="method-icon">⌖</div>
+          <div>
+            <h3>Locale</h3>
+            <p>
+              Barangay Ibaba West, Calapan City, Oriental Mindoro.
+              Any field evaluation should be documented separately.
+            </p>
+          </div>
+        </article>
+
+        <article class="method-item">
+          <div class="method-icon">♟</div>
+          <div>
+            <h3>Participants / Evaluators</h3>
+            <p>
+              Intended subject-matter evaluators may include teachers
+              or qualified reviewers, according to the approved study protocol.
+            </p>
+          </div>
+        </article>
+
+        <article class="method-item">
+          <div class="method-icon">⚙</div>
+          <div>
+            <h3>Proposed Prototype</h3>
+            <ul>
+              <li>Solar-powered floating platform</li>
+              <li>ESP32-based controller</li>
+              <li>pH, turbidity, temperature sensors</li>
+              <li>Cloud transmission and dashboard</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="method-item">
+          <div class="method-icon">▥</div>
+          <div>
+            <h3>Data Collection & Analysis</h3>
+            <p>
+              Planned sensor validation, repeatability checks, power
+              measurements, and network/transmission tests.
+            </p>
+          </div>
+        </article>
+
+        <div class="workflow" aria-label="Conceptual system workflow">
+          <div>
+            <div class="step">☀</div>
+            <small>Solar<br>panel</small>
+          </div>
+
+          <span class="arrow">→</span>
+
+          <div>
+            <div class="step">▣</div>
+            <small>ESP32</small>
+          </div>
+
+          <span class="arrow">→</span>
+
+          <div>
+            <div class="step">☁</div>
+            <small>Cloud<br>database</small>
+          </div>
+
+          <span class="arrow">→</span>
+
+          <div>
+            <div class="step">▤</div>
+            <small>Web<br>dashboard</small>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- RESULTS AND CONCLUSION -->
+
+  <div class="grid-bottom">
+
+    <section class="section-card" id="results">
+      <div class="section-title">
+        <span class="number">3</span>
+        <div>
+          <h2>Results and Discussion</h2>
+          <div class="underline"></div>
+        </div>
+      </div>
+
+      <div class="results-layout">
+
+        <div class="mini-panel">
+          <h3>Sensor Accuracy & Precision
+            <small>(illustrative template)</small>
+          </h3>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Accuracy</th>
+                <th>Precision</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>pH</td>
+                <td>—</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>Turbidity (NTU)</td>
+                <td>—</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>Temperature (°C)</td>
+                <td>—</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="table-note">
+            Enter measured results only after testing the prototype against
+            suitable reference instruments. Dashes indicate results have
+            not been supplied.
+          </p>
+
+          <div class="notice-strip">
+            <span>ⓘ</span>
+            <div>
+              Charts on this page use
+              <strong>simulated demonstration data</strong>,
+              not experimental results.
+            </div>
+          </div>
+        </div>
+
+        <div class="mini-panel">
+          <h3>Water Quality Trends <small>(simulated)</small></h3>
+
+          <div class="chart-block">
+            <div class="chart-label">
+              <b>● pH Level</b>
+              <span id="phChartLatest">7.42</span>
+            </div>
+            <canvas id="phChart" aria-label="Simulated pH trend"></canvas>
+          </div>
+
+          <div class="chart-block">
+            <div class="chart-label">
+              <b style="color:#10a981">● Turbidity (NTU)</b>
+              <span id="turbChartLatest">12.36</span>
+            </div>
+            <canvas id="turbChart" aria-label="Simulated turbidity trend"></canvas>
+          </div>
+
+          <div class="chart-block">
+            <div class="chart-label">
+              <b style="color:#e7a13c">● Temperature (°C)</b>
+              <span id="tempChartLatest">27.8</span>
+            </div>
+            <canvas id="tempChart" aria-label="Simulated temperature trend"></canvas>
+          </div>
+        </div>
+
+        <div class="mini-panel performance">
+          <h3>System Performance <small>(planned measures)</small></h3>
+
+          <div class="performance-item">
+            <span class="symbol">🔋</span>
+            <div>
+              <strong>Power Input</strong>
+              <small>Solar panel and battery supply — field data pending</small>
+            </div>
+          </div>
+
+          <div class="performance-item">
+            <span class="symbol">⌁</span>
+            <div>
+              <strong>Network Load</strong>
+              <small>To be measured during connected-system testing</small>
+            </div>
+          </div>
+
+          <div class="performance-item">
+            <span class="symbol">◷</span>
+            <div>
+              <strong>Transmission Interval</strong>
+              <small>Target interval should be verified in implementation</small>
+            </div>
+          </div>
+
+          <div class="notice-strip">
+            <span>ⓘ</span>
+            <div>
+              Use actual logs to report uptime, accuracy,
+              and transmission performance.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section-card" id="conclusion">
+      <div class="section-title">
+        <span class="number">4</span>
+        <div>
+          <h2>Conclusion</h2>
+          <div class="underline"></div>
+        </div>
+      </div>
+
+      <div class="conclusion-copy">
+        <p>
+          AquaSense presents a proposed solar-powered IoT approach to
+          monitoring selected freshwater parameters: pH, turbidity,
+          and temperature. By combining sensors, a microcontroller,
+          wireless communication, and a web dashboard, the concept
+          aims to make readings easier to review and support timely follow-up.
+        </p>
+
+        <p>
+          The current webpage is a presentation prototype. Its changing
+          values are simulated, so they do not demonstrate verified sensor
+          accuracy, live connectivity, or actual water conditions.
+        </p>
+
+        <p>
+          Future work may include physical deployment, calibration against
+          reference instruments, extended durability and power testing,
+          connectivity evaluation, and field validation with appropriate permissions.
+        </p>
+      </div>
+
+      <div class="quote">
+        <span>🌿</span>
+        <div>
+          “AquaSense is a step toward more accessible freshwater
+          monitoring and healthier aquatic ecosystems.”
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="footer-brand">💧 Aqua<span>Sense</span></div>
+
+  <div class="footer-copy">
+    Mitigating Freshwater Degradation via AquaSense<br>
+    For a more sustainable future
+  </div>
+
+  <div class="footer-location">
+    ⌖ &nbsp; Barangay Ibaba West<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Calapan City, Oriental Mindoro
+  </div>
+
+  <div class="sdgs">
+    <div class="sdg">💧</div>
+    <div>SDG 6<br>Clean Water</div>
+    <div class="sdg">🌊</div>
+    <div>SDG 14<br>Life Below Water</div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+
+  // Demonstration values only; no physical sensors are connected.
+  const state = {
+    ph: 7.42,
+    turb: 12.36,
+    temp: 27.8
+  };
+
+  const history = {
+    ph: [],
+    turb: [],
+    temp: []
+  };
+
+  const maxPoints = 22;
+
+  function pushHistory(key, value) {
+    history[key].push(value);
+
+    if (history[key].length > maxPoints) {
+      history[key].shift();
+    }
+  }
+
+  function drawChart(canvasId, values, color, minFixed, maxFixed) {
+    const canvas = $(canvasId);
+
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const width = Math.max(150, Math.floor(rect.width));
+    const height = 52;
+    const dpr = window.devicePixelRatio || 1;
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+
+    const ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, width, height);
+
+    const left = 7;
+    const right = 7;
+    const top = 7;
+    const bottom = 7;
+
+    // Horizontal chart guides
+    ctx.strokeStyle = "#e6f0f5";
+    ctx.lineWidth = 1;
+
+    for (let i = 1; i <= 2; i++) {
+      const y = top + (height - top - bottom) * i / 3;
+
+      ctx.beginPath();
+      ctx.moveTo(left, y);
+      ctx.lineTo(width - right, y);
+      ctx.stroke();
+    }
+
+    if (!values.length) return;
+
+    let min = minFixed ?? Math.min(...values);
+    let max = maxFixed ?? Math.max(...values);
+
+    if (max - min < 0.001) {
+      max = min + 1;
+    }
+
+    const xAt = i =>
+      left + i * (width - left - right) /
+      Math.max(values.length - 1, 1);
+
+    const yAt = value =>
+      height - bottom -
+      ((value - min) / (max - min)) *
+      (height - top - bottom);
+
+    // Draw the trend line
+    ctx.beginPath();
+
+    values.forEach((value, i) => {
+      if (i === 0) {
+        ctx.moveTo(xAt(i), yAt(value));
+      } else {
+        ctx.lineTo(xAt(i), yAt(value));
+      }
+    });
+
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+    ctx.stroke();
+
+    // Highlight the latest value
+    const last = values.length - 1;
+
+    ctx.beginPath();
+    ctx.arc(xAt(last), yAt(values[last]), 2.8, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
+  function render() {
+    // Update the live sample values
+    $("heroPh").textContent = state.ph.toFixed(2);
+    $("heroTurb").textContent = state.turb.toFixed(2);
+    $("heroTemp").textContent = state.temp.toFixed(1);
+
+    // Update the chart labels
+    $("phChartLatest").textContent = state.ph.toFixed(2);
+    $("turbChartLatest").textContent = state.turb.toFixed(2);
+    $("tempChartLatest").textContent = state.temp.toFixed(1);
+
+    // Update descriptive sample statuses
+    $("heroPhStatus").textContent =
+      state.ph < 6.5 || state.ph > 8.5
+        ? "Outside example range"
+        : "Sample value";
+
+    $("heroTurbStatus").textContent =
+      state.turb > 5
+        ? "Elevated sample value"
+        : "Sample value";
+
+    // Save readings for the trend charts
+    pushHistory("ph", state.ph);
+    pushHistory("turb", state.turb);
+    pushHistory("temp", state.temp);
+
+    // Redraw the charts
+    drawChart("phChart", history.ph, "#0aa7d7", 5, 10);
+    drawChart("turbChart", history.turb, "#10a981", 0, 30);
+    drawChart("tempChart", history.temp, "#e7a13c", 15, 40);
+  }
+
+  // Generate new sample readings every three seconds
+  function next() {
+    state.ph = Math.max(
+      5.8,
+      Math.min(9.2, state.ph + (Math.random() - 0.5) * 0.22)
+    );
+
+    state.turb = Math.max(
+      0.5,
+      Math.min(29, state.turb + (Math.random() - 0.5) * 2.8)
+    );
+
+    state.temp = Math.max(
+      18,
+      Math.min(35, state.temp + (Math.random() - 0.5) * 1.1)
+    );
+
+    render();
+  }
+
+  // Mobile navigation
+  const menu = $("navlinks");
+
+  $("menuBtn").addEventListener("click", () => {
+    menu.classList.toggle("open");
+  });
+
+  menu.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      menu.classList.remove("open");
+
+      menu.querySelectorAll("a").forEach(item => {
+        item.classList.toggle("active", item === link);
+      });
+    });
+  });
+
+  // Redraw charts when the viewport changes
+  window.addEventListener("resize", render);
+
+  // Add initial historical sample points
+  for (let i = 0; i < 8; i++) {
+    history.ph.push(
+      state.ph + (Math.random() - 0.5) * 0.3
+    );
+
+    history.turb.push(
+      Math.max(0.5, state.turb + (Math.random() - 0.5) * 3)
+    );
+
+    history.temp.push(
+      state.temp + (Math.random() - 0.5) * 1.2
+    );
+  }
+
+  // Initial display and automatic updates
+  render();
+  setInterval(next, 3000);
+})();
+</script>
+
+</body>
+</html>
