@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#082943">
-  <title>AquaSense | Tabbed Research</title>
+  <title>AquaSense | Live Water Quality Monitor</title>
 
   <style>
     :root {
@@ -19,9 +19,7 @@
       --green: #13a982;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     html {
       scroll-behavior: smooth;
@@ -36,14 +34,8 @@
       font-size: 14px;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button {
-      font: inherit;
-    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
 
     /* NAVIGATION */
     .navbar {
@@ -60,647 +52,373 @@
       box-shadow: 0 3px 18px #05263b25;
     }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      white-space: nowrap;
-    }
+    .logo { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
 
     .logo-mark {
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
+      width: 38px; height: 38px; border-radius: 12px;
       background: linear-gradient(145deg, #48d9e5, #0783c5);
-      display: grid;
-      place-items: center;
-      font-size: 22px;
+      display: grid; place-items: center; font-size: 22px;
     }
 
-    .logo-name {
-      font-size: 21px;
-      font-weight: 800;
-      letter-spacing: -.5px;
-    }
-
-    .logo-name span,
-    .footer-brand span {
-      color: #35d4e6;
-    }
-
+    .logo-name { font-size: 21px; font-weight: 800; letter-spacing: -.5px; }
+    .logo-name span, .footer-brand span { color: #35d4e6; }
     .logo small {
-      display: block;
-      font-size: 8px;
-      letter-spacing: 1.2px;
-      color: #b3d5e7;
-      margin-top: 2px;
+      display: block; font-size: 8px; letter-spacing: 1.2px;
+      color: #b3d5e7; margin-top: 2px;
     }
 
     .navlinks {
-      display: flex;
-      align-items: center;
-      gap: clamp(12px, 2.3vw, 32px);
-      font-size: 12px;
-      color: #d3e4ed;
+      display: flex; align-items: center; gap: clamp(12px, 2.3vw, 32px);
+      font-size: 12px; color: #d3e4ed;
     }
 
     .navlinks a {
-      padding: 8px 0;
-      border-bottom: 2px solid transparent;
-      transition: .2s;
-      cursor: pointer;
+      padding: 8px 0; border-bottom: 2px solid transparent;
+      transition: .2s; cursor: pointer;
     }
 
-    .navlinks a:hover,
-    .navlinks a.active {
-      color: #62e1ed;
-      border-color: #37d2e2;
+    .navlinks a:hover, .navlinks a.active {
+      color: #62e1ed; border-color: #37d2e2;
     }
 
     .navright {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      white-space: nowrap;
-      font-size: 11px;
-      color: #cbe0eb;
+      display: flex; align-items: center; gap: 8px;
+      white-space: nowrap; font-size: 11px; color: #cbe0eb;
     }
 
     .live-dot {
-      width: 8px;
-      height: 8px;
-      display: inline-block;
-      border-radius: 50%;
-      background: #31d7a4;
+      width: 8px; height: 8px; display: inline-block;
+      border-radius: 50%; background: #31d7a4;
       box-shadow: 0 0 0 4px #31d7a420;
+      transition: background 0.3s;
+    }
+
+    .live-dot.offline {
+      background: #e63946;
+      box-shadow: 0 0 0 4px #e6394620;
     }
 
     .menu-btn {
-      display: none;
-      background: transparent;
-      border: 1px solid #42647b;
-      color: white;
-      border-radius: 8px;
-      padding: 7px 10px;
+      display: none; background: transparent;
+      border: 1px solid #42647b; color: white;
+      border-radius: 8px; padding: 7px 10px;
     }
 
-    /* HERO (kept as before, but simplified for brevity) */
+    /* HERO */
     .hero {
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
-      min-height: 330px;
-      color: white;
-      background: #0b5277;
+      position: relative; isolation: isolate; overflow: hidden;
+      min-height: 330px; color: white; background: #0b5277;
     }
 
     .hero-image {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -2;
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; z-index: -2;
     }
 
     .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background: linear-gradient(
-        90deg,
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(90deg,
         rgba(4,37,62,.92) 0%,
         rgba(4,47,75,.76) 42%,
         rgba(3,42,68,.15) 76%,
-        rgba(3,39,63,.5) 100%
-      );
+        rgba(3,39,63,.5) 100%);
     }
 
     .hero-inner {
-      max-width: 1440px;
-      margin: auto;
-      min-height: 330px;
+      max-width: 1440px; margin: auto; min-height: 330px;
       padding: 38px 4%;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 310px;
-      align-items: center;
-      gap: 35px;
+      display: grid; grid-template-columns: minmax(0, 1fr) 310px;
+      align-items: center; gap: 35px;
     }
 
     .kicker {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: #8cebf1;
-      font-weight: 800;
+      font-size: 10px; text-transform: uppercase;
+      letter-spacing: 2px; color: #8cebf1; font-weight: 800;
     }
 
     .hero h1 {
       font-size: clamp(42px, 5vw, 65px);
-      letter-spacing: -2px;
-      line-height: 1;
+      letter-spacing: -2px; line-height: 1;
       margin: 10px 0 13px;
     }
 
-    .hero h1 span {
-      color: #41d2e2;
-    }
+    .hero h1 span { color: #41d2e2; }
 
     .hero h2 {
-      font-size: 17px;
-      line-height: 1.5;
-      margin: 0 0 8px;
-      font-weight: 750;
+      font-size: 17px; line-height: 1.5;
+      margin: 0 0 8px; font-weight: 750;
     }
 
     .hero p {
-      font-size: 13px;
-      line-height: 1.75;
-      color: #e0edf4;
-      max-width: 650px;
-      margin: 0;
+      font-size: 13px; line-height: 1.75;
+      color: #e0edf4; max-width: 650px; margin: 0;
     }
 
     .mottos {
-      display: flex;
-      gap: 17px;
-      flex-wrap: wrap;
-      margin: 15px 0 20px;
-      font-size: 11px;
-      color: #b9f4f5;
+      display: flex; gap: 17px; flex-wrap: wrap;
+      margin: 15px 0 20px; font-size: 11px; color: #b9f4f5;
     }
 
     .cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 14px;
-      border: 0;
-      border-radius: 30px;
-      background: #dffaff;
-      color: #07517a;
-      font-weight: 800;
-      padding: 11px 19px;
-      cursor: pointer;
-      box-shadow: 0 5px 18px #001e3b35;
+      display: inline-flex; align-items: center; gap: 14px;
+      border: 0; border-radius: 30px;
+      background: #dffaff; color: #07517a;
+      font-weight: 800; padding: 11px 19px;
+      cursor: pointer; box-shadow: 0 5px 18px #001e3b35;
       transition: .2s;
     }
 
-    .cta:hover {
-      background: white;
-      transform: translateY(-1px);
-    }
+    .cta:hover { background: white; transform: translateY(-1px); }
 
-    /* SAMPLE SENSOR CARD */
+    /* LIVE SENSOR CARD */
     .live-card {
       background: #073451d9;
       border: 1px solid #a0d8e760;
       backdrop-filter: blur(8px);
-      border-radius: 15px;
-      padding: 17px 18px;
+      border-radius: 15px; padding: 17px 18px;
       box-shadow: 0 12px 30px #00182b30;
     }
 
     .live-card h3 {
-      font-size: 13px;
-      margin: 0 0 9px;
-      padding-bottom: 11px;
-      border-bottom: 1px solid #79b6d44d;
+      font-size: 13px; margin: 0 0 9px;
+      padding-bottom: 11px; border-bottom: 1px solid #79b6d44d;
+      display: flex; justify-content: space-between; align-items: center;
     }
+
+    .live-card .live-tag {
+      font-size: 9px;
+      color: #54e0bc;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .live-card .live-tag.offline { color: #e67a85; }
 
     .reading {
-      display: grid;
-      grid-template-columns: 30px 1fr auto;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 0;
-      border-bottom: 1px solid #9bc7dc30;
+      display: grid; grid-template-columns: 30px 1fr auto;
+      align-items: center; gap: 10px;
+      padding: 10px 0; border-bottom: 1px solid #9bc7dc30;
     }
 
-    .reading:last-of-type {
-      border-bottom: 0;
-    }
+    .reading:last-of-type { border-bottom: 0; }
 
     .reading-icon {
-      width: 29px;
-      height: 29px;
-      display: grid;
-      place-items: center;
-      border: 1px solid #56d6e8;
-      border-radius: 50%;
-      color: #67e7f3;
-      font-size: 15px;
+      width: 29px; height: 29px;
+      display: grid; place-items: center;
+      border: 1px solid #56d6e8; border-radius: 50%;
+      color: #67e7f3; font-size: 15px;
     }
 
-    .reading span {
-      font-size: 12px;
-      color: #e1f1f7;
-    }
-
-    .reading strong {
-      font-size: 12px;
-      white-space: nowrap;
-    }
+    .reading span { font-size: 12px; color: #e1f1f7; }
+    .reading strong { font-size: 12px; white-space: nowrap; }
 
     .reading-status {
-      display: block;
-      margin-top: 3px;
-      color: #54e0bc;
-      font-size: 9px;
+      display: block; margin-top: 3px;
+      color: #54e0bc; font-size: 9px;
     }
 
+    .reading-status.warn { color: #f5c46a; }
+    .reading-status.bad  { color: #f28a92; }
+
     .disclaimer {
-      font-size: 10px;
-      line-height: 1.5;
-      color: #b9d7e5;
-      margin: 9px 0 0;
+      font-size: 10px; line-height: 1.5;
+      color: #b9d7e5; margin: 9px 0 0;
     }
 
     /* MAIN + TAB CONTENT */
     .wrap {
-      max-width: 1440px;
-      width: 95%;
-      margin: 14px auto 0;
+      max-width: 1440px; width: 95%; margin: 14px auto 0;
     }
 
-    .tab-content {
-      display: none;
-    }
-
-    .tab-content.active-tab {
-      display: block;
-    }
+    .tab-content { display: none; }
+    .tab-content.active-tab { display: block; }
 
     .section-card {
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 17px;
+      background: white; border: 1px solid var(--line);
+      border-radius: 12px; padding: 17px;
       box-shadow: 0 4px 16px #16435a08;
       min-width: 0;
     }
 
-    .grid-two {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 13px;
-    }
-
-    .grid-bottom {
-      display: grid;
-      grid-template-columns: 1.8fr 1fr;
-      gap: 13px;
-      margin-top: 13px;
-    }
-
     .section-title {
-      display: flex;
-      align-items: center;
-      gap: 11px;
+      display: flex; align-items: center; gap: 11px;
       margin: 0 0 15px;
     }
 
     .number {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
+      width: 32px; height: 32px; border-radius: 50%;
       background: linear-gradient(145deg, #0a3c5d, #087fb2);
-      color: white;
-      display: grid;
-      place-items: center;
-      font-weight: 800;
-      font-size: 14px;
-      flex-shrink: 0;
+      color: white; display: grid; place-items: center;
+      font-weight: 800; font-size: 14px; flex-shrink: 0;
     }
 
     .section-title h2 {
-      font-size: 17px;
-      color: #0b3c5b;
-      margin: 0;
-      text-transform: uppercase;
+      font-size: 17px; color: #0b3c5b;
+      margin: 0; text-transform: uppercase;
       letter-spacing: .2px;
     }
 
     .underline {
-      height: 3px;
-      width: 42px;
-      background: var(--cyan);
-      margin-top: 6px;
+      height: 3px; width: 42px;
+      background: var(--cyan); margin-top: 6px;
       border-radius: 3px;
     }
 
     /* INTRODUCTION */
     .intro-layout {
-      display: grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 16px;
+      display: grid; grid-template-columns: 1.15fr .85fr; gap: 16px;
     }
 
-    .copy {
-      font-size: 11.5px;
-      line-height: 1.65;
-      color: #34536a;
-    }
-
-    .copy p {
-      margin: 0 0 10px;
-    }
+    .copy { font-size: 11.5px; line-height: 1.65; color: #34536a; }
+    .copy p { margin: 0 0 10px; }
 
     .context-box {
-      background: #f0f9fd;
-      border: 1px solid #dceef6;
-      border-radius: 9px;
-      padding: 12px;
+      background: #f0f9fd; border: 1px solid #dceef6;
+      border-radius: 9px; padding: 12px;
     }
 
-    .context-box h3 {
-      font-size: 11px;
-      margin: 0 0 10px;
-      color: #173e59;
-    }
+    .context-box h3 { font-size: 11px; margin: 0 0 10px; color: #173e59; }
 
     .context-row {
-      display: flex;
-      gap: 9px;
-      margin-bottom: 10px;
-      align-items: flex-start;
+      display: flex; gap: 9px; margin-bottom: 10px; align-items: flex-start;
     }
 
-    .context-row .symbol {
-      font-size: 18px;
-      width: 24px;
-      flex-shrink: 0;
-    }
-
-    .context-row strong {
-      display: block;
-      font-size: 10.5px;
-      margin-bottom: 3px;
-    }
-
+    .context-row .symbol { font-size: 18px; width: 24px; flex-shrink: 0; }
+    .context-row strong { display: block; font-size: 10.5px; margin-bottom: 3px; }
     .context-row small {
-      display: block;
-      font-size: 10px;
-      color: #617d91;
-      line-height: 1.45;
+      display: block; font-size: 10px; color: #617d91; line-height: 1.45;
     }
 
     .river-photo {
-      width: 100%;
-      height: 74px;
-      object-fit: cover;
-      border-radius: 7px;
-      margin-top: 2px;
+      width: 100%; height: 74px; object-fit: cover;
+      border-radius: 7px; margin-top: 2px;
     }
 
     .photo-caption {
-      font-size: 9px;
-      color: #66879b;
-      font-style: italic;
-      line-height: 1.45;
-      margin-top: 5px;
+      font-size: 9px; color: #66879b; font-style: italic;
+      line-height: 1.45; margin-top: 5px;
     }
 
     /* METHODOLOGY */
     .method-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 9px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 9px;
     }
 
     .method-item {
-      border: 1px solid #dceef6;
-      background: #fbfdff;
-      border-radius: 9px;
-      padding: 11px;
-      display: flex;
-      gap: 10px;
-      min-width: 0;
+      border: 1px solid #dceef6; background: #fbfdff;
+      border-radius: 9px; padding: 11px;
+      display: flex; gap: 10px; min-width: 0;
     }
 
     .method-icon {
-      width: 33px;
-      height: 33px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: #e7f5fb;
-      color: #0b6998;
-      font-size: 17px;
-      flex-shrink: 0;
+      width: 33px; height: 33px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: #e7f5fb; color: #0b6998;
+      font-size: 17px; flex-shrink: 0;
     }
 
-    .method-item h3 {
-      font-size: 10.5px;
-      margin: 0 0 4px;
-      color: #134360;
+    .method-item h3 { font-size: 10.5px; margin: 0 0 4px; color: #134360; }
+    .method-item p, .method-item li {
+      font-size: 9.5px; line-height: 1.45;
+      color: #607d91; margin: 0;
     }
-
-    .method-item p,
-    .method-item li {
-      font-size: 9.5px;
-      line-height: 1.45;
-      color: #607d91;
-      margin: 0;
-    }
-
-    .method-item ul {
-      padding-left: 13px;
-      margin: 0;
-    }
+    .method-item ul { padding-left: 13px; margin: 0; }
 
     .workflow {
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      gap: 7px;
-      text-align: center;
-      background: #edf8fd;
-      border: 1px solid #d9eef7;
-      border-radius: 9px;
-      padding: 13px 8px;
+      display: flex; align-items: center; justify-content: space-around;
+      gap: 7px; text-align: center;
+      background: #edf8fd; border: 1px solid #d9eef7;
+      border-radius: 9px; padding: 13px 8px;
     }
 
-    .workflow .step {
-      font-size: 23px;
-      color: #0c6698;
-    }
-
+    .workflow .step { font-size: 23px; color: #0c6698; }
     .workflow small {
-      display: block;
-      font-size: 9px;
-      color: #385e75;
-      line-height: 1.4;
-      margin-top: 5px;
+      display: block; font-size: 9px; color: #385e75;
+      line-height: 1.4; margin-top: 5px;
     }
+    .workflow .arrow { font-size: 15px; color: #1594c0; }
 
-    .workflow .arrow {
-      font-size: 15px;
-      color: #1594c0;
-    }
-
-    /* RESULTS AND CHARTS */
+    /* RESULTS */
     .results-layout {
-      display: grid;
-      grid-template-columns: 1.05fr 1fr .8fr;
-      gap: 12px;
+      display: grid; grid-template-columns: 1.05fr 1fr .8fr; gap: 12px;
     }
 
     .mini-panel {
       border: 1px solid #dceef6;
-      border-radius: 9px;
-      padding: 10px;
-      min-width: 0;
+      border-radius: 9px; padding: 10px; min-width: 0;
     }
 
-    .mini-panel h3 {
-      font-size: 10.5px;
-      color: #174765;
-      margin: 0 0 9px;
-    }
-
+    .mini-panel h3 { font-size: 10.5px; color: #174765; margin: 0 0 9px; }
     .mini-panel h3 small {
-      font-size: 9px;
-      color: #7892a4;
-      font-weight: 500;
+      font-size: 9px; color: #7892a4; font-weight: 500;
     }
 
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      font-size: 9.5px;
-    }
-
-    th,
-    td {
-      border: 1px solid #d9eaf3;
-      padding: 7px 5px;
-      text-align: left;
-    }
-
-    th {
-      background: #eaf6fc;
-      color: #194864;
-      font-weight: 750;
-    }
-
-    td {
-      text-align: center;
-      color: #36586e;
-    }
-
-    td:first-child {
-      text-align: left;
-    }
+    table { border-collapse: collapse; width: 100%; font-size: 9.5px; }
+    th, td { border: 1px solid #d9eaf3; padding: 7px 5px; text-align: left; }
+    th { background: #eaf6fc; color: #194864; font-weight: 750; }
+    td { text-align: center; color: #36586e; }
+    td:first-child { text-align: left; }
 
     .table-note {
-      font-size: 9px;
-      line-height: 1.5;
-      color: #6c8799;
-      margin: 9px 0 0;
+      font-size: 9px; line-height: 1.5;
+      color: #6c8799; margin: 9px 0 0;
     }
 
-    .chart-block {
-      margin-bottom: 9px;
-    }
+    .chart-block { margin-bottom: 9px; }
 
     .chart-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 9px;
-      color: #315d75;
-      margin-bottom: 3px;
+      display: flex; justify-content: space-between;
+      font-size: 9px; color: #315d75; margin-bottom: 3px;
     }
 
-    .chart-label b {
-      font-weight: 750;
-    }
+    .chart-label b { font-weight: 750; }
 
     canvas {
-      width: 100%;
-      height: 52px;
-      display: block;
-      background: #fbfdff;
-      border: 1px solid #e2eef4;
-      border-radius: 5px;
+      width: 100%; height: 52px; display: block;
+      background: #fbfdff; border: 1px solid #e2eef4; border-radius: 5px;
     }
 
     .performance-item {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      background: #eef8fd;
-      border: 1px solid #dfedf5;
-      padding: 9px;
-      border-radius: 7px;
-      margin-bottom: 7px;
+      display: flex; align-items: center; gap: 9px;
+      background: #eef8fd; border: 1px solid #dfedf5;
+      padding: 9px; border-radius: 7px; margin-bottom: 7px;
     }
 
-    .performance-item .symbol {
-      font-size: 19px;
-    }
-
+    .performance-item .symbol { font-size: 19px; }
     .performance-item strong {
-      display: block;
-      font-size: 9.5px;
-      color: #204b67;
+      display: block; font-size: 9.5px; color: #204b67;
     }
-
     .performance-item small {
-      display: block;
-      font-size: 9px;
-      color: #668195;
-      margin-top: 3px;
-      line-height: 1.4;
+      display: block; font-size: 9px;
+      color: #668195; margin-top: 3px; line-height: 1.4;
     }
 
     .notice-strip {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      background: #edf8fd;
-      border: 1px solid #d9edf7;
-      padding: 12px 15px;
-      border-radius: 9px;
-      font-size: 10px;
-      color: #577b91;
-      line-height: 1.5;
-      margin-top: 13px;
+      display: flex; gap: 10px; align-items: center;
+      background: #edf8fd; border: 1px solid #d9edf7;
+      padding: 12px 15px; border-radius: 9px;
+      font-size: 10px; color: #577b91;
+      line-height: 1.5; margin-top: 13px;
     }
 
-    .notice-strip strong {
-      color: #1a5878;
-    }
+    .notice-strip strong { color: #1a5878; }
 
     /* CONCLUSION */
     .conclusion-copy {
-      font-size: 11px;
-      line-height: 1.65;
-      color: #38596f;
+      font-size: 11px; line-height: 1.65; color: #38596f;
     }
 
-    .conclusion-copy p {
-      margin: 0 0 10px;
-    }
+    .conclusion-copy p { margin: 0 0 10px; }
 
     .quote {
-      background: #e9f9f6;
-      border: 1px solid #cbeee5;
-      border-radius: 8px;
-      padding: 11px;
-      display: flex;
-      gap: 9px;
-      align-items: center;
-      color: #176a61;
-      font-size: 10px;
-      font-weight: 750;
-      line-height: 1.5;
-      margin-top: 12px;
+      background: #e9f9f6; border: 1px solid #cbeee5;
+      border-radius: 8px; padding: 11px;
+      display: flex; gap: 9px; align-items: center;
+      color: #176a61; font-size: 10px;
+      font-weight: 750; line-height: 1.5; margin-top: 12px;
     }
 
-    .quote span {
-      font-size: 23px;
-    }
+    .quote span { font-size: 23px; }
 
     /* FOOTER */
     footer {
@@ -708,170 +426,64 @@
       background: linear-gradient(100deg, #06243a, #0c4765);
       color: #d4e7f1;
       padding: 20px 4%;
-      display: grid;
-      grid-template-columns: 1.1fr 1.3fr 1fr 1fr;
-      gap: 20px;
-      align-items: center;
-      font-size: 10px;
+      display: grid; grid-template-columns: 1.1fr 1.3fr 1fr 1fr;
+      gap: 20px; align-items: center; font-size: 10px;
     }
 
-    .footer-brand {
-      font-size: 18px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
+    .footer-brand { font-size: 18px; font-weight: 800; white-space: nowrap; }
+    .footer-copy { font-style: italic; line-height: 1.6; color: #bad5e4; }
+    .footer-location { line-height: 1.6; }
 
-    .footer-copy {
-      font-style: italic;
-      line-height: 1.6;
-      color: #bad5e4;
-    }
-
-    .footer-location {
-      line-height: 1.6;
-    }
-
-    .sdgs {
-      display: flex;
-      gap: 9px;
-      align-items: center;
-      line-height: 1.4;
-    }
+    .sdgs { display: flex; gap: 9px; align-items: center; line-height: 1.4; }
 
     .sdg {
-      width: 35px;
-      height: 35px;
-      background: #159bca;
-      display: grid;
-      place-items: center;
-      font-size: 18px;
-      border-radius: 4px;
-      flex-shrink: 0;
+      width: 35px; height: 35px;
+      background: #159bca; display: grid; place-items: center;
+      font-size: 18px; border-radius: 4px; flex-shrink: 0;
     }
 
-    .sdg:last-child {
-      background: #24a7a0;
-    }
+    .sdg:last-child { background: #24a7a0; }
 
     /* RESPONSIVE */
     @media (max-width: 1050px) {
-      .navlinks {
-        gap: 13px;
-      }
-
-      .navright {
-        display: none;
-      }
-
-      .grid-two,
-      .grid-bottom {
-        grid-template-columns: 1fr;
-      }
-
-      .results-layout {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .results-layout .performance {
-        grid-column: 1 / -1;
-      }
-
-      .intro-layout {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      footer {
-        grid-template-columns: 1fr 1fr;
-      }
+      .navlinks { gap: 13px; }
+      .navright { display: none; }
+      .results-layout { grid-template-columns: 1fr 1fr; }
+      .results-layout .performance { grid-column: 1 / -1; }
+      .intro-layout { grid-template-columns: 1fr 1fr; }
+      footer { grid-template-columns: 1fr 1fr; }
     }
 
     @media (max-width: 720px) {
-      .navbar {
-        flex-wrap: wrap;
-        padding: 10px 4%;
-      }
-
-      .menu-btn {
-        display: block;
-      }
-
+      .navbar { flex-wrap: wrap; padding: 10px 4%; }
+      .menu-btn { display: block; }
       .navlinks {
-        display: none;
-        width: 100%;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0;
+        display: none; width: 100%; flex-direction: column;
+        align-items: stretch; gap: 0;
       }
-
-      .navlinks.open {
-        display: flex;
-      }
-
-      .navlinks a {
-        padding: 12px 4px;
-        border-bottom: 1px solid #31516a;
-      }
-
+      .navlinks.open { display: flex; }
+      .navlinks a { padding: 12px 4px; border-bottom: 1px solid #31516a; }
       .hero-inner {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        padding: 30px 5%;
+        grid-template-columns: 1fr; gap: 20px; padding: 30px 5%;
       }
-
-      .hero {
-        min-height: 0;
-      }
-
-      .hero-inner {
-        min-height: 0;
-      }
-
-      .live-card {
-        max-width: 440px;
-      }
-
-      .wrap {
-        width: 94%;
-      }
-
-      .intro-layout,
-      .method-grid,
-      .results-layout {
+      .hero { min-height: 0; }
+      .hero-inner { min-height: 0; }
+      .live-card { max-width: 440px; }
+      .wrap { width: 94%; }
+      .intro-layout, .method-grid, .results-layout {
         grid-template-columns: 1fr;
       }
-
-      .results-layout .performance {
-        grid-column: auto;
-      }
-
-      .section-card {
-        padding: 14px;
-      }
-
-      .section-title h2 {
-        font-size: 15px;
-      }
-
-      footer {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-
-      .mottos {
-        gap: 9px;
-      }
+      .results-layout .performance { grid-column: auto; }
+      .section-card { padding: 14px; }
+      .section-title h2 { font-size: 15px; }
+      footer { grid-template-columns: 1fr; gap: 12px; }
+      .mottos { gap: 9px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-
-      *,
-      *::before,
-      *::after {
-        transition: none !important;
-        animation: none !important;
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        transition: none !important; animation: none !important;
       }
     }
   </style>
@@ -897,8 +509,9 @@
   </nav>
 
   <div class="navright">
-    <span>♧</span> Demo Monitoring &nbsp;
-    <span class="live-dot"></span>
+    <span>♧</span> Live Monitoring &nbsp;
+    <span class="live-dot" id="navLiveDot"></span>
+    <span id="navLiveText">Connecting...</span>
   </div>
 
   <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">☰</button>
@@ -915,7 +528,7 @@
   <div class="hero-inner">
     <div>
       <div class="kicker">
-        Solar-powered • IoT-based • Prototype presentation
+        Solar-powered • IoT-based • Live Monitoring
       </div>
 
       <h1>Aqua<span>Sense</span></h1>
@@ -939,15 +552,18 @@
       </a>
     </div>
 
-    <aside class="live-card" aria-label="Simulated sample readings">
-      <h3>⚗ SIMULATED SAMPLE READINGS</h3>
+    <aside class="live-card" aria-label="Live sensor readings">
+      <h3>
+        <span>⚗ LIVE SENSOR READINGS</span>
+        <span class="live-tag" id="cardLiveTag">● CONNECTING</span>
+      </h3>
 
       <div class="reading">
         <div class="reading-icon">◉</div>
         <span>pH</span>
         <div>
-          <strong id="heroPh">7.42</strong>
-          <small class="reading-status" id="heroPhStatus">Normal</small>
+          <strong id="heroPh">--</strong>
+          <small class="reading-status" id="heroPhStatus">Waiting...</small>
         </div>
       </div>
 
@@ -955,8 +571,8 @@
         <div class="reading-icon">〰</div>
         <span>Turbidity</span>
         <div>
-          <strong><span id="heroTurb">12.36</span> NTU</strong>
-          <small class="reading-status" id="heroTurbStatus">Sample value</small>
+          <strong><span id="heroTurb">--</span> V</strong>
+          <small class="reading-status" id="heroTurbStatus">Waiting...</small>
         </div>
       </div>
 
@@ -964,14 +580,14 @@
         <div class="reading-icon">♨</div>
         <span>Temperature</span>
         <div>
-          <strong><span id="heroTemp">27.8</span> °C</strong>
-          <small class="reading-status">Sample value</small>
+          <strong><span id="heroTemp">--</span> °C</strong>
+          <small class="reading-status">Live value</small>
         </div>
       </div>
 
       <p class="disclaimer">
-        ● Illustrative values change automatically for demonstration only.
-        No physical sensors are connected.
+        ● Data is streamed live from the ESP32 sensor unit via Firebase.
+        Updates every 3 minutes. Last sync: <span id="heroLastSync">—</span>
       </p>
     </aside>
   </div>
@@ -979,12 +595,10 @@
 
 <main class="wrap">
 
-  <!-- ========== TAB: HOME (blank / hero only) ========== -->
-  <div id="tab-home" class="tab-content active-tab">
-    <!-- Home tab is empty to avoid duplication; hero stays always visible above -->
-  </div>
+  <!-- HOME TAB -->
+  <div id="tab-home" class="tab-content active-tab"></div>
 
-  <!-- ========== TAB: INTRODUCTION ========== -->
+  <!-- INTRODUCTION TAB -->
   <div id="tab-introduction" class="tab-content">
     <section class="section-card" id="introduction">
       <div class="section-title">
@@ -1064,7 +678,7 @@
     </section>
   </div>
 
-  <!-- ========== TAB: METHODOLOGY ========== -->
+  <!-- METHODOLOGY TAB -->
   <div id="tab-methodology" class="tab-content">
     <section class="section-card" id="methodology">
       <div class="section-title">
@@ -1139,23 +753,17 @@
             <div class="step">☀</div>
             <small>Solar<br>panel</small>
           </div>
-
           <span class="arrow">→</span>
-
           <div>
             <div class="step">▣</div>
             <small>ESP32</small>
           </div>
-
           <span class="arrow">→</span>
-
           <div>
             <div class="step">☁</div>
             <small>Cloud<br>database</small>
           </div>
-
           <span class="arrow">→</span>
-
           <div>
             <div class="step">▤</div>
             <small>Web<br>dashboard</small>
@@ -1166,7 +774,7 @@
     </section>
   </div>
 
-  <!-- ========== TAB: RESULTS ========== -->
+  <!-- RESULTS TAB -->
   <div id="tab-results" class="tab-content">
     <section class="section-card" id="results">
       <div class="section-title">
@@ -1180,113 +788,129 @@
       <div class="results-layout">
 
         <div class="mini-panel">
-          <h3>Sensor Accuracy & Precision
-            <small>(illustrative template)</small>
+          <h3>Latest Sensor Readings
+            <small>(live from Firebase)</small>
           </h3>
 
           <table>
             <thead>
               <tr>
                 <th>Parameter</th>
-                <th>Accuracy</th>
-                <th>Precision</th>
+                <th>Value</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>pH</td>
-                <td>—</td>
-                <td>—</td>
+                <td id="tblPh">—</td>
+                <td id="tblPhStatus">—</td>
               </tr>
               <tr>
-                <td>Turbidity (NTU)</td>
-                <td>—</td>
-                <td>—</td>
+                <td>Turbidity (V)</td>
+                <td id="tblTurb">—</td>
+                <td id="tblTurbStatus">—</td>
               </tr>
               <tr>
                 <td>Temperature (°C)</td>
+                <td id="tblTemp">—</td>
+                <td id="tblTempStatus">—</td>
+              </tr>
+              <tr>
+                <td>pH Voltage (raw)</td>
+                <td id="tblPhVolt">—</td>
                 <td>—</td>
-                <td>—</td>
+              </tr>
+              <tr>
+                <td>Last update</td>
+                <td id="tblTimestamp" colspan="2">—</td>
               </tr>
             </tbody>
           </table>
 
           <p class="table-note">
-            Enter measured results only after testing the prototype against
-            suitable reference instruments. Dashes indicate results have
-            not been supplied.
+            Data is fetched directly from the AquaSense Firebase Realtime
+            Database. Values refresh automatically every 3 minutes.
           </p>
 
           <div class="notice-strip">
             <span>ⓘ</span>
             <div>
-              Charts on this page use
-              <strong>simulated demonstration data</strong>,
-              not experimental results.
+              Charts below show the
+              <strong>last 22 live readings</strong>
+              from the sensor network.
             </div>
           </div>
         </div>
 
         <div class="mini-panel">
-          <h3>Water Quality Trends <small>(simulated)</small></h3>
+          <h3>Water Quality Trends <small>(live)</small></h3>
 
           <div class="chart-block">
             <div class="chart-label">
               <b>● pH Level</b>
-              <span id="phChartLatest">7.42</span>
+              <span id="phChartLatest">—</span>
             </div>
-            <canvas id="phChart" aria-label="Simulated pH trend"></canvas>
+            <canvas id="phChart" aria-label="Live pH trend"></canvas>
           </div>
 
           <div class="chart-block">
             <div class="chart-label">
-              <b style="color:#10a981">● Turbidity (NTU)</b>
-              <span id="turbChartLatest">12.36</span>
+              <b style="color:#10a981">● Turbidity Voltage (V)</b>
+              <span id="turbChartLatest">—</span>
             </div>
-            <canvas id="turbChart" aria-label="Simulated turbidity trend"></canvas>
+            <canvas id="turbChart" aria-label="Live turbidity trend"></canvas>
           </div>
 
           <div class="chart-block">
             <div class="chart-label">
               <b style="color:#e7a13c">● Temperature (°C)</b>
-              <span id="tempChartLatest">27.8</span>
+              <span id="tempChartLatest">—</span>
             </div>
-            <canvas id="tempChart" aria-label="Simulated temperature trend"></canvas>
+            <canvas id="tempChart" aria-label="Live temperature trend"></canvas>
           </div>
         </div>
 
         <div class="mini-panel performance">
-          <h3>System Performance <small>(planned measures)</small></h3>
+          <h3>System Status <small>(live)</small></h3>
 
           <div class="performance-item">
             <span class="symbol">🔋</span>
             <div>
-              <strong>Power Input</strong>
-              <small>Solar panel and battery supply — field data pending</small>
+              <strong>Sensor Unit</strong>
+              <small id="perfSensor">Checking connection...</small>
             </div>
           </div>
 
           <div class="performance-item">
             <span class="symbol">⌁</span>
             <div>
-              <strong>Network Load</strong>
-              <small>To be measured during connected-system testing</small>
+              <strong>Cloud Connection</strong>
+              <small id="perfCloud">Checking Firebase...</small>
             </div>
           </div>
 
           <div class="performance-item">
             <span class="symbol">◷</span>
             <div>
-              <strong>Transmission Interval</strong>
-              <small>Target interval should be verified in implementation</small>
+              <strong>Update Interval</strong>
+              <small>Every 3 minutes (ESP32 → Firebase)</small>
+            </div>
+          </div>
+
+          <div class="performance-item">
+            <span class="symbol">🌡</span>
+            <div>
+              <strong>Last Sync</strong>
+              <small id="perfLastSync">—</small>
             </div>
           </div>
 
           <div class="notice-strip">
             <span>ⓘ</span>
             <div>
-              Use actual logs to report uptime, accuracy,
-              and transmission performance.
+              If data shows "—", the ESP32 may be offline or Firebase
+              may be unreachable. Check network and power.
             </div>
           </div>
         </div>
@@ -1295,7 +919,7 @@
     </section>
   </div>
 
-  <!-- ========== TAB: CONCLUSION ========== -->
+  <!-- CONCLUSION TAB -->
   <div id="tab-conclusion" class="tab-content">
     <section class="section-card" id="conclusion">
       <div class="section-title">
@@ -1316,9 +940,9 @@
         </p>
 
         <p>
-          The current webpage is a presentation prototype. Its changing
-          values are simulated, so they do not demonstrate verified sensor
-          accuracy, live connectivity, or actual water conditions.
+          The dashboard now displays live data streamed from the ESP32
+          sensor unit via Firebase Realtime Database. Readings update
+          automatically and are stored for historical review.
         </p>
 
         <p>
@@ -1366,7 +990,21 @@
 (() => {
   const $ = id => document.getElementById(id);
 
-  /* ---------- TAB SWITCHING ---------- */
+  // =====================================================
+  // FIREBASE CONFIGURATION
+  // =====================================================
+  const FIREBASE_URL =
+    "https://aquasense-261e2-default-rtdb.asia-southeast1.firebasedatabase.app";
+
+  const LATEST_PATH  = "/aquasense/latest.json";
+  const HISTORY_PATH = "/aquasense/history.json";
+
+  const REFRESH_MS = 3 * 60 * 1000;  // 3 minutes
+  const MAX_POINTS = 22;             // chart history length
+
+  // =====================================================
+  // TAB SWITCHING
+  // =====================================================
   const tabs = {
     home: 'tab-home',
     introduction: 'tab-introduction',
@@ -1376,36 +1014,35 @@
   };
 
   function switchTab(tabId) {
-    // Hide all tab content
     document.querySelectorAll('.tab-content').forEach(el => {
       el.classList.remove('active-tab');
     });
-
-    // Show the selected tab
     const target = $(tabs[tabId]);
-    if (target) {
-      target.classList.add('active-tab');
-    }
+    if (target) target.classList.add('active-tab');
 
-    // Update nav active state
     document.querySelectorAll('.navlinks a').forEach(link => {
       const linkTab = link.dataset.tab;
       link.classList.toggle('active', linkTab === tabId);
     });
 
-    // Close mobile menu if open
-    const menu = $('navlinks');
-    menu.classList.remove('open');
+    $('navlinks').classList.remove('open');
+
+    // When user opens Results tab, redraw charts (canvas may have been hidden)
+    if (tabId === 'results') {
+      setTimeout(() => {
+        drawChart('phChart',   history.ph,   '#0aa7d7', 5, 10);
+        drawChart('turbChart', history.turb, '#10a981', 0, 3.5);
+        drawChart('tempChart', history.temp, '#e7a13c', 15, 40);
+      }, 60);
+    }
   }
 
-  // Attach click listeners to all elements with data-tab
   document.querySelectorAll('[data-tab]').forEach(el => {
     el.addEventListener('click', (e) => {
       e.preventDefault();
       const tabId = el.dataset.tab;
       if (tabId) {
         switchTab(tabId);
-        // For anchor links, update hash without jumping
         if (el.tagName === 'A') {
           history.replaceState(null, '', el.getAttribute('href') || '#' + tabId);
         }
@@ -1413,31 +1050,80 @@
     });
   });
 
-  /* ---------- MOBILE MENU ---------- */
   $('menuBtn').addEventListener('click', () => {
     $('navlinks').classList.toggle('open');
   });
 
-  /* ---------- SIMULATED SENSOR DATA (unchanged) ---------- */
-  const state = {
-    ph: 7.42,
-    turb: 12.36,
-    temp: 27.8
-  };
+  // =====================================================
+  // HELPERS
+  // =====================================================
+  function fmt(v, decimals) {
+    if (v === null || v === undefined || isNaN(v)) return '—';
+    return Number(v).toFixed(decimals);
+  }
 
-  const history = {
-    ph: [],
-    turb: [],
-    temp: []
-  };
+  function parseTimestamp(ts) {
+    if (!ts) return null;
 
-  const maxPoints = 22;
-
-  function pushHistory(key, value) {
-    history[key].push(value);
-    if (history[key].length > maxPoints) {
-      history[key].shift();
+    // String "YYYY-MM-DD HH:MM:SS" or "YYYY-MM-DDTHH:MM:SS"
+    if (typeof ts === 'string') {
+      const iso = ts.replace(' ', 'T');
+      const d = new Date(iso);
+      return isNaN(d.getTime()) ? null : d;
     }
+
+    // Number (seconds or milliseconds)
+    if (typeof ts === 'number') {
+      const ms = ts < 1e12 ? ts * 1000 : ts;
+      const d = new Date(ms);
+      return isNaN(d.getTime()) ? null : d;
+    }
+
+    return null;
+  }
+
+  function phStatus(v) {
+    if (v === null || v === undefined) return { text: '—', cls: '' };
+    if (v < 6.5)  return { text: 'Acidic',  cls: 'warn' };
+    if (v > 8.5)  return { text: 'Basic',   cls: 'warn' };
+    if (v < 6.0 || v > 9.0) return { text: 'Out of range', cls: 'bad' };
+    return { text: 'Normal', cls: '' };
+  }
+
+  function turbStatus(v) {
+    if (v === null || v === undefined) return { text: '—', cls: '' };
+    if (v >= 1.70) return { text: 'Clear',       cls: '' };
+    if (v >= 1.60) return { text: 'Slightly turbid', cls: 'warn' };
+    return { text: 'Turbid', cls: 'bad' };
+  }
+
+  function tempStatus(v) {
+    if (v === null || v === undefined) return { text: '—', cls: '' };
+    if (v < 20) return { text: 'Cold', cls: 'warn' };
+    if (v > 32) return { text: 'Warm', cls: 'warn' };
+    return { text: 'Normal', cls: '' };
+  }
+
+  function setOnline(isOnline) {
+    $('navLiveDot').classList.toggle('offline', !isOnline);
+    $('navLiveText').textContent = isOnline ? 'Live' : 'Offline';
+
+    const tag = $('cardLiveTag');
+    if (tag) {
+      tag.textContent = isOnline ? '● LIVE' : '● OFFLINE';
+      tag.classList.toggle('offline', !isOnline);
+    }
+  }
+
+  // =====================================================
+  // CHART DRAWING
+  // =====================================================
+  const history = { ph: [], turb: [], temp: [] };
+
+  function pushHistory(arr, value, max) {
+    if (value === null || value === undefined || isNaN(value)) return;
+    arr.push(Number(value));
+    while (arr.length > max) arr.shift();
   }
 
   function drawChart(canvasId, values, color, minFixed, maxFixed) {
@@ -1445,20 +1131,21 @@
     if (!canvas) return;
 
     const rect = canvas.getBoundingClientRect();
-    const width = Math.max(150, Math.floor(rect.width));
+    const width = Math.max(150, Math.floor(rect.width || 300));
     const height = 52;
     const dpr = window.devicePixelRatio || 1;
 
     canvas.width = width * dpr;
     canvas.height = height * dpr;
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
     ctx.clearRect(0, 0, width, height);
 
     const left = 7, right = 7, top = 7, bottom = 7;
 
-    ctx.strokeStyle = "#e6f0f5";
+    ctx.strokeStyle = '#e6f0f5';
     ctx.lineWidth = 1;
     for (let i = 1; i <= 2; i++) {
       const y = top + (height - top - bottom) * i / 3;
@@ -1468,11 +1155,16 @@
       ctx.stroke();
     }
 
-    if (!values.length) return;
+    if (!values.length) {
+      ctx.fillStyle = '#b6ccd8';
+      ctx.font = '10px Inter, Segoe UI, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('No data yet', width / 2, height / 2 + 3);
+      return;
+    }
 
     let min = minFixed ?? Math.min(...values);
     let max = maxFixed ?? Math.max(...values);
-
     if (max - min < 0.001) max = min + 1;
 
     const xAt = i => left + i * (width - left - right) / Math.max(values.length - 1, 1);
@@ -1486,8 +1178,8 @@
 
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
-    ctx.lineJoin = "round";
-    ctx.lineCap = "round";
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
     ctx.stroke();
 
     const last = values.length - 1;
@@ -1497,49 +1189,163 @@
     ctx.fill();
   }
 
-  function render() {
-    $("heroPh").textContent = state.ph.toFixed(2);
-    $("heroTurb").textContent = state.turb.toFixed(2);
-    $("heroTemp").textContent = state.temp.toFixed(1);
+  // =====================================================
+  // FETCH LATEST DATA FROM FIREBASE
+  // =====================================================
+  async function fetchLatest() {
+    try {
+      const url = FIREBASE_URL + LATEST_PATH + '?t=' + Date.now();
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
 
-    $("phChartLatest").textContent = state.ph.toFixed(2);
-    $("turbChartLatest").textContent = state.turb.toFixed(2);
-    $("tempChartLatest").textContent = state.temp.toFixed(1);
+      const data = await res.json();
+      if (!data) {
+        setOnline(false);
+        $('perfSensor').textContent = 'No data in database';
+        return null;
+      }
 
-    $("heroPhStatus").textContent =
-      state.ph < 6.5 || state.ph > 8.5 ? "Outside example range" : "Sample value";
-    $("heroTurbStatus").textContent =
-      state.turb > 5 ? "Elevated sample value" : "Sample value";
+      setOnline(true);
 
-    pushHistory("ph", state.ph);
-    pushHistory("turb", state.turb);
-    pushHistory("temp", state.temp);
+      // Extract fields
+      const ph      = Number(data.pH);
+      const phVolt  = Number(data.pHVoltage);
+      const turbVolt = Number(data.turbidityVoltage);
+      const temp    = data.temperature != null ? Number(data.temperature) : null;
+      const ts      = parseTimestamp(data.timestamp);
 
-    drawChart("phChart", history.ph, "#0aa7d7", 5, 10);
-    drawChart("turbChart", history.turb, "#10a981", 0, 30);
-    drawChart("tempChart", history.temp, "#e7a13c", 15, 40);
+      // Hero card
+      $('heroPh').textContent   = fmt(ph, 2);
+      $('heroTurb').textContent = fmt(turbVolt, 2);
+      $('heroTemp').textContent = fmt(temp, 1);
+
+      const phS = phStatus(ph);
+      const phStatusEl = $('heroPhStatus');
+      phStatusEl.textContent = phS.text;
+      phStatusEl.className = 'reading-status ' + phS.cls;
+
+      const tbS = turbStatus(turbVolt);
+      const tbStatusEl = $('heroTurbStatus');
+      tbStatusEl.textContent = tbS.text;
+      tbStatusEl.className = 'reading-status ' + tbS.cls;
+
+      if (ts) {
+        $('heroLastSync').textContent = ts.toLocaleString();
+        $('perfLastSync').textContent = ts.toLocaleString();
+      } else {
+        $('heroLastSync').textContent = '—';
+        $('perfLastSync').textContent = '—';
+      }
+
+      // Results table
+      $('tblPh').textContent = fmt(ph, 2);
+      $('tblPhStatus').textContent = phS.text;
+      $('tblPhStatus').className = phS.cls;
+
+      $('tblTurb').textContent = fmt(turbVolt, 3) + ' V';
+      $('tblTurbStatus').textContent = tbS.text;
+      $('tblTurbStatus').className = tbS.cls;
+
+      $('tblTemp').textContent = fmt(temp, 2) + ' °C';
+      $('tblTempStatus').textContent = tempStatus(temp).text;
+
+      $('tblPhVolt').textContent = fmt(phVolt, 3) + ' V';
+      $('tblTimestamp').textContent = ts ? ts.toLocaleString() : '—';
+
+      // Chart latest values
+      $('phChartLatest').textContent   = fmt(ph, 2);
+      $('turbChartLatest').textContent = fmt(turbVolt, 3);
+      $('tempChartLatest').textContent = fmt(temp, 1);
+
+      // Push to chart history
+      pushHistory(history.ph,   ph,       MAX_POINTS);
+      pushHistory(history.turb, turbVolt, MAX_POINTS);
+      pushHistory(history.temp, temp,     MAX_POINTS);
+
+      // System status panel
+      $('perfSensor').textContent = 'ESP32 online — streaming data';
+      $('perfCloud').textContent  = 'Firebase connected';
+
+      return { ph, turbVolt, temp, ts };
+
+    } catch (err) {
+      console.error('Fetch error:', err);
+      setOnline(false);
+      $('perfSensor').textContent = 'Connection failed';
+      $('perfCloud').textContent  = 'Firebase unreachable';
+      return null;
+    }
   }
 
-  function next() {
-    state.ph = Math.max(5.8, Math.min(9.2, state.ph + (Math.random() - 0.5) * 0.22));
-    state.turb = Math.max(0.5, Math.min(29, state.turb + (Math.random() - 0.5) * 2.8));
-    state.temp = Math.max(18, Math.min(35, state.temp + (Math.random() - 0.5) * 1.1));
-    render();
+  // =====================================================
+  // FETCH HISTORY FROM FIREBASE (for chart seed)
+  // =====================================================
+  async function fetchHistorySeed() {
+    try {
+      const url = FIREBASE_URL + HISTORY_PATH + '?t=' + Date.now();
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) return;
+
+      const data = await res.json();
+      if (!data || typeof data !== 'object') return;
+
+      // Firebase push keys are sortable — get last MAX_POINTS
+      const keys = Object.keys(data).sort();
+      const tail = keys.slice(-MAX_POINTS);
+
+      history.ph.length   = 0;
+      history.turb.length = 0;
+      history.temp.length = 0;
+
+      tail.forEach(k => {
+        const entry = data[k];
+        if (!entry) return;
+        if (entry.pH != null)               history.ph.push(Number(entry.pH));
+        if (entry.turbidityVoltage != null) history.turb.push(Number(entry.turbidityVoltage));
+        if (entry.temperature != null)      history.temp.push(Number(entry.temperature));
+      });
+
+      // Redraw
+      drawChart('phChart',   history.ph,   '#0aa7d7', 5, 10);
+      drawChart('turbChart', history.turb, '#10a981', 0, 3.5);
+      drawChart('tempChart', history.temp, '#e7a13c', 15, 40);
+
+    } catch (err) {
+      console.warn('History seed failed:', err);
+    }
   }
 
-  window.addEventListener("resize", render);
+  // =====================================================
+  // INIT
+  // =====================================================
+  async function init() {
+    await fetchHistorySeed();      // pre-fill charts
+    await fetchLatest();           // get current values
 
-  // Seed history
-  for (let i = 0; i < 8; i++) {
-    history.ph.push(state.ph + (Math.random() - 0.5) * 0.3);
-    history.turb.push(Math.max(0.5, state.turb + (Math.random() - 0.5) * 3));
-    history.temp.push(state.temp + (Math.random() - 0.5) * 1.2);
+    // Redraw charts with proper width now that DOM is settled
+    setTimeout(() => {
+      drawChart('phChart',   history.ph,   '#0aa7d7', 5, 10);
+      drawChart('turbChart', history.turb, '#10a981', 0, 3.5);
+      drawChart('tempChart', history.temp, '#e7a13c', 15, 40);
+    }, 120);
+
+    // Refresh every 3 minutes
+    setInterval(async () => {
+      await fetchLatest();
+      drawChart('phChart',   history.ph,   '#0aa7d7', 5, 10);
+      drawChart('turbChart', history.turb, '#10a981', 0, 3.5);
+      drawChart('tempChart', history.temp, '#e7a13c', 15, 40);
+    }, REFRESH_MS);
   }
 
-  render();
-  setInterval(next, 3000);
+  window.addEventListener('resize', () => {
+    drawChart('phChart',   history.ph,   '#0aa7d7', 5, 10);
+    drawChart('turbChart', history.turb, '#10a981', 0, 3.5);
+    drawChart('tempChart', history.temp, '#e7a13c', 15, 40);
+  });
 
-  // Ensure initial tab is Home (already active in HTML)
+  init();
+
 })();
 </script>
 
