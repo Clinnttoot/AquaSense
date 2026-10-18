@@ -1191,6 +1191,7 @@
 
   // =====================================================
   // FETCH LATEST DATA FROM FIREBASE
+  // (Robust: handles both pH/pHVoltage and PH/PHVoltage cases)
   // =====================================================
   async function fetchLatest() {
     try {
@@ -1207,12 +1208,14 @@
 
       setOnline(true);
 
-      // Extract fields
-      const ph      = Number(data.pH);
-      const phVolt  = Number(data.pHVoltage);
-      const turbVolt = Number(data.turbidityVoltage);
-      const temp    = data.temperature != null ? Number(data.temperature) : null;
-      const ts      = parseTimestamp(data.timestamp);
+      // Extract fields safely (handling different capitalizations)
+      const ph      = Number(data.pH ?? data.PH);
+      const phVolt  = Number(data.pHVoltage ?? data.PHVoltage ?? data.phVoltage);
+      const turbVolt = Number(data.turbidityVoltage ?? data.TurbidityVoltage ?? data.turbVoltage);
+      const temp    = (data.temperature ?? data.Temperature ?? data.temp ?? data.Temp) != null 
+                        ? Number(data.temperature ?? data.Temperature ?? data.temp ?? data.Temp) 
+                        : null;
+      const ts      = parseTimestamp(data.timestamp ?? data.Timestamp);
 
       // Hero card
       $('heroPh').textContent   = fmt(ph, 2);
@@ -1279,6 +1282,7 @@
 
   // =====================================================
   // FETCH HISTORY FROM FIREBASE (for chart seed)
+  // (Robust: handles both capitalized and lowercase keys)
   // =====================================================
   async function fetchHistorySeed() {
     try {
@@ -1300,9 +1304,13 @@
       tail.forEach(k => {
         const entry = data[k];
         if (!entry) return;
-        if (entry.pH != null)               history.ph.push(Number(entry.pH));
-        if (entry.turbidityVoltage != null) history.turb.push(Number(entry.turbidityVoltage));
-        if (entry.temperature != null)      history.temp.push(Number(entry.temperature));
+        const phVal = entry.pH ?? entry.PH;
+        const turbVal = entry.turbidityVoltage ?? entry.TurbidityVoltage ?? entry.turbVoltage;
+        const tempVal = entry.temperature ?? entry.Temperature ?? entry.temp ?? entry.Temp;
+        
+        if (phVal != null)   history.ph.push(Number(phVal));
+        if (turbVal != null) history.turb.push(Number(turbVal));
+        if (tempVal != null) history.temp.push(Number(tempVal));
       });
 
       // Redraw
