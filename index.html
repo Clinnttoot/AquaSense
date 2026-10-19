@@ -3,20 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#082943">
+  <meta name="theme-color" content="#344E3D">
   <title>AquaSense | Live Water Quality Monitor</title>
 
   <style>
     :root {
-      --navy: #082943;
-      --navy2: #10496b;
-      --blue: #087db6;
-      --cyan: #28c9dc;
-      --pale: #eef8fc;
-      --ink: #173b56;
-      --muted: #6d879a;
-      --line: #d9eaf3;
-      --green: #13a982;
+      /* BAGONG COLOR PALETTE BASE SA SCREENSHOT */
+      --nav-bg: #526F5B;        /* Navigation Bar */
+      --hero-bg: #879B83;       /* Main background / Hero */
+      --main-heading: #FFFFFF;  /* Main heading */
+      --body-bg: #F0F1E9;       /* Paragraph background */
+      --button-color: #344E3D;  /* Button color */
+      --alt-section: #71866D;   /* Alternate section */
+      
+      --ink: #2B3A30;           /* Dark text for readability */
+      --muted: #6B7B70;
+      --line: #D8DCD3;
+      --card-bg: #FFFFFF;
     }
 
     * { box-sizing: border-box; }
@@ -30,7 +33,7 @@
       margin: 0;
       font-family: Inter, "Segoe UI", Arial, sans-serif;
       color: var(--ink);
-      background: #f1f8fc;
+      background: var(--body-bg);
       font-size: 14px;
     }
 
@@ -47,29 +50,30 @@
       justify-content: space-between;
       gap: 22px;
       padding: 12px 3.5%;
-      color: white;
-      background: linear-gradient(105deg, #07233a, #0b3d5b);
-      box-shadow: 0 3px 18px #05263b25;
+      color: var(--main-heading);
+      background: var(--nav-bg);
+      box-shadow: 0 3px 18px rgba(0,0,0,0.15);
     }
 
     .logo { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
 
     .logo-mark {
       width: 38px; height: 38px; border-radius: 12px;
-      background: linear-gradient(145deg, #48d9e5, #0783c5);
+      background: rgba(255,255,255,0.15);
       display: grid; place-items: center; font-size: 22px;
+      color: var(--main-heading);
     }
 
-    .logo-name { font-size: 21px; font-weight: 800; letter-spacing: -.5px; }
-    .logo-name span, .footer-brand span { color: #35d4e6; }
+    .logo-name { font-size: 21px; font-weight: 800; letter-spacing: -.5px; color: var(--main-heading); }
+    .logo-name span, .footer-brand span { color: #E0E7DD; }
     .logo small {
       display: block; font-size: 8px; letter-spacing: 1.2px;
-      color: #b3d5e7; margin-top: 2px;
+      color: rgba(255,255,255,0.7); margin-top: 2px;
     }
 
     .navlinks {
       display: flex; align-items: center; gap: clamp(12px, 2.3vw, 32px);
-      font-size: 12px; color: #d3e4ed;
+      font-size: 12px; color: rgba(255,255,255,0.8);
     }
 
     .navlinks a {
@@ -78,12 +82,12 @@
     }
 
     .navlinks a:hover, .navlinks a.active {
-      color: #62e1ed; border-color: #37d2e2;
+      color: var(--main-heading); border-color: var(--main-heading);
     }
 
     .navright {
       display: flex; align-items: center; gap: 8px;
-      white-space: nowrap; font-size: 11px; color: #cbe0eb;
+      white-space: nowrap; font-size: 11px; color: rgba(255,255,255,0.8);
     }
 
     .live-dot {
@@ -100,14 +104,14 @@
 
     .menu-btn {
       display: none; background: transparent;
-      border: 1px solid #42647b; color: white;
+      border: 1px solid rgba(255,255,255,0.4); color: var(--main-heading);
       border-radius: 8px; padding: 7px 10px;
     }
 
     /* HERO */
     .hero {
       position: relative; isolation: isolate; overflow: hidden;
-      min-height: 330px; color: white; background: #0b5277;
+      min-height: 330px; color: var(--main-heading); background: var(--hero-bg);
     }
 
     .hero-image {
@@ -118,10 +122,10 @@
     .hero::before {
       content: ""; position: absolute; inset: 0; z-index: -1;
       background: linear-gradient(90deg,
-        rgba(4,37,62,.92) 0%,
-        rgba(4,47,75,.76) 42%,
-        rgba(3,42,68,.15) 76%,
-        rgba(3,39,63,.5) 100%);
+        rgba(52,78,61,.9) 0%,
+        rgba(82,111,91,.8) 42%,
+        rgba(113,134,109,.3) 76%,
+        rgba(52,78,61,.6) 100%);
     }
 
     .hero-inner {
@@ -133,60 +137,63 @@
 
     .kicker {
       font-size: 10px; text-transform: uppercase;
-      letter-spacing: 2px; color: #8cebf1; font-weight: 800;
+      letter-spacing: 2px; color: #E0E7DD; font-weight: 800;
     }
 
     .hero h1 {
       font-size: clamp(42px, 5vw, 65px);
       letter-spacing: -2px; line-height: 1;
       margin: 10px 0 13px;
+      color: var(--main-heading);
     }
 
-    .hero h1 span { color: #41d2e2; }
+    .hero h1 span { color: #D2DEC9; }
 
     .hero h2 {
       font-size: 17px; line-height: 1.5;
       margin: 0 0 8px; font-weight: 750;
+      color: var(--main-heading);
     }
 
     .hero p {
       font-size: 13px; line-height: 1.75;
-      color: #e0edf4; max-width: 650px; margin: 0;
+      color: #E8EBE5; max-width: 650px; margin: 0;
     }
 
     .mottos {
       display: flex; gap: 17px; flex-wrap: wrap;
-      margin: 15px 0 20px; font-size: 11px; color: #b9f4f5;
+      margin: 15px 0 20px; font-size: 11px; color: #E8EBE5;
     }
 
     .cta {
       display: inline-flex; align-items: center; gap: 14px;
       border: 0; border-radius: 30px;
-      background: #dffaff; color: #07517a;
+      background: var(--button-color); color: var(--main-heading);
       font-weight: 800; padding: 11px 19px;
-      cursor: pointer; box-shadow: 0 5px 18px #001e3b35;
+      cursor: pointer; box-shadow: 0 5px 18px rgba(0,0,0,0.2);
       transition: .2s;
     }
 
-    .cta:hover { background: white; transform: translateY(-1px); }
+    .cta:hover { background: #25382B; transform: translateY(-1px); }
 
     /* LIVE SENSOR CARD */
     .live-card {
-      background: #073451d9;
-      border: 1px solid #a0d8e760;
+      background: rgba(43, 58, 48, 0.85);
+      border: 1px solid rgba(255,255,255,0.2);
       backdrop-filter: blur(8px);
       border-radius: 15px; padding: 17px 18px;
-      box-shadow: 0 12px 30px #00182b30;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
     }
 
     .live-card h3 {
       font-size: 13px; margin: 0 0 9px;
-      padding-bottom: 11px; border-bottom: 1px solid #79b6d44d;
+      padding-bottom: 11px; border-bottom: 1px solid rgba(255,255,255,0.15);
       display: flex; justify-content: space-between; align-items: center;
+      color: var(--main-heading);
     }
 
     .live-card .live-tag {
-      font-size: 9px; color: #54e0bc; font-weight: 700; letter-spacing: 1px;
+      font-size: 9px; color: #31d7a4; font-weight: 700; letter-spacing: 1px;
     }
 
     .live-card .live-tag.offline { color: #e67a85; }
@@ -194,7 +201,7 @@
     .reading {
       display: grid; grid-template-columns: 30px 1fr auto;
       align-items: center; gap: 10px;
-      padding: 10px 0; border-bottom: 1px solid #9bc7dc30;
+      padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
     .reading:last-of-type { border-bottom: 0; }
@@ -202,16 +209,16 @@
     .reading-icon {
       width: 29px; height: 29px;
       display: grid; place-items: center;
-      border: 1px solid #56d6e8; border-radius: 50%;
-      color: #67e7f3; font-size: 15px;
+      border: 1px solid rgba(255,255,255,0.3); border-radius: 50%;
+      color: var(--main-heading); font-size: 15px;
     }
 
-    .reading span { font-size: 12px; color: #e1f1f7; }
-    .reading strong { font-size: 12px; white-space: nowrap; }
+    .reading span { font-size: 12px; color: #E8EBE5; }
+    .reading strong { font-size: 12px; white-space: nowrap; color: var(--main-heading); }
 
     .reading-status {
       display: block; margin-top: 3px;
-      color: #54e0bc; font-size: 9px;
+      color: #31d7a4; font-size: 9px;
     }
 
     .reading-status.warn { color: #f5c46a; }
@@ -219,7 +226,7 @@
 
     .disclaimer {
       font-size: 10px; line-height: 1.5;
-      color: #b9d7e5; margin: 9px 0 0;
+      color: rgba(255,255,255,0.6); margin: 9px 0 0;
     }
 
     /* MAIN + TAB CONTENT */
@@ -231,9 +238,9 @@
     .tab-content.active-tab { display: block; }
 
     .section-card {
-      background: white; border: 1px solid var(--line);
+      background: var(--card-bg); border: 1px solid var(--line);
       border-radius: 12px; padding: 17px;
-      box-shadow: 0 4px 16px #16435a08;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.03);
       min-width: 0;
     }
 
@@ -244,20 +251,20 @@
 
     .number {
       width: 32px; height: 32px; border-radius: 50%;
-      background: linear-gradient(145deg, #0a3c5d, #087fb2);
-      color: white; display: grid; place-items: center;
+      background: var(--button-color);
+      color: var(--main-heading); display: grid; place-items: center;
       font-weight: 800; font-size: 14px; flex-shrink: 0;
     }
 
     .section-title h2 {
-      font-size: 17px; color: #0b3c5b;
+      font-size: 17px; color: var(--button-color);
       margin: 0; text-transform: uppercase;
       letter-spacing: .2px;
     }
 
     .underline {
       height: 3px; width: 42px;
-      background: var(--cyan); margin-top: 6px;
+      background: var(--hero-bg); margin-top: 6px;
       border-radius: 3px;
     }
 
@@ -266,24 +273,24 @@
       display: grid; grid-template-columns: 1.15fr .85fr; gap: 16px;
     }
 
-    .copy { font-size: 11.5px; line-height: 1.65; color: #34536a; }
+    .copy { font-size: 11.5px; line-height: 1.65; color: var(--ink); }
     .copy p { margin: 0 0 10px; }
 
     .context-box {
-      background: #f0f9fd; border: 1px solid #dceef6;
+      background: var(--body-bg); border: 1px solid var(--line);
       border-radius: 9px; padding: 12px;
     }
 
-    .context-box h3 { font-size: 11px; margin: 0 0 10px; color: #173e59; }
+    .context-box h3 { font-size: 11px; margin: 0 0 10px; color: var(--button-color); }
 
     .context-row {
       display: flex; gap: 9px; margin-bottom: 10px; align-items: flex-start;
     }
 
     .context-row .symbol { font-size: 18px; width: 24px; flex-shrink: 0; }
-    .context-row strong { display: block; font-size: 10.5px; margin-bottom: 3px; }
+    .context-row strong { display: block; font-size: 10.5px; margin-bottom: 3px; color: var(--ink); }
     .context-row small {
-      display: block; font-size: 10px; color: #617d91; line-height: 1.45;
+      display: block; font-size: 10px; color: var(--muted); line-height: 1.45;
     }
 
     .river-photo {
@@ -292,7 +299,7 @@
     }
 
     .photo-caption {
-      font-size: 9px; color: #66879b; font-style: italic;
+      font-size: 9px; color: var(--muted); font-style: italic;
       line-height: 1.45; margin-top: 5px;
     }
 
@@ -315,35 +322,34 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      background: #fbfdff;
-      border: 1px solid #dceef6;
+      background: var(--card-bg);
+      border: 1px solid var(--line);
       border-radius: 9px;
       padding: 14px;
       cursor: pointer;
       text-align: left;
       transition: all 0.2s ease;
-      color: #134360;
+      color: var(--ink);
       font-weight: 600;
       font-size: 12px;
     }
 
     .method-btn:hover {
-      background: #f0f9fd;
-      border-color: #a0d8e7;
+      background: var(--body-bg);
+      border-color: var(--hero-bg);
     }
 
     .method-btn.active {
-      background: #eaf6fc;
-      border-color: #087db6;
-      box-shadow: 0 2px 8px rgba(8, 125, 182, 0.15);
-      color: #087db6;
+      background: var(--button-color);
+      border-color: var(--button-color);
+      color: var(--main-heading);
     }
 
     .method-btn .method-icon {
       width: 30px;
       height: 30px;
-      background: #e7f5fb;
-      color: #0b6998;
+      background: var(--body-bg);
+      color: var(--button-color);
       border-radius: 50%;
       display: grid;
       place-items: center;
@@ -353,16 +359,16 @@
     }
 
     .method-btn.active .method-icon {
-      background: #087db6;
-      color: white;
+      background: rgba(255,255,255,0.2);
+      color: var(--main-heading);
     }
 
     .method-display {
-      background: #ffffff;
-      border: 1px solid #dceef6;
+      background: var(--card-bg);
+      border: 1px solid var(--line);
       border-radius: 9px;
       padding: 20px;
-      box-shadow: inset 0 2px 6px #16435a08;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
       position: relative;
     }
 
@@ -382,16 +388,16 @@
 
     .method-pane h3 {
       font-size: 15px;
-      color: #0b3c5b;
+      color: var(--button-color);
       margin: 0 0 10px;
-      border-bottom: 2px solid #eef8fc;
+      border-bottom: 2px solid var(--body-bg);
       padding-bottom: 8px;
     }
 
     .method-pane p {
       font-size: 11.5px;
       line-height: 1.6;
-      color: #34536a;
+      color: var(--ink);
       margin: 0 0 10px;
     }
 
@@ -400,7 +406,7 @@
       padding-left: 18px;
       font-size: 11.5px;
       line-height: 1.6;
-      color: #34536a;
+      color: var(--ink);
     }
     
     .method-pane li {
@@ -413,77 +419,78 @@
     }
 
     .mini-panel {
-      border: 1px solid #dceef6;
+      border: 1px solid var(--line);
       border-radius: 9px; padding: 10px; min-width: 0;
+      background: var(--card-bg);
     }
 
-    .mini-panel h3 { font-size: 10.5px; color: #174765; margin: 0 0 9px; }
+    .mini-panel h3 { font-size: 10.5px; color: var(--button-color); margin: 0 0 9px; }
     .mini-panel h3 small {
-      font-size: 9px; color: #7892a4; font-weight: 500;
+      font-size: 9px; color: var(--muted); font-weight: 500;
     }
 
     table { border-collapse: collapse; width: 100%; font-size: 9.5px; }
-    th, td { border: 1px solid #d9eaf3; padding: 7px 5px; text-align: left; }
-    th { background: #eaf6fc; color: #194864; font-weight: 750; }
-    td { text-align: center; color: #36586e; }
+    th, td { border: 1px solid var(--line); padding: 7px 5px; text-align: left; }
+    th { background: var(--body-bg); color: var(--button-color); font-weight: 750; }
+    td { text-align: center; color: var(--ink); }
     td:first-child { text-align: left; }
 
     .table-note {
       font-size: 9px; line-height: 1.5;
-      color: #6c8799; margin: 9px 0 0;
+      color: var(--muted); margin: 9px 0 0;
     }
 
     .chart-block { margin-bottom: 9px; }
 
     .chart-label {
       display: flex; justify-content: space-between;
-      font-size: 9px; color: #315d75; margin-bottom: 3px;
+      font-size: 9px; color: var(--muted); margin-bottom: 3px;
     }
 
-    .chart-label b { font-weight: 750; }
+    .chart-label b { font-weight: 750; color: var(--button-color); }
 
     canvas {
       width: 100%; height: 52px; display: block;
-      background: #fbfdff; border: 1px solid #e2eef4; border-radius: 5px;
+      background: var(--body-bg); border: 1px solid var(--line); border-radius: 5px;
     }
 
     .performance-item {
       display: flex; align-items: center; gap: 9px;
-      background: #eef8fd; border: 1px solid #dfedf5;
+      background: var(--body-bg); border: 1px solid var(--line);
       padding: 9px; border-radius: 7px; margin-bottom: 7px;
     }
 
     .performance-item .symbol { font-size: 19px; }
     .performance-item strong {
-      display: block; font-size: 9.5px; color: #204b67;
+      display: block; font-size: 9.5px; color: var(--button-color);
     }
     .performance-item small {
       display: block; font-size: 9px;
-      color: #668195; margin-top: 3px; line-height: 1.4;
+      color: var(--muted); margin-top: 3px; line-height: 1.4;
     }
 
     .notice-strip {
       display: flex; gap: 10px; align-items: center;
-      background: #edf8fd; border: 1px solid #d9edf7;
+      background: var(--body-bg); border: 1px solid var(--line);
       padding: 12px 15px; border-radius: 9px;
-      font-size: 10px; color: #577b91;
+      font-size: 10px; color: var(--muted);
       line-height: 1.5; margin-top: 13px;
     }
 
-    .notice-strip strong { color: #1a5878; }
+    .notice-strip strong { color: var(--button-color); }
 
     /* CONCLUSION */
     .conclusion-copy {
-      font-size: 11px; line-height: 1.65; color: #38596f;
+      font-size: 11px; line-height: 1.65; color: var(--ink);
     }
 
     .conclusion-copy p { margin: 0 0 10px; }
 
     .quote {
-      background: #e9f9f6; border: 1px solid #cbeee5;
+      background: var(--body-bg); border: 1px solid var(--line);
       border-radius: 8px; padding: 11px;
       display: flex; gap: 9px; align-items: center;
-      color: #176a61; font-size: 10px;
+      color: var(--button-color); font-size: 10px;
       font-weight: 750; line-height: 1.5; margin-top: 12px;
     }
 
@@ -492,26 +499,27 @@
     /* FOOTER */
     footer {
       margin-top: 14px;
-      background: linear-gradient(100deg, #06243a, #0c4765);
-      color: #d4e7f1;
+      background: var(--nav-bg);
+      color: var(--main-heading);
       padding: 20px 4%;
       display: grid; grid-template-columns: 1.1fr 1.3fr 1fr 1fr;
       gap: 20px; align-items: center; font-size: 10px;
     }
 
     .footer-brand { font-size: 18px; font-weight: 800; white-space: nowrap; }
-    .footer-copy { font-style: italic; line-height: 1.6; color: #bad5e4; }
+    .footer-copy { font-style: italic; line-height: 1.6; color: #D8DCD3; }
     .footer-location { line-height: 1.6; }
 
     .sdgs { display: flex; gap: 9px; align-items: center; line-height: 1.4; }
 
     .sdg {
       width: 35px; height: 35px;
-      background: #159bca; display: grid; place-items: center;
+      background: rgba(255,255,255,0.15); display: grid; place-items: center;
       font-size: 18px; border-radius: 4px; flex-shrink: 0;
+      color: var(--main-heading);
     }
 
-    .sdg:last-child { background: #24a7a0; }
+    .sdg:last-child { background: rgba(255,255,255,0.25); }
 
     /* RESPONSIVE */
     @media (max-width: 1050px) {
@@ -531,7 +539,7 @@
         align-items: stretch; gap: 0;
       }
       .navlinks.open { display: flex; }
-      .navlinks a { padding: 12px 4px; border-bottom: 1px solid #31516a; }
+      .navlinks a { padding: 12px 4px; border-bottom: 1px solid rgba(255,255,255,0.1); }
       .hero-inner {
         grid-template-columns: 1fr; gap: 20px; padding: 30px 5%;
       }
@@ -953,7 +961,7 @@
 
           <div class="chart-block">
             <div class="chart-label">
-              <b style="color:#10a981">● Turbidity Voltage (V)</b>
+              <b style="color:#344E3D">● Turbidity Voltage (V)</b>
               <span id="turbChartLatest">—</span>
             </div>
             <canvas id="turbChart" aria-label="Live turbidity trend"></canvas>
@@ -961,7 +969,7 @@
 
           <div class="chart-block">
             <div class="chart-label">
-              <b style="color:#e7a13c">● Temperature (°C)</b>
+              <b style="color:#A89B7A">● Temperature (°C)</b>
               <span id="tempChartLatest">—</span>
             </div>
             <canvas id="tempChart" aria-label="Live temperature trend"></canvas>
@@ -1115,9 +1123,9 @@
     // When user opens Results tab, redraw charts (canvas may have been hidden)
     if (tabId === 'results') {
       setTimeout(() => {
-        drawChart('phChart',   history.ph,   '#0aa7d7', 5, 10);
-        drawChart('turbChart', history.turb, '#10a981', 0, 3.5);
-        drawChart('tempChart', history.temp, '#e7a13c', 15, 40);
+        drawChart('phChart',   history.ph,   '#526F5B', 5, 10);
+        drawChart('turbChart', history.turb, '#344E3D', 0, 3.5);
+        drawChart('tempChart', history.temp, '#A89B7A', 15, 40);
       }, 60);
     }
   }
@@ -1249,7 +1257,7 @@
 
     const left = 7, right = 7, top = 7, bottom = 7;
 
-    ctx.strokeStyle = '#e6f0f5';
+    ctx.strokeStyle = '#D8DCD3'; // Grid lines (soft sage)
     ctx.lineWidth = 1;
     for (let i = 1; i <= 2; i++) {
       const y = top + (height - top - bottom) * i / 3;
@@ -1260,7 +1268,7 @@
     }
 
     if (!values.length) {
-      ctx.fillStyle = '#b6ccd8';
+      ctx.fillStyle = '#6B7B70';
       ctx.font = '10px Inter, Segoe UI, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('No data yet', width / 2, height / 2 + 3);
@@ -1402,9 +1410,9 @@
         if (tempVal != null) history.temp.push(Number(tempVal));
       });
 
-      drawChart('phChart',   history.ph,   '#0aa7d7', 5, 10);
-      drawChart('turbChart', history.turb, '#10a981', 0, 3.5);
-      drawChart('tempChart', history.temp, '#e7a13c', 15, 40);
+      drawChart('phChart',   history.ph,   '#526F5B', 5, 10);
+      drawChart('turbChart', history.turb, '#344E3D', 0, 3.5);
+      drawChart('tempChart', history.temp, '#A89B7A', 15, 40);
 
     } catch (err) {
       console.warn('History seed failed:', err);
@@ -1416,23 +1424,23 @@
     await fetchLatest();
 
     setTimeout(() => {
-      drawChart('phChart',   history.ph,   '#0aa7d7', 5, 10);
-      drawChart('turbChart', history.turb, '#10a981', 0, 3.5);
-      drawChart('tempChart', history.temp, '#e7a13c', 15, 40);
+      drawChart('phChart',   history.ph,   '#526F5B', 5, 10);
+      drawChart('turbChart', history.turb, '#344E3D', 0, 3.5);
+      drawChart('tempChart', history.temp, '#A89B7A', 15, 40);
     }, 120);
 
     setInterval(async () => {
       await fetchLatest();
-      drawChart('phChart',   history.ph,   '#0aa7d7', 5, 10);
-      drawChart('turbChart', history.turb, '#10a981', 0, 3.5);
-      drawChart('tempChart', history.temp, '#e7a13c', 15, 40);
+      drawChart('phChart',   history.ph,   '#526F5B', 5, 10);
+      drawChart('turbChart', history.turb, '#344E3D', 0, 3.5);
+      drawChart('tempChart', history.temp, '#A89B7A', 15, 40);
     }, REFRESH_MS);
   }
 
   window.addEventListener('resize', () => {
-    drawChart('phChart',   history.ph,   '#0aa7d7', 5, 10);
-    drawChart('turbChart', history.turb, '#10a981', 0, 3.5);
-    drawChart('tempChart', history.temp, '#e7a13c', 15, 40);
+    drawChart('phChart',   history.ph,   '#526F5B', 5, 10);
+    drawChart('turbChart', history.turb, '#344E3D', 0, 3.5);
+    drawChart('tempChart', history.temp, '#A89B7A', 15, 40);
   });
 
   init();
