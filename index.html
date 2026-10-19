@@ -588,10 +588,11 @@
 
 <!-- HERO -->
 <section class="hero" id="home-hero">
+  <!-- PALITAN ITO: Ginamit ko ang 'background.jpg'. Siguraduhing nasa parehong folder ang larawan. -->
   <img
     class="hero-image"
-    alt=""
-    src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=2000&q=85"
+    alt="AquaSense Background"
+    src="background.jpg"
   >
 
   <div class="hero-inner">
@@ -1139,18 +1140,16 @@
   });
 
   // =====================================================
-  // INTERACTIVE METHODOLOGY TAB (NEW LOGIC)
+  // INTERACTIVE METHODOLOGY TAB
   // =====================================================
   const methodBtns = document.querySelectorAll('.method-btn');
   const methodPanes = document.querySelectorAll('.method-pane');
 
   methodBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      // Remove active from all buttons and panes
       methodBtns.forEach(b => b.classList.remove('active'));
       methodPanes.forEach(p => p.classList.remove('active-pane'));
 
-      // Add active to clicked button and its target pane
       btn.classList.add('active');
       const targetId = btn.dataset.target;
       const targetPane = $(targetId);
