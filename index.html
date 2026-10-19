@@ -186,10 +186,7 @@
     }
 
     .live-card .live-tag {
-      font-size: 9px;
-      color: #54e0bc;
-      font-weight: 700;
-      letter-spacing: 1px;
+      font-size: 9px; color: #54e0bc; font-weight: 700; letter-spacing: 1px;
     }
 
     .live-card .live-tag.offline { color: #e67a85; }
@@ -299,44 +296,116 @@
       line-height: 1.45; margin-top: 5px;
     }
 
-    /* METHODOLOGY */
-    .method-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 9px;
+    /* =========================================
+       INTERACTIVE METHODOLOGY SECTION
+       ========================================= */
+    .interactive-method-container {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 15px;
     }
 
-    .method-item {
-      border: 1px solid #dceef6; background: #fbfdff;
-      border-radius: 9px; padding: 11px;
-      display: flex; gap: 10px; min-width: 0;
+    .method-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
-    .method-icon {
-      width: 33px; height: 33px; border-radius: 50%;
-      display: grid; place-items: center;
-      background: #e7f5fb; color: #0b6998;
-      font-size: 17px; flex-shrink: 0;
+    .method-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fbfdff;
+      border: 1px solid #dceef6;
+      border-radius: 9px;
+      padding: 14px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      color: #134360;
+      font-weight: 600;
+      font-size: 12px;
     }
 
-    .method-item h3 { font-size: 10.5px; margin: 0 0 4px; color: #134360; }
-    .method-item p, .method-item li {
-      font-size: 9.5px; line-height: 1.45;
-      color: #607d91; margin: 0;
-    }
-    .method-item ul { padding-left: 13px; margin: 0; }
-
-    .workflow {
-      display: flex; align-items: center; justify-content: space-around;
-      gap: 7px; text-align: center;
-      background: #edf8fd; border: 1px solid #d9eef7;
-      border-radius: 9px; padding: 13px 8px;
+    .method-btn:hover {
+      background: #f0f9fd;
+      border-color: #a0d8e7;
     }
 
-    .workflow .step { font-size: 23px; color: #0c6698; }
-    .workflow small {
-      display: block; font-size: 9px; color: #385e75;
-      line-height: 1.4; margin-top: 5px;
+    .method-btn.active {
+      background: #eaf6fc;
+      border-color: #087db6;
+      box-shadow: 0 2px 8px rgba(8, 125, 182, 0.15);
+      color: #087db6;
     }
-    .workflow .arrow { font-size: 15px; color: #1594c0; }
+
+    .method-btn .method-icon {
+      width: 30px;
+      height: 30px;
+      background: #e7f5fb;
+      color: #0b6998;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      transition: 0.2s;
+    }
+
+    .method-btn.active .method-icon {
+      background: #087db6;
+      color: white;
+    }
+
+    .method-display {
+      background: #ffffff;
+      border: 1px solid #dceef6;
+      border-radius: 9px;
+      padding: 20px;
+      box-shadow: inset 0 2px 6px #16435a08;
+      position: relative;
+    }
+
+    .method-pane {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .method-pane.active-pane {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .method-pane h3 {
+      font-size: 15px;
+      color: #0b3c5b;
+      margin: 0 0 10px;
+      border-bottom: 2px solid #eef8fc;
+      padding-bottom: 8px;
+    }
+
+    .method-pane p {
+      font-size: 11.5px;
+      line-height: 1.6;
+      color: #34536a;
+      margin: 0 0 10px;
+    }
+
+    .method-pane ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 11.5px;
+      line-height: 1.6;
+      color: #34536a;
+    }
+    
+    .method-pane li {
+      margin-bottom: 6px;
+    }
 
     /* RESULTS */
     .results-layout {
@@ -470,7 +539,7 @@
       .hero-inner { min-height: 0; }
       .live-card { max-width: 440px; }
       .wrap { width: 94%; }
-      .intro-layout, .method-grid, .results-layout {
+      .intro-layout, .results-layout, .interactive-method-container {
         grid-template-columns: 1fr;
       }
       .results-layout .performance { grid-column: auto; }
@@ -678,7 +747,7 @@
     </section>
   </div>
 
-  <!-- METHODOLOGY TAB -->
+  <!-- METHODOLOGY TAB (UPDATED: INTERACTIVE) -->
   <div id="tab-methodology" class="tab-content">
     <section class="section-card" id="methodology">
       <div class="section-title">
@@ -689,88 +758,115 @@
         </div>
       </div>
 
-      <div class="method-grid">
+      <div class="interactive-method-container">
+        
+        <!-- LEFT SIDE: CLICKABLE BUTTONS -->
+        <div class="method-nav">
+          
+          <button class="method-btn active" data-target="pane-design">
+            <div class="method-icon">⚗</div>
+            Research Design
+          </button>
+          
+          <button class="method-btn" data-target="pane-locale">
+            <div class="method-icon">⌖</div>
+            Locale
+          </button>
+          
+          <button class="method-btn" data-target="pane-participants">
+            <div class="method-icon">♟</div>
+            Participants / Evaluators
+          </button>
+          
+          <button class="method-btn" data-target="pane-prototype">
+            <div class="method-icon">⚙</div>
+            Proposed Prototype
+          </button>
+          
+          <button class="method-btn" data-target="pane-data">
+            <div class="method-icon">▥</div>
+            Data Collection & Analysis
+          </button>
 
-        <article class="method-item">
-          <div class="method-icon">⚗</div>
-          <div>
-            <h3>Research Design</h3>
-            <p>
-              Quantitative research with a descriptive component,
-              subject to the final approved methodology.
-            </p>
-          </div>
-        </article>
-
-        <article class="method-item">
-          <div class="method-icon">⌖</div>
-          <div>
-            <h3>Locale</h3>
-            <p>
-              Barangay Ibaba West, Calapan City, Oriental Mindoro.
-              Any field evaluation should be documented separately.
-            </p>
-          </div>
-        </article>
-
-        <article class="method-item">
-          <div class="method-icon">♟</div>
-          <div>
-            <h3>Participants / Evaluators</h3>
-            <p>
-              Intended subject-matter evaluators may include teachers
-              or qualified reviewers, according to the approved study protocol.
-            </p>
-          </div>
-        </article>
-
-        <article class="method-item">
-          <div class="method-icon">⚙</div>
-          <div>
-            <h3>Proposed Prototype</h3>
-            <ul>
-              <li>Solar-powered floating platform</li>
-              <li>ESP32-based controller</li>
-              <li>pH, turbidity, temperature sensors</li>
-              <li>Cloud transmission and dashboard</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="method-item">
-          <div class="method-icon">▥</div>
-          <div>
-            <h3>Data Collection & Analysis</h3>
-            <p>
-              Planned sensor validation, repeatability checks, power
-              measurements, and network/transmission tests.
-            </p>
-          </div>
-        </article>
-
-        <div class="workflow" aria-label="Conceptual system workflow">
-          <div>
-            <div class="step">☀</div>
-            <small>Solar<br>panel</small>
-          </div>
-          <span class="arrow">→</span>
-          <div>
-            <div class="step">▣</div>
-            <small>ESP32</small>
-          </div>
-          <span class="arrow">→</span>
-          <div>
-            <div class="step">☁</div>
-            <small>Cloud<br>database</small>
-          </div>
-          <span class="arrow">→</span>
-          <div>
-            <div class="step">▤</div>
-            <small>Web<br>dashboard</small>
-          </div>
         </div>
 
+        <!-- RIGHT SIDE: DYNAMIC CONTENT PANELS -->
+        <div class="method-display">
+          
+          <div class="method-pane active-pane" id="pane-design">
+            <h3>Research Design</h3>
+            <p>
+              This study utilizes a <strong>Quantitative Research Design</strong> with a descriptive component. 
+              It focuses on gathering numerical data through the AquaSense sensor network to determine the 
+              current water quality parameters (pH, Turbidity, Temperature) of the freshwater ecosystem.
+            </p>
+            <p>
+              The design is subject to the final approved methodology of the institution, ensuring that 
+              data gathering and analysis strictly follow academic and scientific standards.
+            </p>
+          </div>
+
+          <div class="method-pane" id="pane-locale">
+            <h3>Locale of the Study</h3>
+            <p>
+              The proposed deployment and field evaluation will be conducted at:
+            </p>
+            <ul>
+              <li><strong>Barangay Ibaba West, Calapan City, Oriental Mindoro.</strong></li>
+            </ul>
+            <p>
+              This specific freshwater site was chosen due to its ecological significance to the local community. 
+              Any actual field deployment, water sampling, and physical evaluation should be properly documented 
+              and coordinated with local authorities.
+            </p>
+          </div>
+
+          <div class="method-pane" id="pane-participants">
+            <h3>Participants and Evaluators</h3>
+            <p>
+              The intended subject-matter evaluators for this prototype may include:
+            </p>
+            <ul>
+              <li>Science and IT Teachers</li>
+              <li>Qualified Environmental Reviewers</li>
+              <li>Local Environmental Officers (if applicable)</li>
+            </ul>
+            <p>
+              Their role is to assess the accuracy, functionality, and feasibility of the AquaSense prototype 
+              according to the approved study protocol and rubrics of the institution.
+            </p>
+          </div>
+
+          <div class="method-pane" id="pane-prototype">
+            <h3>Proposed Prototype (AquaSense)</h3>
+            <p>The system is composed of the following key components:</p>
+            <ul>
+              <li><strong>Solar-powered floating platform:</strong> Allows autonomous deployment in water.</li>
+              <li><strong>ESP32-based controller:</strong> The brain of the system for data processing.</li>
+              <li><strong>Sensor Array:</strong> Industrial-grade pH, Turbidity, and Temperature sensors.</li>
+              <li><strong>Cloud Transmission:</strong> Sends data via WiFi to Firebase Realtime Database.</li>
+              <li><strong>Web Dashboard:</strong> Provides real-time visualization of water quality data.</li>
+            </ul>
+          </div>
+
+          <div class="method-pane" id="pane-data">
+            <h3>Data Collection and Analysis</h3>
+            <p>To ensure reliable and accurate readings, the following procedures are planned:</p>
+            <ul>
+              <li><strong>Sensor Validation:</strong> Comparing AquaSense readings against standard laboratory instruments.</li>
+              <li><strong>Repeatability Checks:</strong> Placing sensors in the same water sample multiple times to check consistency.</li>
+              <li><strong>Power Measurements:</strong> Monitoring battery and solar panel efficiency over time.</li>
+              <li><strong>Network & Transmission Tests:</strong> Evaluating WiFi range and Firebase data logging reliability.</li>
+            </ul>
+            <p>
+              Data collected will be transmitted every 3 minutes and stored in the cloud for trend analysis 
+              and historical review.
+            </p>
+          </div>
+
+        </div>
       </div>
+
     </section>
   </div>
 
@@ -991,18 +1087,6 @@
   const $ = id => document.getElementById(id);
 
   // =====================================================
-  // FIREBASE CONFIGURATION
-  // =====================================================
-  const FIREBASE_URL =
-    "https://aquasense-261e2-default-rtdb.asia-southeast1.firebasedatabase.app";
-
-  const LATEST_PATH  = "/aquasense/latest.json";
-  const HISTORY_PATH = "/aquasense/history.json";
-
-  const REFRESH_MS = 3 * 60 * 1000;  // 3 minutes
-  const MAX_POINTS = 22;             // chart history length
-
-  // =====================================================
   // TAB SWITCHING
   // =====================================================
   const tabs = {
@@ -1055,8 +1139,37 @@
   });
 
   // =====================================================
-  // HELPERS
+  // INTERACTIVE METHODOLOGY TAB (NEW LOGIC)
   // =====================================================
+  const methodBtns = document.querySelectorAll('.method-btn');
+  const methodPanes = document.querySelectorAll('.method-pane');
+
+  methodBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Remove active from all buttons and panes
+      methodBtns.forEach(b => b.classList.remove('active'));
+      methodPanes.forEach(p => p.classList.remove('active-pane'));
+
+      // Add active to clicked button and its target pane
+      btn.classList.add('active');
+      const targetId = btn.dataset.target;
+      const targetPane = $(targetId);
+      if (targetPane) {
+        targetPane.classList.add('active-pane');
+      }
+    });
+  });
+
+  // =====================================================
+  // FIREBASE LOGIC 
+  // =====================================================
+  const FIREBASE_URL =
+    "https://aquasense-261e2-default-rtdb.asia-southeast1.firebasedatabase.app";
+  const LATEST_PATH  = "/aquasense/latest.json";
+  const HISTORY_PATH = "/aquasense/history.json";
+  const REFRESH_MS = 3 * 60 * 1000;  // 3 minutes
+  const MAX_POINTS = 22;
+
   function fmt(v, decimals) {
     if (v === null || v === undefined || isNaN(v)) return '—';
     return Number(v).toFixed(decimals);
@@ -1064,21 +1177,16 @@
 
   function parseTimestamp(ts) {
     if (!ts) return null;
-
-    // String "YYYY-MM-DD HH:MM:SS" or "YYYY-MM-DDTHH:MM:SS"
     if (typeof ts === 'string') {
       const iso = ts.replace(' ', 'T');
       const d = new Date(iso);
       return isNaN(d.getTime()) ? null : d;
     }
-
-    // Number (seconds or milliseconds)
     if (typeof ts === 'number') {
       const ms = ts < 1e12 ? ts * 1000 : ts;
       const d = new Date(ms);
       return isNaN(d.getTime()) ? null : d;
     }
-
     return null;
   }
 
@@ -1115,9 +1223,6 @@
     }
   }
 
-  // =====================================================
-  // CHART DRAWING
-  // =====================================================
   const history = { ph: [], turb: [], temp: [] };
 
   function pushHistory(arr, value, max) {
@@ -1189,10 +1294,6 @@
     ctx.fill();
   }
 
-  // =====================================================
-  // FETCH LATEST DATA FROM FIREBASE
-  // (Robust: handles both pH/pHVoltage and PH/PHVoltage cases)
-  // =====================================================
   async function fetchLatest() {
     try {
       const url = FIREBASE_URL + LATEST_PATH + '?t=' + Date.now();
@@ -1208,7 +1309,6 @@
 
       setOnline(true);
 
-      // Extract fields safely (handling different capitalizations)
       const ph      = Number(data.pH ?? data.PH);
       const phVolt  = Number(data.pHVoltage ?? data.PHVoltage ?? data.phVoltage);
       const turbVolt = Number(data.turbidityVoltage ?? data.TurbidityVoltage ?? data.turbVoltage);
@@ -1217,7 +1317,6 @@
                         : null;
       const ts      = parseTimestamp(data.timestamp ?? data.Timestamp);
 
-      // Hero card
       $('heroPh').textContent   = fmt(ph, 2);
       $('heroTurb').textContent = fmt(turbVolt, 2);
       $('heroTemp').textContent = fmt(temp, 1);
@@ -1240,7 +1339,6 @@
         $('perfLastSync').textContent = '—';
       }
 
-      // Results table
       $('tblPh').textContent = fmt(ph, 2);
       $('tblPhStatus').textContent = phS.text;
       $('tblPhStatus').className = phS.cls;
@@ -1255,17 +1353,14 @@
       $('tblPhVolt').textContent = fmt(phVolt, 3) + ' V';
       $('tblTimestamp').textContent = ts ? ts.toLocaleString() : '—';
 
-      // Chart latest values
       $('phChartLatest').textContent   = fmt(ph, 2);
       $('turbChartLatest').textContent = fmt(turbVolt, 3);
       $('tempChartLatest').textContent = fmt(temp, 1);
 
-      // Push to chart history
       pushHistory(history.ph,   ph,       MAX_POINTS);
       pushHistory(history.turb, turbVolt, MAX_POINTS);
       pushHistory(history.temp, temp,     MAX_POINTS);
 
-      // System status panel
       $('perfSensor').textContent = 'ESP32 online — streaming data';
       $('perfCloud').textContent  = 'Firebase connected';
 
@@ -1280,10 +1375,6 @@
     }
   }
 
-  // =====================================================
-  // FETCH HISTORY FROM FIREBASE (for chart seed)
-  // (Robust: handles both capitalized and lowercase keys)
-  // =====================================================
   async function fetchHistorySeed() {
     try {
       const url = FIREBASE_URL + HISTORY_PATH + '?t=' + Date.now();
@@ -1293,7 +1384,6 @@
       const data = await res.json();
       if (!data || typeof data !== 'object') return;
 
-      // Firebase push keys are sortable — get last MAX_POINTS
       const keys = Object.keys(data).sort();
       const tail = keys.slice(-MAX_POINTS);
 
@@ -1313,7 +1403,6 @@
         if (tempVal != null) history.temp.push(Number(tempVal));
       });
 
-      // Redraw
       drawChart('phChart',   history.ph,   '#0aa7d7', 5, 10);
       drawChart('turbChart', history.turb, '#10a981', 0, 3.5);
       drawChart('tempChart', history.temp, '#e7a13c', 15, 40);
@@ -1323,21 +1412,16 @@
     }
   }
 
-  // =====================================================
-  // INIT
-  // =====================================================
   async function init() {
-    await fetchHistorySeed();      // pre-fill charts
-    await fetchLatest();           // get current values
+    await fetchHistorySeed();
+    await fetchLatest();
 
-    // Redraw charts with proper width now that DOM is settled
     setTimeout(() => {
       drawChart('phChart',   history.ph,   '#0aa7d7', 5, 10);
       drawChart('turbChart', history.turb, '#10a981', 0, 3.5);
       drawChart('tempChart', history.temp, '#e7a13c', 15, 40);
     }, 120);
 
-    // Refresh every 3 minutes
     setInterval(async () => {
       await fetchLatest();
       drawChart('phChart',   history.ph,   '#0aa7d7', 5, 10);
