@@ -269,7 +269,7 @@
     }
 
     /* =========================================
-       INTRODUCTION (STACKED LAYOUT)
+       INTRODUCTION (STACKED LAYOUT WITH SIDE-BY-SIDE CONTEXT)
        ========================================= */
     .intro-layout {
       display: flex;
@@ -291,6 +291,20 @@
 
     .context-box h3 { font-size: 11px; margin: 0; color: var(--button-color); text-transform: uppercase; letter-spacing: 0.5px; }
 
+    /* DITO ANG PAGBABAGO: NAGING GRID PARA MAGKATABI ANG TEXT AT MAPA */
+    .context-content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .context-text-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
     .context-row {
       display: flex; gap: 12px; align-items: flex-start;
     }
@@ -301,8 +315,13 @@
       display: block; font-size: 10px; color: var(--muted); line-height: 1.45;
     }
 
+    .context-image-col {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
     .context-image-wrapper {
-      margin-top: 4px;
       border-radius: 8px;
       overflow: hidden;
       border: 1px solid var(--line);
@@ -311,14 +330,15 @@
 
     .river-photo {
       width: 100%; 
-      max-height: 300px; 
+      height: 100%;
+      max-height: 250px;
       object-fit: cover;
       display: block;
     }
 
     .photo-caption {
       font-size: 9px; color: var(--muted); font-style: italic;
-      line-height: 1.45; margin-top: 8px;
+      line-height: 1.45;
     }
 
     /* =========================================
@@ -572,6 +592,7 @@
       .section-title h2 { font-size: 15px; }
       footer { grid-template-columns: 1fr; gap: 12px; }
       .mottos { gap: 9px; }
+      .context-content-grid { grid-template-columns: 1fr; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -693,7 +714,7 @@
   <!-- HOME TAB -->
   <div id="tab-home" class="tab-content active-tab"></div>
 
-  <!-- INTRODUCTION TAB (STACKED) -->
+  <!-- INTRODUCTION TAB (STACKED TEXT, SIDE-BY-SIDE CONTEXT) -->
   <div id="tab-introduction" class="tab-content">
     <section class="section-card" id="introduction">
       <div class="section-title">
@@ -705,7 +726,7 @@
       </div>
 
       <div class="intro-layout">
-        <!-- UNA ANG TEXT -->
+        <!-- UNA ANG TEXT (BUONG LAPAD) -->
         <div class="copy">
           <p>
             Freshwater ecosystems, especially rivers, are vital for
@@ -730,48 +751,54 @@
           </p>
         </div>
 
-        <!-- PANGALAWA ANG INFO BOX AT LARAWAN NG MAPA -->
+        <!-- PANGALAWA ANG INFO BOX (MAY MAPA SA KANAN) -->
         <aside class="context-box">
           <h3>Research Context</h3>
+          
+          <div class="context-content-grid">
+            <!-- KALIWA: MGA TEXT INFO -->
+            <div class="context-text-col">
+              <div class="context-row">
+                <span class="symbol">◎</span>
+                <div>
+                  <strong>Global</strong>
+                  <small>SDG 6: Clean Water and Sanitation<br>
+                  SDG 14: Life Below Water</small>
+                </div>
+              </div>
 
-          <div class="context-row">
-            <span class="symbol">◎</span>
-            <div>
-              <strong>Global</strong>
-              <small>SDG 6: Clean Water and Sanitation<br>
-              SDG 14: Life Below Water</small>
+              <div class="context-row">
+                <span class="symbol">♧</span>
+                <div>
+                  <strong>National</strong>
+                  <small>Philippine water-quality protection and
+                  environmental policies</small>
+                </div>
+              </div>
+
+              <div class="context-row">
+                <span class="symbol">⌖</span>
+                <div>
+                  <strong>Local</strong>
+                  <small>Barangay Ibaba West, Calapan City,
+                  Oriental Mindoro</small>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div class="context-row">
-            <span class="symbol">♧</span>
-            <div>
-              <strong>National</strong>
-              <small>Philippine water-quality protection and
-              environmental policies</small>
+            <!-- KANAN: ANG MAPA -->
+            <div class="context-image-col">
+              <div class="context-image-wrapper">
+                <img
+                  class="river-photo"
+                  src="https://i.ibb.co/6P7R9zK/ibaba-west-map.jpg"
+                  alt="Map of Barangay Ibaba West"
+                >
+              </div>
+              <div class="photo-caption">
+                Map highlighting Barangay Ibaba West, the proposed deployment site.
+              </div>
             </div>
-          </div>
-
-          <div class="context-row">
-            <span class="symbol">⌖</span>
-            <div>
-              <strong>Local</strong>
-              <small>Barangay Ibaba West, Calapan City,
-              Oriental Mindoro</small>
-            </div>
-          </div>
-
-          <!-- BAGONG LARAWAN NG MAPA (IBA ITO SA DATING RIVER) -->
-          <div class="context-image-wrapper">
-            <img
-              class="river-photo"
-              src="https://i.ibb.co/6P7R9zK/ibaba-west-map.jpg"
-              alt="Map of Barangay Ibaba West"
-            >
-          </div>
-
-          <div class="photo-caption">
-            Map highlighting Barangay Ibaba West, the proposed deployment site in Calapan City.
           </div>
         </aside>
       </div>
