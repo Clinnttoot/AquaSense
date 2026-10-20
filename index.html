@@ -8,7 +8,7 @@
 
   <style>
     :root {
-      /* BAGONG COLOR PALETTE BASE SA SCREENSHOT */
+      /* MUTED SAGE GREEN PALETTE */
       --nav-bg: #526F5B;        /* Navigation Bar */
       --hero-bg: #879B83;       /* Main background / Hero */
       --main-heading: #FFFFFF;  /* Main heading */
@@ -268,39 +268,58 @@
       border-radius: 3px;
     }
 
-    /* INTRODUCTION */
+    /* =========================================
+       INTRODUCTION (UPDATED LAYOUT)
+       ========================================= */
     .intro-layout {
-      display: grid; grid-template-columns: 1.15fr .85fr; gap: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
     .copy { font-size: 11.5px; line-height: 1.65; color: var(--ink); }
     .copy p { margin: 0 0 10px; }
+    .copy p:last-child { margin-bottom: 0; }
 
     .context-box {
       background: var(--body-bg); border: 1px solid var(--line);
-      border-radius: 9px; padding: 12px;
+      border-radius: 9px; padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    .context-box h3 { font-size: 11px; margin: 0 0 10px; color: var(--button-color); }
+    .context-box h3 { font-size: 11px; margin: 0; color: var(--button-color); text-transform: uppercase; letter-spacing: 0.5px; }
 
     .context-row {
-      display: flex; gap: 9px; margin-bottom: 10px; align-items: flex-start;
+      display: flex; gap: 12px; align-items: flex-start;
     }
 
-    .context-row .symbol { font-size: 18px; width: 24px; flex-shrink: 0; }
+    .context-row .symbol { font-size: 18px; width: 24px; flex-shrink: 0; color: var(--button-color); }
     .context-row strong { display: block; font-size: 10.5px; margin-bottom: 3px; color: var(--ink); }
     .context-row small {
       display: block; font-size: 10px; color: var(--muted); line-height: 1.45;
     }
 
+    .context-image-wrapper {
+      margin-top: 4px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    /* ITO ANG BAGONG LARAWAN NG PROTOTYPE */
     .river-photo {
-      width: 100%; height: 74px; object-fit: cover;
-      border-radius: 7px; margin-top: 2px;
+      width: 100%; 
+      max-height: 220px; 
+      object-fit: cover;
+      display: block;
     }
 
     .photo-caption {
       font-size: 9px; color: var(--muted); font-style: italic;
-      line-height: 1.45; margin-top: 5px;
+      line-height: 1.45; margin-top: 8px;
     }
 
     /* =========================================
@@ -527,7 +546,6 @@
       .navright { display: none; }
       .results-layout { grid-template-columns: 1fr 1fr; }
       .results-layout .performance { grid-column: 1 / -1; }
-      .intro-layout { grid-template-columns: 1fr 1fr; }
       footer { grid-template-columns: 1fr 1fr; }
     }
 
@@ -547,7 +565,7 @@
       .hero-inner { min-height: 0; }
       .live-card { max-width: 440px; }
       .wrap { width: 94%; }
-      .intro-layout, .results-layout, .interactive-method-container {
+      .results-layout, .interactive-method-container {
         grid-template-columns: 1fr;
       }
       .results-layout .performance { grid-column: auto; }
@@ -676,7 +694,7 @@
   <!-- HOME TAB -->
   <div id="tab-home" class="tab-content active-tab"></div>
 
-  <!-- INTRODUCTION TAB -->
+  <!-- INTRODUCTION TAB (UPDATED: STACKED LAYOUT & NEW IMAGE) -->
   <div id="tab-introduction" class="tab-content">
     <section class="section-card" id="introduction">
       <div class="section-title">
@@ -688,6 +706,7 @@
       </div>
 
       <div class="intro-layout">
+        <!-- TEXT CONTENT -->
         <div class="copy">
           <p>
             Freshwater ecosystems, especially rivers, are vital for
@@ -712,6 +731,7 @@
           </p>
         </div>
 
+        <!-- INFO BOX & IMAGE MOVED TO BOTTOM LEFT -->
         <aside class="context-box">
           <h3>Research Context</h3>
 
@@ -742,21 +762,24 @@
             </div>
           </div>
 
-          <img
-            class="river-photo"
-            src="https://images.unsplash.com/photo-1437482078695-73f5ca6c96e2?auto=format&fit=crop&w=700&q=80"
-            alt="Freshwater river landscape"
-          >
+          <!-- BAGONG LARAWAN NG PROTOTYPE -->
+          <div class="context-image-wrapper">
+            <img
+              class="river-photo"
+              src="https://i.ibb.co/3W9N6yC/aquasense-prototype.jpg"
+              alt="AquaSense Solar-Powered Floating Prototype"
+            >
+          </div>
 
           <div class="photo-caption">
-            Healthy freshwater ecosystems support communities and aquatic life.
+            The proposed AquaSense solar-powered floating platform deployed in a freshwater environment.
           </div>
         </aside>
       </div>
     </section>
   </div>
 
-  <!-- METHODOLOGY TAB (UPDATED: INTERACTIVE) -->
+  <!-- METHODOLOGY TAB (INTERACTIVE) -->
   <div id="tab-methodology" class="tab-content">
     <section class="section-card" id="methodology">
       <div class="section-title">
