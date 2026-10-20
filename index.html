@@ -269,17 +269,17 @@
     }
 
     /* =========================================
-       INTRODUCTION (TWO COLUMN LAYOUT)
+       INTRODUCTION (STACKED LAYOUT)
        ========================================= */
     .intro-layout {
-      display: grid;
-      grid-template-columns: 1.15fr .85fr;
+      display: flex;
+      flex-direction: column;
       gap: 20px;
-      align-items: start;
     }
 
     .copy { font-size: 11.5px; line-height: 1.65; color: var(--ink); }
     .copy p { margin: 0 0 10px; }
+    .copy p:last-child { margin-bottom: 0; }
 
     .context-box {
       background: var(--body-bg); border: 1px solid var(--line);
@@ -311,7 +311,7 @@
 
     .river-photo {
       width: 100%; 
-      height: 140px; 
+      max-height: 300px; 
       object-fit: cover;
       display: block;
     }
@@ -545,7 +545,6 @@
       .navright { display: none; }
       .results-layout { grid-template-columns: 1fr 1fr; }
       .results-layout .performance { grid-column: 1 / -1; }
-      .intro-layout { grid-template-columns: 1fr; }
       footer { grid-template-columns: 1fr 1fr; }
     }
 
@@ -694,7 +693,7 @@
   <!-- HOME TAB -->
   <div id="tab-home" class="tab-content active-tab"></div>
 
-  <!-- INTRODUCTION TAB (REVERTED TO SIDE-BY-SIDE) -->
+  <!-- INTRODUCTION TAB (STACKED) -->
   <div id="tab-introduction" class="tab-content">
     <section class="section-card" id="introduction">
       <div class="section-title">
@@ -706,6 +705,7 @@
       </div>
 
       <div class="intro-layout">
+        <!-- UNA ANG TEXT -->
         <div class="copy">
           <p>
             Freshwater ecosystems, especially rivers, are vital for
@@ -730,6 +730,7 @@
           </p>
         </div>
 
+        <!-- PANGALAWA ANG INFO BOX AT LARAWAN -->
         <aside class="context-box">
           <h3>Research Context</h3>
 
@@ -760,11 +761,11 @@
             </div>
           </div>
 
-          <!-- BAGONG LARAWAN NG PROTOTYPE NA Galing sa Chat -->
+          <!-- LARAWAN NG PROTOTYPE -->
           <div class="context-image-wrapper">
             <img
               class="river-photo"
-              src="https://files.oaiusercontent.com/file-2Kk8s2LqKk8s2LqKk8s2Lq?se=2024-05-18T10%3A26%3A51Z&sp=r&sv=2023-11-03&sr=b&rscc=max-age%3D299%2C%20immutable&rscd=attachment%3B%20filename%3Daquasense-prototype.jpg&sig=5L%2Bx7qX%2B7qX%2B7qX%2B7qX%2B7qX%2B7qX%2B7qX%2B7qX%2B7qX%3D"
+              src="https://i.ibb.co/3W9N6yC/aquasense-prototype.jpg"
               alt="AquaSense Solar-Powered Floating Prototype"
             >
           </div>
