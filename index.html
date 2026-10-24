@@ -1220,11 +1220,12 @@
   // FIREBASE LOGIC 
   // =====================================================
   const FIREBASE_URL =
-    "https://aquasense-261e2-default-rtdb.asia-southeast1.firebasedatabase.app";
-  const LATEST_PATH  = "/aquasense/latest.json";
-  const HISTORY_PATH = "/aquasense/history.json";
-  const REFRESH_MS = 3 * 60 * 1000;  // 3 minutes
-  const MAX_POINTS = 22;
+  "https://aquasense-d03fd-default-rtdb.asia-southeast1.firebasedatabase.app";
+
+const LATEST_PATH  = "/aquasense/latest.json";
+const HISTORY_PATH = "/aquasense/history.json";
+const REFRESH_MS = 3 * 1000;
+const MAX_POINTS = 22;
 
   function fmt(v, decimals) {
     if (v === null || v === undefined || isNaN(v)) return '—';
