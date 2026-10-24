@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#344E3D">
+  <title>AquaSense | Live Water Quality Monitor</title>
+
+  <style>
+    :root {
+      /* MUTED SAGE GREEN PALETTE */
+      --nav-bg: #526F5B;
+      --hero-bg: #879B83;
+      --main-heading: #FFFFFF;
+      --body-bg: #F0F1E9;
+      --button-color: #344E3D;
+      --alt-section: #71866D;
+      
+      --ink: #2B3A30;
+      --muted: #6B7B70;
+      --line: #D8DCD3;
+      --card-bg: #FFFFFF;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 76px;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background: var(--body-bg);
+      font-size: 14px;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    /* NAVIGATION */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      padding: 12px 3.5%;
+      color: var(--main-heading);
+      background: var(--nav-bg);
+      box-shadow: 0 3px 18px rgba(0,0,0,0.15);
+    }
+
+    .logo { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+
+    .logo-mark {
+      width: 38px; height: 38px; border-radius: 12px;
+      background: rgba(255,255,255,0.15);
+      display: grid; place-items: center; font-size: 22px;
+      color: var(--main-heading);
+    }
+
+    .logo-name { font-size: 21px; font-weight: 800; letter-spacing: -.5px; color: var(--main-heading); }
+    .logo-name span, .footer-brand span { color: #E0E7DD; }
+    .logo small {
+      display: block; font-size: 8px; letter-spacing: 1.2px;
+      color: rgba(255,255,255,0.7); margin-top: 2px;
+    }
+
+    .navlinks {
+      display: flex; align-items: center; gap: clamp(12px, 2.3vw, 32px);
+      font-size: 12px; color: rgba(255,255,255,0.8);
+    }
+
+    .navlinks a {
+      padding: 8px 0; border-bottom: 2px solid transparent;
+      transition: .2s; cursor: pointer;
+    }
+
+    .navlinks a:hover, .navlinks a.active {
+      color: var(--main-heading); border-color: var(--main-heading);
+    }
+
+    .navright {
+      display: flex; align-items: center; gap: 8px;
+      white-space: nowrap; font-size: 11px; color: rgba(255,255,255,0.8);
+    }
+
+    .live-dot {
+      width: 8px; height: 8px; display: inline-block;
+      border-radius: 50%; background: #31d7a4;
+      box-shadow: 0 0 0 4px #31d7a420;
+      transition: background 0.3s;
+    }
+
+    .live-dot.offline {
+      background: #e63946;
+      box-shadow: 0 0 0 4px #e6394620;
+    }
+
+    .menu-btn {
+      display: none; background: transparent;
+      border: 1px solid rgba(255,255,255,0.4); color: var(--main-heading);
+      border-radius: 8px; padding: 7px 10px;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative; isolation: isolate; overflow: hidden;
+      min-height: 330px; color: var(--main-heading); background: var(--hero-bg);
+    }
+
+    .hero-image {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; z-index: -2;
+    }
+
+    .hero::before {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(90deg,
+        rgba(52,78,61,.9) 0%,
+        rgba(82,111,91,.8) 42%,
+        rgba(113,134,109,.3) 76%,
+        rgba(52,78,61,.6) 100%);
+    }
+
+    .hero-inner {
+      max-width: 1440px; margin: auto; min-height: 330px;
+      padding: 38px 4%;
+      display: grid; grid-template-columns: minmax(0, 1fr) 310px;
+      align-items: center; gap: 35px;
+    }
+
+    .kicker {
+      font-size: 10px; text-transform: uppercase;
+      letter-spacing: 2px; color: #E0E7DD; font-weight: 800;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 5vw, 65px);
+      letter-spacing: -2px; line-height: 1;
+      margin: 10px 0 13px;
+      color: var(--main-heading);
+    }
+
+    .hero h1 span { color: #D2DEC9; }
+
+    .hero h2 {
+      font-size: 17px; line-height: 1.5;
+      margin: 0 0 8px; font-weight: 750;
+      color: var(--main-heading);
+    }
+
+    .hero p {
+      font-size: 13px; line-height: 1.75;
+      color: #E8EBE5; max-width: 650px; margin: 0;
+    }
+
+    .mottos {
+      display: flex; gap: 17px; flex-wrap: wrap;
+      margin: 15px 0 20px; font-size: 11px; color: #E8EBE5;
+    }
+
+    .cta {
+      display: inline-flex; align-items: center; gap: 14px;
+      border: 0; border-radius: 30px;
+      background: var(--button-color); color: var(--main-heading);
+      font-weight: 800; padding: 11px 19px;
+      cursor: pointer; box-shadow: 0 5px 18px rgba(0,0,0,0.2);
+      transition: .2s;
+    }
+
+    .cta:hover { background: #25382B; transform: translateY(-1px); }
+
+    /* LIVE SENSOR CARD */
+    .live-card {
+      background: rgba(43, 58, 48, 0.85);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(8px);
+      border-radius: 15px; padding: 17px 18px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    }
+
+    .live-card h3 {
+      font-size: 13px; margin: 0 0 9px;
+      padding-bottom: 11px; border-bottom: 1px solid rgba(255,255,255,0.15);
+      display: flex; justify-content: space-between; align-items: center;
+      color: var(--main-heading);
+    }
+
+    .live-card .live-tag {
+      font-size: 9px; color: #31d7a4; font-weight: 700; letter-spacing: 1px;
+    }
+
+    .live-card .live-tag.offline { color: #e67a85; }
+
+    .reading {
+      display: grid; grid-template-columns: 30px 1fr auto;
+      align-items: center; gap: 10px;
+      padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .reading:last-of-type { border-bottom: 0; }
+
+    .reading-icon {
+      width: 29px; height: 29px;
+      display: grid; place-items: center;
+      border: 1px solid rgba(255,255,255,0.3); border-radius: 50%;
+      color: var(--main-heading); font-size: 15px;
+    }
+
+    .reading span { font-size: 12px; color: #E8EBE5; }
+    .reading strong { font-size: 12px; white-space: nowrap; color: var(--main-heading); }
+
+    .reading-status {
+      display: block; margin-top: 3px;
+      color: #31d7a4; font-size: 9px;
+    }
+
+    .reading-status.warn { color: #f5c46a; }
+    .reading-status.bad  { color: #f28a92; }
+
+    .disclaimer {
+      font-size: 10px; line-height: 1.5;
+      color: rgba(255,255,255,0.6); margin: 9px 0 0;
+    }
+
+    /* MAIN + TAB CONTENT */
+    .wrap {
+      max-width: 1440px; width: 95%; margin: 14px auto 0;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active-tab { display: block; }
+
+    .section-card {
+      background: var(--card-bg); border: 1px solid var(--line);
+      border-radius: 12px; padding: 17px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+      min-width: 0;
+    }
+
+    .section-title {
+      display: flex; align-items: center; gap: 11px;
+      margin: 0 0 15px;
+    }
+
+    .number {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--button-color);
+      color: var(--main-heading); display: grid; place-items: center;
+      font-weight: 800; font-size: 14px; flex-shrink: 0;
+    }
+
+    .section-title h2 {
+      font-size: 17px; color: var(--button-color);
+      margin: 0; text-transform: uppercase;
+      letter-spacing: .2px;
+    }
+
+    .underline {
+      height: 3px; width: 42px;
+      background: var(--hero-bg); margin-top: 6px;
+      border-radius: 3px;
+    }
+
+    /* =========================================
+       INTRODUCTION (STACKED LAYOUT WITH SIDE-BY-SIDE CONTEXT)
+       ========================================= */
+    .intro-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .copy { font-size: 11.5px; line-height: 1.65; color: var(--ink); }
+    .copy p { margin: 0 0 10px; }
+    .copy p:last-child { margin-bottom: 0; }
+
+    .context-box {
+      background: var(--body-bg); border: 1px solid var(--line);
+      border-radius: 9px; padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .context-box h3 { font-size: 11px; margin: 0; color: var(--button-color); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* DITO ANG PAGBABAGO: NAGING GRID PARA MAGKATABI ANG TEXT AT MAPA */
+    .context-content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .context-text-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .context-row {
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+
+    .context-row .symbol { font-size: 18px; width: 24px; flex-shrink: 0; color: var(--button-color); }
+    .context-row strong { display: block; font-size: 10.5px; margin-bottom: 3px; color: var(--ink); }
+    .context-row small {
+      display: block; font-size: 10px; color: var(--muted); line-height: 1.45;
+    }
+
+    .context-image-col {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .context-image-wrapper {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .river-photo {
+      width: 100%; 
+      height: 100%;
+      max-height: 250px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-caption {
+      font-size: 9px; color: var(--muted); font-style: italic;
+      line-height: 1.45;
+    }
+
+    /* =========================================
+       INTERACTIVE METHODOLOGY SECTION
+       ========================================= */
+    .interactive-method-container {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 15px;
+    }
+
+    .method-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .method-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 14px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      color: var(--ink);
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .method-btn:hover {
+      background: var(--body-bg);
+      border-color: var(--hero-bg);
+    }
+
+    .method-btn.active {
+      background: var(--button-color);
+      border-color: var(--button-color);
+      color: var(--main-heading);
+    }
+
+    .method-btn .method-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--body-bg);
+      color: var(--button-color);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      transition: 0.2s;
+    }
+
+    .method-btn.active .method-icon {
+      background: rgba(255,255,255,0.2);
+      color: var(--main-heading);
+    }
+
+    .method-display {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 20px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
+      position: relative;
+    }
+
+    .method-pane {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .method-pane.active-pane {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .method-pane h3 {
+      font-size: 15px;
+      color: var(--button-color);
+      margin: 0 0 10px;
+      border-bottom: 2px solid var(--body-bg);
+      padding-bottom: 8px;
+    }
+
+    .method-pane p {
+      font-size: 11.5px;
+      line-height: 1.6;
+      color: var(--ink);
+      margin: 0 0 10px;
+    }
+
+    .method-pane ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 11.5px;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+    
+    .method-pane li {
+      margin-bottom: 6px;
+    }
+
+    /* RESULTS */
+    .results-layout {
+      display: grid; grid-template-columns: 1.05fr 1fr .8fr; gap: 12px;
+    }
+
+    .mini-panel {
+      border: 1px solid var(--line);
+      border-radius: 9px; padding: 10px; min-width: 0;
+      background: var(--card-bg);
+    }
+
+    .mini-panel h3 { font-size: 10.5px; color: var(--button-color); margin: 0 0 9px; }
+    .mini-panel h3 small {
+      font-size: 9px; color: var(--muted); font-weight: 500;
+    }
+
+    table { border-collapse: collapse; width: 100%; font-size: 9.5px; }
+    th, td { border: 1px solid var(--line); padding: 7px 5px; text-align: left; }
+    th { background: var(--body-bg); color: var(--button-color); font-weight: 750; }
+    td { text-align: center; color: var(--ink); }
+    td:first-child { text-align: left; }
+
+    .table-note {
+      font-size: 9px; line-height: 1.5;
+      color: var(--muted); margin: 9px 0 0;
+    }
+
+    .chart-block { margin-bottom: 9px; }
+
+    .chart-label {
+      display: flex; justify-content: space-between;
+      font-size: 9px; color: var(--muted); margin-bottom: 3px;
+    }
+
+    .chart-label b { font-weight: 750; color: var(--button-color); }
+
+    canvas {
+      width: 100%; height: 52px; display: block;
+      background: var(--body-bg); border: 1px solid var(--line); border-radius: 5px;
+    }
+
+    .performance-item {
+      display: flex; align-items: center; gap: 9px;
+      background: var(--body-bg); border: 1px solid var(--line);
+      padding: 9px; border-radius: 7px; margin-bottom: 7px;
+    }
+
+    .performance-item .symbol { font-size: 19px; }
+    .performance-item strong {
+      display: block; font-size: 9.5px; color: var(--button-color);
+    }
+    .performance-item small {
+      display: block; font-size: 9px;
+      color: var(--muted); margin-top: 3px; line-height: 1.4;
+    }
+
+    .notice-strip {
+      display: flex; gap: 10px; align-items: center;
+      background: var(--body-bg); border: 1px solid var(--line);
+      padding: 12px 15px; border-radius: 9px;
+      font-size: 10px; color: var(--muted);
+      line-height: 1.5; margin-top: 13px;
+    }
+
+    .notice-strip strong { color: var(--button-color); }
+
+    /* CONCLUSION */
+    .conclusion-copy {
+      font-size: 11px; line-height: 1.65; color: var(--ink);
+    }
+
+    .conclusion-copy p { margin: 0 0 10px; }
+
+    .quote {
+      background: var(--body-bg); border: 1px solid var(--line);
+      border-radius: 8px; padding: 11px;
+      display: flex; gap: 9px; align-items: center;
+      color: var(--button-color); font-size: 10px;
+      font-weight: 750; line-height: 1.5; margin-top: 12px;
+    }
+
+    .quote span { font-size: 23px; }
+
+    /* FOOTER */
+    footer {
+      margin-top: 14px;
+      background: var(--nav-bg);
+      color: var(--main-heading);
+      padding: 20px 4%;
+      display: grid; grid-template-columns: 1.1fr 1.3fr 1fr 1fr;
+      gap: 20px; align-items: center; font-size: 10px;
+    }
+
+    .footer-brand { font-size: 18px; font-weight: 800; white-space: nowrap; }
+    .footer-copy { font-style: italic; line-height: 1.6; color: #D8DCD3; }
+    .footer-location { line-height: 1.6; }
+
+    .sdgs { display: flex; gap: 9px; align-items: center; line-height: 1.4; }
+
+    .sdg {
+      width: 35px; height: 35px;
+      background: rgba(255,255,255,0.15); display: grid; place-items: center;
+      font-size: 18px; border-radius: 4px; flex-shrink: 0;
+      color: var(--main-heading);
+    }
+
+    .sdg:last-child { background: rgba(255,255,255,0.25); }
+
+    /* RESPONSIVE */
+    @media (max-width: 1050px) {
+      .navlinks { gap: 13px; }
+      .navright { display: none; }
+      .results-layout { grid-template-columns: 1fr 1fr; }
+      .results-layout .performance { grid-column: 1 / -1; }
+      footer { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .navbar { flex-wrap: wrap; padding: 10px 4%; }
+      .menu-btn { display: block; }
+      .navlinks {
+        display: none; width: 100%; flex-direction: column;
+        align-items: stretch; gap: 0;
+      }
+      .navlinks.open { display: flex; }
+      .navlinks a { padding: 12px 4px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+      .hero-inner {
+        grid-template-columns: 1fr; gap: 20px; padding: 30px 5%;
+      }
+      .hero { min-height: 0; }
+      .hero-inner { min-height: 0; }
+      .live-card { max-width: 440px; }
+      .wrap { width: 94%; }
+      .results-layout, .interactive-method-container {
+        grid-template-columns: 1fr;
+      }
+      .results-layout .performance { grid-column: auto; }
+      .section-card { padding: 14px; }
+      .section-title h2 { font-size: 15px; }
+      footer { grid-template-columns: 1fr; gap: 12px; }
+      .mottos { gap: 9px; }
+      .context-content-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        transition: none !important; animation: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="navbar">
+  <a class="logo" href="#home" aria-label="AquaSense home">
+    <div class="logo-mark">💧</div>
+    <div>
+      <div class="logo-name">Aqua<span>Sense</span></div>
+      <small>SMARTER WATER • SAFER TOMORROW</small>
+    </div>
+  </a>
+
+  <nav class="navlinks" id="navlinks">
+    <a class="active" data-tab="home" href="#home">Home</a>
+    <a data-tab="introduction" href="#introduction">Introduction</a>
+    <a data-tab="methodology" href="#methodology">Methodology</a>
+    <a data-tab="results" href="#results">Results and Discussion</a>
+    <a data-tab="conclusion" href="#conclusion">Conclusion</a>
+  </nav>
+
+  <div class="navright">
+    <span>♧</span> Live Monitoring &nbsp;
+    <span class="live-dot" id="navLiveDot"></span>
+    <span id="navLiveText">Connecting...</span>
+  </div>
+
+  <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">☰</button>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home-hero">
+  <!-- SIGURADUHING NASA PAREHONG FOLDER ANG background.jpg -->
+  <img
+    class="hero-image"
+    alt="AquaSense Background"
+    src="background.jpg"
+  >
+
+  <div class="hero-inner">
+    <div>
+      <div class="kicker">
+        Solar-powered • IoT-based • Live Monitoring
+      </div>
+
+      <h1>Aqua<span>Sense</span></h1>
+
+      <h2>Mitigating Freshwater Degradation via AquaSense</h2>
+
+      <p>
+        Through a proposed solar-powered IoT-based sensor network for
+        real-time pH, turbidity, and temperature assessment of freshwater
+        in Barangay Ibaba West, Calapan City.
+      </p>
+
+      <div class="mottos">
+        <span>◈ Cleaner Rivers</span>
+        <span>〰 Healthier Aquatic Life</span>
+        <span>✦ A Sustainable Future</span>
+      </div>
+
+      <a class="cta" data-tab="introduction" href="#introduction">
+        Explore the Research <span>→</span>
+      </a>
+    </div>
+
+    <aside class="live-card" aria-label="Live sensor readings">
+      <h3>
+        <span>⚗ LIVE SENSOR READINGS</span>
+        <span class="live-tag" id="cardLiveTag">● CONNECTING</span>
+      </h3>
+
+      <div class="reading">
+        <div class="reading-icon">◉</div>
+        <span>pH</span>
+        <div>
+          <strong id="heroPh">--</strong>
+          <small class="reading-status" id="heroPhStatus">Waiting...</small>
+        </div>
+      </div>
+
+      <div class="reading">
+        <div class="reading-icon">〰</div>
+        <span>Turbidity</span>
+        <div>
+          <strong><span id="heroTurb">--</span> V</strong>
+          <small class="reading-status" id="heroTurbStatus">Waiting...</small>
+        </div>
+      </div>
+
+      <div class="reading">
+        <div class="reading-icon">♨</div>
+        <span>Temperature</span>
+        <div>
+          <strong><span id="heroTemp">--</span> °C</strong>
+          <small class="reading-status">Live value</small>
+        </div>
+      </div>
+
+      <p class="disclaimer">
+        ● Data is streamed live from the ESP32 sensor unit via Firebase.
+        Updates every 3 seconds. Last sync: <span id="heroLastSync">—</span>
+      </p>
+    </aside>
+  </div>
+</section>
+
+<main class="wrap">
+
+  <!-- HOME TAB -->
+  <div id="tab-home" class="tab-content active-tab"></div>
+
+  <!-- INTRODUCTION TAB (STACKED TEXT, SIDE-BY-SIDE CONTEXT) -->
+  <div id="tab-introduction" class="tab-content">
+    <section class="section-card" id="introduction">
+      <div class="section-title">
+        <span class="number">1</span>
+        <div>
+          <h2>Introduction</h2>
+          <div class="underline"></div>
+        </div>
+      </div>
+
+      <div class="intro-layout">
+        <!-- UNA ANG TEXT (BUONG LAPAD) -->
+        <div class="copy">
+          <p>
+            Freshwater ecosystems, especially rivers, are vital for
+            biodiversity, human health, and local communities. However,
+            pollution, urbanization, and improper waste disposal can
+            contribute to declining water quality in many areas, including
+            communities around Calapan City.
+          </p>
+
+          <p>
+            Traditional water-quality monitoring often relies on manual
+            sampling and laboratory analysis. While these approaches can
+            provide useful measurements, they may be time-consuming,
+            labor-intensive, and unable to provide continuous updates.
+          </p>
+
+          <p>
+            AquaSense proposes a solar-powered IoT-based sensor network
+            that monitors pH, turbidity, and temperature. The concept
+            explores how more frequent readings could help identify
+            changes earlier and support informed environmental monitoring.
+          </p>
+        </div>
+
+        <!-- PANGALAWA ANG INFO BOX (MAY MAPA SA KANAN) -->
+        <aside class="context-box">
+          <h3>Research Context</h3>
+          
+          <div class="context-content-grid">
+            <!-- KALIWA: MGA TEXT INFO -->
+            <div class="context-text-col">
+              <div class="context-row">
+                <span class="symbol">◎</span>
+                <div>
+                  <strong>Global</strong>
+                  <small>SDG 6: Clean Water and Sanitation<br>
+                  SDG 14: Life Below Water</small>
+                </div>
+              </div>
+
+              <div class="context-row">
+                <span class="symbol">♧</span>
+                <div>
+                  <strong>National</strong>
+                  <small>Philippine water-quality protection and
+                  environmental policies</small>
+                </div>
+              </div>
+
+              <div class="context-row">
+                <span class="symbol">⌖</span>
+                <div>
+                  <strong>Local</strong>
+                  <small>Barangay Ibaba West, Calapan City,
+                  Oriental Mindoro</small>
+                </div>
+              </div>
+            </div>
+
+            <!-- KANAN: ANG MAPA -->
+            <div class="context-image-col">
+              <div class="context-image-wrapper">
+                <img
+                  class="river-photo"
+                  src="https://i.ibb.co/6P7R9zK/ibaba-west-map.jpg"
+                  alt="Map of Barangay Ibaba West"
+                >
+              </div>
+              <div class="photo-caption">
+                Map highlighting Barangay Ibaba West, the proposed deployment site.
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </div>
+
+  <!-- METHODOLOGY TAB -->
+  <div id="tab-methodology" class="tab-content">
+    <section class="section-card" id="methodology">
+      <div class="section-title">
+        <span class="number">2</span>
+        <div>
+          <h2>Methodology</h2>
+          <div class="underline"></div>
+        </div>
+      </div>
+
+      <div class="interactive-method-container">
+        
+        <!-- LEFT SIDE: CLICKABLE BUTTONS -->
+        <div class="method-nav">
+          
+          <button class="method-btn active" data-target="pane-design">
+            <div class="method-icon">⚗</div>
+            Research Design
+          </button>
+          
+          <button class="method-btn" data-target="pane-locale">
+            <div class="method-icon">⌖</div>
+            Locale
+          </button>
+          
+          <button class="method-btn" data-target="pane-participants">
+            <div class="method-icon">♟</div>
+            Participants / Evaluators
+          </button>
+          
+          <button class="method-btn" data-target="pane-prototype">
+            <div class="method-icon">⚙</div>
+            Proposed Prototype
+          </button>
+          
+          <button class="method-btn" data-target="pane-data">
+            <div class="method-icon">▥</div>
+            Data Collection & Analysis
+          </button>
+
+        </div>
+
+        <!-- RIGHT SIDE: DYNAMIC CONTENT PANELS -->
+        <div class="method-display">
+          
+          <div class="method-pane active-pane" id="pane-design">
+            <h3>Research Design</h3>
+            <p>
+              This study utilizes a <strong>Quantitative Research Design</strong> with a descriptive component. 
+              It focuses on gathering numerical data through the AquaSense sensor network to determine the 
+              current water quality parameters (pH, Turbidity, Temperature) of the freshwater ecosystem.
+            </p>
+            <p>
+              The design is subject to the final approved methodology of the institution, ensuring that 
+              data gathering and analysis strictly follow academic and scientific standards.
+            </p>
+          </div>
+
+          <div class="method-pane" id="pane-locale">
+            <h3>Locale of the Study</h3>
+            <p>
+              The proposed deployment and field evaluation will be conducted at:
+            </p>
+            <ul>
+              <li><strong>Barangay Ibaba West, Calapan City, Oriental Mindoro.</strong></li>
+            </ul>
+            <p>
+              This specific freshwater site was chosen due to its ecological significance to the local community. 
+              Any actual field deployment, water sampling, and physical evaluation should be properly documented 
+              and coordinated with local authorities.
+            </p>
+          </div>
+
+          <div class="method-pane" id="pane-participants">
+            <h3>Participants and Evaluators</h3>
+            <p>
+              The intended subject-matter evaluators for this prototype may include:
+            </p>
+            <ul>
+              <li>Science and IT Teachers</li>
+              <li>Qualified Environmental Reviewers</li>
+              <li>Local Environmental Officers (if applicable)</li>
+            </ul>
+            <p>
+              Their role is to assess the accuracy, functionality, and feasibility of the AquaSense prototype 
+              according to the approved study protocol and rubrics of the institution.
+            </p>
+          </div>
+
+          <div class="method-pane" id="pane-prototype">
+            <h3>Proposed Prototype (AquaSense)</h3>
+            <p>The system is composed of the following key components:</p>
+            <ul>
+              <li><strong>Solar-powered floating platform:</strong> Allows autonomous deployment in water.</li>
+              <li><strong>ESP32-based controller:</strong> The brain of the system for data processing.</li>
+              <li><strong>Sensor Array:</strong> Industrial-grade pH, Turbidity, and Temperature sensors.</li>
+              <li><strong>Cloud Transmission:</strong> Sends data via WiFi to Firebase Realtime Database.</li>
+              <li><strong>Web Dashboard:</strong> Provides real-time visualization of water quality data.</li>
+            </ul>
+          </div>
+
+          <div class="method-pane" id="pane-data">
+            <h3>Data Collection and Analysis</h3>
+            <p>To ensure reliable and accurate readings, the following procedures are planned:</p>
+            <ul>
+              <li><strong>Sensor Validation:</strong> Comparing AquaSense readings against standard laboratory instruments.</li>
+              <li><strong>Repeatability Checks:</strong> Placing sensors in the same water sample multiple times to check consistency.</li>
+              <li><strong>Power Measurements:</strong> Monitoring battery and solar panel efficiency over time.</li>
+              <li><strong>Network & Transmission Tests:</strong> Evaluating WiFi range and Firebase data logging reliability.</li>
+            </ul>
+            <p>
+              Latest sensor readings will be transmitted every 3 seconds and stored in the cloud for trend analysis 
+              and historical review.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- RESULTS TAB -->
+  <div id="tab-results" class="tab-content">
+    <section class="section-card" id="results">
+      <div class="section-title">
+        <span class="number">3</span>
+        <div>
+          <h2>Results and Discussion</h2>
+          <div class="underline"></div>
+        </div>
+      </div>
+
+      <div class="results-layout">
+
+        <div class="mini-panel">
+          <h3>Latest Sensor Readings
+            <small>(live from Firebase)</small>
+          </h3>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Value</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>pH</td>
+                <td id="tblPh">—</td>
+                <td id="tblPhStatus">—</td>
+              </tr>
+              <tr>
+                <td>Turbidity (V)</td>
+                <td id="tblTurb">—</td>
+                <td id="tblTurbStatus">—</td>
+              </tr>
+              <tr>
+                <td>Temperature (°C)</td>
+                <td id="tblTemp">—</td>
+                <td id="tblTempStatus">—</td>
+              </tr>
+              <tr>
+                <td>pH Voltage (raw)</td>
+                <td id="tblPhVolt">—</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>Last update</td>
+                <td id="tblTimestamp" colspan="2">—</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="table-note">
+            Data is fetched directly from the AquaSense Firebase Realtime
+            Database. Values refresh automatically every 3 seconds.
+          </p>
+
+          <div class="notice-strip">
+            <span>ⓘ</span>
+            <div>
+              Charts below show the
+              <strong>last 22 live readings</strong>
+              from the sensor network.
+            </div>
+          </div>
+        </div>
+
+        <div class="mini-panel">
+          <h3>Water Quality Trends <small>(live)</small></h3>
+
+          <div class="chart-block">
+            <div class="chart-label">
+              <b>● pH Level</b>
+              <span id="phChartLatest">—</span>
+            </div>
+            <canvas id="phChart" aria-label="Live pH trend"></canvas>
+          </div>
+
+          <div class="chart-block">
+            <div class="chart-label">
+              <b style="color:#344E3D">● Turbidity Voltage (V)</b>
+              <span id="turbChartLatest">—</span>
+            </div>
+            <canvas id="turbChart" aria-label="Live turbidity trend"></canvas>
+          </div>
+
+          <div class="chart-block">
+            <div class="chart-label">
+              <b style="color:#A89B7A">● Temperature (°C)</b>
+              <span id="tempChartLatest">—</span>
+            </div>
+            <canvas id="tempChart" aria-label="Live temperature trend"></canvas>
+          </div>
+        </div>
+
+        <div class="mini-panel performance">
+          <h3>System Status <small>(live)</small></h3>
+
+          <div class="performance-item">
+            <span class="symbol">🔋</span>
+            <div>
+              <strong>Sensor Unit</strong>
+              <small id="perfSensor">Checking connection...</small>
+            </div>
+          </div>
+
+          <div class="performance-item">
+            <span class="symbol">⌁</span>
+            <div>
+              <strong>Cloud Connection</strong>
+              <small id="perfCloud">Checking Firebase...</small>
+            </div>
+          </div>
+
+          <div class="performance-item">
+            <span class="symbol">◷</span>
+            <div>
+              <strong>Update Interval</strong>
+              <small>Latest readings: every 3 seconds; history saved: every 60 seconds</small>
+            </div>
+          </div>
+
+          <div class="performance-item">
+            <span class="symbol">🌡</span>
+            <div>
+              <strong>Last Sync</strong>
+              <small id="perfLastSync">—</small>
+            </div>
+          </div>
+
+          <div class="notice-strip">
+            <span>ⓘ</span>
+            <div>
+              If data shows "—", the ESP32 may be offline or Firebase
+              may be unreachable. Check network and power.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- CONCLUSION TAB -->
+  <div id="tab-conclusion" class="tab-content">
+    <section class="section-card" id="conclusion">
+      <div class="section-title">
+        <span class="number">4</span>
+        <div>
+          <h2>Conclusion</h2>
+          <div class="underline"></div>
+        </div>
+      </div>
+
+      <div class="conclusion-copy">
+        <p>
+          AquaSense presents a proposed solar-powered IoT approach to
+          monitoring selected freshwater parameters: pH, turbidity,
+          and temperature. By combining sensors, a microcontroller,
+          wireless communication, and a web dashboard, the concept
+          aims to make readings easier to review and support timely follow-up.
+        </p>
+
+        <p>
+          The dashboard now displays live data streamed from the ESP32
+          sensor unit via Firebase Realtime Database. Readings update
+          automatically and are stored for historical review.
+        </p>
+
+        <p>
+          Future work may include physical deployment, calibration against
+          reference instruments, extended durability and power testing,
+          connectivity evaluation, and field validation with appropriate permissions.
+        </p>
+      </div>
+
+      <div class="quote">
+        <span>🌿</span>
+        <div>
+          “AquaSense is a step toward more accessible freshwater
+          monitoring and healthier aquatic ecosystems.”
+        </div>
+      </div>
+    </section>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">💧 Aqua<span>Sense</span></div>
+
+  <div class="footer-copy">
+    Mitigating Freshwater Degradation via AquaSense<br>
+    For a more sustainable future
+  </div>
+
+  <div class="footer-location">
+    ⌖ &nbsp; Barangay Ibaba West<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Calapan City, Oriental Mindoro
+  </div>
+
+  <div class="sdgs">
+    <div class="sdg">💧</div>
+    <div>SDG 6<br>Clean Water</div>
+    <div class="sdg">🌊</div>
+    <div>SDG 14<br>Life Below Water</div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+
+  // =====================================================
+  // TAB SWITCHING
+  // =====================================================
+  const tabs = {
+    home: 'tab-home',
+    introduction: 'tab-introduction',
+    methodology: 'tab-methodology',
+    results: 'tab-results',
+    conclusion: 'tab-conclusion'
+  };
+
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(el => {
+      el.classList.remove('active-tab');
+    });
+    const target = $(tabs[tabId]);
+    if (target) target.classList.add('active-tab');
+
+    document.querySelectorAll('.navlinks a').forEach(link => {
+      const linkTab = link.dataset.tab;
+      link.classList.toggle('active', linkTab === tabId);
+    });
+
+    $('navlinks').classList.remove('open');
+
+    // When user opens Results tab, redraw charts (canvas may have been hidden)
+    if (tabId === 'results') {
+      setTimeout(() => {
+        drawChart('phChart',   history.ph,   '#526F5B', 5, 10);
+        drawChart('turbChart', history.turb, '#344E3D', 0, 3.5);
+        drawChart('tempChart', history.temp, '#A89B7A', 15, 40);
+      }, 60);
+    }
+  }
+
+  document.querySelectorAll('[data-tab]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const tabId = el.dataset.tab;
+      if (tabId) {
+        switchTab(tabId);
+        if (el.tagName === 'A') {
+          history.replaceState(null, '', el.getAttribute('href') || '#' + tabId);
+        }
+      }
+    });
+  });
+
+  $('menuBtn').addEventListener('click', () => {
+    $('navlinks').classList.toggle('open');
+  });
+
+  // =====================================================
+  // INTERACTIVE METHODOLOGY TAB
+  // =====================================================
+  const methodBtns = document.querySelectorAll('.method-btn');
+  const methodPanes = document.querySelectorAll('.method-pane');
+
+  methodBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      methodBtns.forEach(b => b.classList.remove('active'));
+      methodPanes.forEach(p => p.classList.remove('active-pane'));
+
+      btn.classList.add('active');
+      const targetId = btn.dataset.target;
+      const targetPane = $(targetId);
+      if (targetPane) {
+        targetPane.classList.add('active-pane');
+      }
+    });
+  });
+
+  // =====================================================
+  // FIREBASE LOGIC 
+  // =====================================================
+  const FIREBASE_URL =
+    "https://aquasense-d03fd-default-rtdb.asia-southeast1.firebasedatabase.app";
+  const LATEST_PATH  = "/aquasense/latest.json";
+  const HISTORY_PATH = "/aquasense/history.json";
+  const REFRESH_MS = 3 * 1000;  // Check latest data every 3 seconds
+  const MAX_POINTS = 22;
+
+  function fmt(v, decimals) {
+    if (v === null || v === undefined || isNaN(v)) return '—';
+    return Number(v).toFixed(decimals);
+  }
+
+  function parseTimestamp(ts) {
+    if (!ts) return null;
+    if (typeof ts === 'string') {
+      const iso = ts.replace(' ', 'T');
+      const d = new Date(iso);
+      return isNaN(d.getTime()) ? null : d;
+    }
+    if (typeof ts === 'number') {
+      const ms = ts < 1e12 ? ts * 1000 : ts;
+      const d = new Date(ms);
+      return isNaN(d.getTime()) ? null : d;
+    }
+    return null;
+  }
+
+  function phStatus(v) {
+    if (v === null || v === undefined) return { text: '—', cls: '' };
+    if (v < 6.5)  return { text: 'Acidic',  cls: 'warn' };
+    if (v > 8.5)  return { text: 'Basic',   cls: 'warn' };
+    if (v < 6.0 || v > 9.0) return { text: 'Out of range', cls: 'bad' };
+    return { text: 'Normal', cls: '' };
+  }
+
+  function turbStatus(v) {
+    if (v === null || v === undefined) return { text: '—', cls: '' };
+    if (v >= 1.70) return { text: 'Clear',       cls: '' };
+    if (v >= 1.60) return { text: 'Slightly turbid', cls: 'warn' };
+    return { text: 'Turbid', cls: 'bad' };
+  }
+
+  function tempStatus(v) {
+    if (v === null || v === undefined) return { text: '—', cls: '' };
+    if (v < 20) return { text: 'Cold', cls: 'warn' };
+    if (v > 32) return { text: 'Warm', cls: 'warn' };
+    return { text: 'Normal', cls: '' };
+  }
+
+  function setOnline(isOnline) {
+    $('navLiveDot').classList.toggle('offline', !isOnline);
+    $('navLiveText').textContent = isOnline ? 'Live' : 'Offline';
+
+    const tag = $('cardLiveTag');
+    if (tag) {
+      tag.textContent = isOnline ? '● LIVE' : '● OFFLINE';
+      tag.classList.toggle('offline', !isOnline);
+    }
+  }
+
+  const history = { ph: [], turb: [], temp: [] };
+
+  function pushHistory(arr, value, max) {
+    if (value === null || value === undefined || isNaN(value)) return;
+    arr.push(Number(value));
+    while (arr.length > max) arr.shift();
+  }
+
+  function drawChart(canvasId, values, color, minFixed, maxFixed) {
+    const canvas = $(canvasId);
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const width = Math.max(150, Math.floor(rect.width || 300));
+    const height = 52;
+    const dpr = window.devicePixelRatio || 1;
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, width, height);
+
+    const left = 7, right = 7, top = 7, bottom = 7;
+
+    ctx.strokeStyle = '#D8DCD3'; // Grid lines (soft sage)
+    ctx.lineWidth = 1;
+    for (let i = 1; i <= 2; i++) {
+      const y = top + (height - top - bottom) * i / 3;
+      ctx.beginPath();
+      ctx.moveTo(left, y);
+      ctx.lineTo(width - right, y);
+      ctx.stroke();
+    }
+
+    if (!values.length) {
+      ctx.fillStyle = '#6B7B70';
+      ctx.font = '10px Inter, Segoe UI, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('No data yet', width / 2, height / 2 + 3);
+      return;
+    }
+
+    let min = minFixed ?? Math.min(...values);
+    let max = maxFixed ?? Math.max(...values);
+    if (max - min < 0.001) max = min + 1;
+
+    const xAt = i => left + i * (width - left - right) / Math.max(values.length - 1, 1);
+    const yAt = value => height - bottom - ((value - min) / (max - min)) * (height - top - bottom);
+
+    ctx.beginPath();
+    values.forEach((value, i) => {
+      if (i === 0) ctx.moveTo(xAt(i), yAt(value));
+      else ctx.lineTo(xAt(i), yAt(value));
+    });
+
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.stroke();
+
+    const last = values.length - 1;
+    ctx.beginPath();
+    ctx.arc(xAt(last), yAt(values[last]), 2.8, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
+  async function fetchLatest() {
+    try {
+      const url = FIREBASE_URL + LATEST_PATH + '?t=' + Date.now();
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+
+      const data = await res.json();
+      if (!data) {
+        setOnline(false);
+        $('perfSensor').textContent = 'No data in database';
+        return null;
+      }
+
+      setOnline(true);
+
+      const ph      = Number(data.pH ?? data.PH);
+      const phVolt  = Number(data.pHVoltage ?? data.PHVoltage ?? data.phVoltage);
+      const turbVolt = Number(data.turbidityVoltage ?? data.TurbidityVoltage ?? data.turbVoltage);
+      const temp    = (data.temperature ?? data.Temperature ?? data.temp ?? data.Temp) != null 
+                        ? Number(data.temperature ?? data.Temperature ?? data.temp ?? data.Temp) 
+                        : null;
+      const ts      = parseTimestamp(data.timestamp ?? data.Timestamp);
+
+      $('heroPh').textContent   = fmt(ph, 2);
+      $('heroTurb').textContent = fmt(turbVolt, 2);
+      $('heroTemp').textContent = fmt(temp, 1);
+
+      const phS = phStatus(ph);
+      const phStatusEl = $('heroPhStatus');
+      phStatusEl.textContent = phS.text;
+      phStatusEl.className = 'reading-status ' + phS.cls;
+
+      const firebaseTurbStatus = data.turbidityStatus ?? data.TurbidityStatus;
+      const tbS = firebaseTurbStatus
+        ? {
+            text: String(firebaseTurbStatus),
+            cls: String(firebaseTurbStatus).toUpperCase() === 'CLEAN'
+              ? ''
+              : (String(firebaseTurbStatus).toUpperCase().includes('SLIGHTLY') ? 'warn' : 'bad')
+          }
+        : turbStatus(turbVolt);
+      const tbStatusEl = $('heroTurbStatus');
+      tbStatusEl.textContent = tbS.text;
+      tbStatusEl.className = 'reading-status ' + tbS.cls;
+
+      if (ts) {
+        $('heroLastSync').textContent = ts.toLocaleString();
+        $('perfLastSync').textContent = ts.toLocaleString();
+      } else {
+        $('heroLastSync').textContent = '—';
+        $('perfLastSync').textContent = '—';
+      }
+
+      $('tblPh').textContent = fmt(ph, 2);
+      $('tblPhStatus').textContent = phS.text;
+      $('tblPhStatus').className = phS.cls;
+
+      $('tblTurb').textContent = fmt(turbVolt, 3) + ' V';
+      $('tblTurbStatus').textContent = tbS.text;
+      $('tblTurbStatus').className = tbS.cls;
+
+      $('tblTemp').textContent = fmt(temp, 2) + ' °C';
+      $('tblTempStatus').textContent = tempStatus(temp).text;
+
+      $('tblPhVolt').textContent = fmt(phVolt, 3) + ' V';
+      $('tblTimestamp').textContent = ts ? ts.toLocaleString() : '—';
+
+      $('phChartLatest').textContent   = fmt(ph, 2);
+      $('turbChartLatest').textContent = fmt(turbVolt, 3);
+      $('tempChartLatest').textContent = fmt(temp, 1);
+
+      pushHistory(history.ph,   ph,       MAX_POINTS);
+      pushHistory(history.turb, turbVolt, MAX_POINTS);
+      pushHistory(history.temp, temp,     MAX_POINTS);
+
+      $('perfSensor').textContent = 'ESP32 online — streaming data';
+      $('perfCloud').textContent  = 'Firebase connected';
+
+      return { ph, turbVolt, temp, ts };
+
+    } catch (err) {
+      console.error('Fetch error:', err);
+      setOnline(false);
+      $('perfSensor').textContent = 'Connection failed';
+      $('perfCloud').textContent  = 'Firebase unreachable';
+      return null;
+    }
+  }
+
+  async function fetchHistorySeed() {
+    try {
+      const url = FIREBASE_URL + HISTORY_PATH + '?t=' + Date.now();
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) return;
+
+      const data = await res.json();
+      if (!data || typeof data !== 'object') return;
+
+      const keys = Object.keys(data).sort();
+      const tail = keys.slice(-MAX_POINTS);
+
+      history.ph.length   = 0;
+      history.turb.length = 0;
+      history.temp.length = 0;
+
+      tail.forEach(k => {
+        const entry = data[k];
+        if (!entry) return;
+        const phVal = entry.pH ?? entry.PH;
+        const turbVal = entry.turbidityVoltage ?? entry.TurbidityVoltage ?? entry.turbVoltage;
+        const tempVal = entry.temperature ?? entry.Temperature ?? entry.temp ?? entry.Temp;
+        
+        if (phVal != null)   history.ph.push(Number(phVal));
+        if (turbVal != null) history.turb.push(Number(turbVal));
+        if (tempVal != null) history.temp.push(Number(tempVal));
+      });
+
+      drawChart('phChart',   history.ph,   '#526F5B', 5, 10);
+      drawChart('turbChart', history.turb, '#344E3D', 0, 3.5);
+      drawChart('tempChart', history.temp, '#A89B7A', 15, 40);
+
+    } catch (err) {
+      console.warn('History seed failed:', err);
+    }
+  }
+
+  async function init() {
+    await fetchHistorySeed();
+    await fetchLatest();
+
+    setTimeout(() => {
+      drawChart('phChart',   history.ph,   '#526F5B', 5, 10);
+      drawChart('turbChart', history.turb, '#344E3D', 0, 3.5);
+      drawChart('tempChart', history.temp, '#A89B7A', 15, 40);
+    }, 120);
+
+    setInterval(async () => {
+      await fetchLatest();
+      drawChart('phChart',   history.ph,   '#526F5B', 5, 10);
+      drawChart('turbChart', history.turb, '#344E3D', 0, 3.5);
+      drawChart('tempChart', history.temp, '#A89B7A', 15, 40);
+    }, REFRESH_MS);
+  }
+
+  window.addEventListener('resize', () => {
+    drawChart('phChart',   history.ph,   '#526F5B', 5, 10);
+    drawChart('turbChart', history.turb, '#344E3D', 0, 3.5);
+    drawChart('tempChart', history.temp, '#A89B7A', 15, 40);
+  });
+
+  init();
+
+})();
+</script>
+
+</body>
+</html>
