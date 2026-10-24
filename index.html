@@ -20,7 +20,6 @@
       --line: #D8DCD3;
       --card-bg: #FFFFFF;
 
-      /* FIX: real navbar height, used everywhere for sticky offset */
       --nav-height: 66px;
     }
 
@@ -28,7 +27,6 @@
 
     html {
       scroll-behavior: smooth;
-      /* FIX: raised from 76px to 90px so anchors land below the sticky bar */
       scroll-padding-top: 90px;
     }
 
@@ -44,26 +42,22 @@
     button { font: inherit; }
 
     /* ============================================
-       NAVIGATION — STICKY FIX
+       NAVIGATION — STICKY
        ============================================ */
     .navbar {
       position: sticky;
-      position: -webkit-sticky;          /* Safari fallback */
+      position: -webkit-sticky;
       top: 0;
-      z-index: 1000;                     /* FIX: raised so nothing overlaps it */
+      z-index: 1000;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 22px;
       padding: 12px 3.5%;
       color: var(--main-heading);
-      /* FIX: solid background — no transparency, so content scrolling
-         underneath never bleeds through the sticky bar */
       background: var(--nav-bg);
       box-shadow: 0 3px 18px rgba(0,0,0,0.15);
-      /* FIX: prevent the bar from shrinking if the parent flexes */
       flex-shrink: 0;
-      /* FIX: ensure GPU layer on iOS */
       will-change: transform;
     }
 
@@ -689,7 +683,6 @@
 
             <div class="context-image-col">
               <div class="context-image-wrapper">
-                <!-- FIX: use local map image (put map.jpg next to index.html) -->
                 <img
                   class="river-photo"
                   src="map.jpg"
@@ -1072,8 +1065,27 @@
 
     $('navlinks').classList.remove('open');
 
+    // ===== NEW: AUTO-SCROLL to the target section =====
+    if (tabId === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // #introduction, #methodology, #results, #conclusion are the
+      // IDs on the <section class="section-card"> inside each tab.
+      const sectionEl = document.getElementById(tabId);
+      const anchorEl  = sectionEl || document.querySelector('.wrap');
+
+      if (anchorEl) {
+        const navHeight = document.querySelector('.navbar').offsetHeight + 12;
+        const top = anchorEl.getBoundingClientRect().top
+                  + window.pageYOffset
+                  - navHeight;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+      }
+    }
+
+    // Charts are on hidden canvases; redraw AFTER the scroll settles
     if (tabId === 'results') {
-      setTimeout(drawAllCharts, 60);
+      setTimeout(drawAllCharts, 400);
     }
   }
 
@@ -1146,10 +1158,10 @@
 
   function phStatus(v) {
     if (v === null || v === undefined || isNaN(v)) return { text: '—', cls: '' };
-    if (v < 0 || v > 14) return { text: 'Invalid',        cls: 'bad'  };
-    if (v < 6.0 || v > 9.0) return { text: 'Out of range', cls: 'bad'  };
-    if (v < 6.5) return { text: 'Acidic',        cls: 'warn' };
-    if (v > 8.5) return { text: 'Basic',         cls: 'warn' };
+    if (v < 0 || v > 14)    return { text: 'Invalid',        cls: 'bad'  };
+    if (v < 6.0 || v > 9.0) return { text: 'Out of range',   cls: 'bad'  };
+    if (v < 6.5)            return { text: 'Acidic',         cls: 'warn' };
+    if (v > 8.5)            return { text: 'Basic',          cls: 'warn' };
     return { text: 'Normal', cls: '' };
   }
 
@@ -1254,7 +1266,6 @@
       const url = FIREBASE_URL + LATEST_PATH + '?t=' + Date.now();
       const res = await fetch(url, { cache: 'no-store' });
 
-      // FIX: log HTTP failures clearly so you can see WHY it's offline
       if (!res.ok) {
         console.error('[AquaSense] Firebase HTTP error:', res.status, res.statusText);
         console.error('[AquaSense] URL:', url);
