@@ -19,13 +19,17 @@
       --muted: #6B7B70;
       --line: #D8DCD3;
       --card-bg: #FFFFFF;
+
+      /* FIX: real navbar height, used everywhere for sticky offset */
+      --nav-height: 66px;
     }
 
     * { box-sizing: border-box; }
 
     html {
       scroll-behavior: smooth;
-      scroll-padding-top: 76px;
+      /* FIX: raised from 76px to 90px so anchors land below the sticky bar */
+      scroll-padding-top: 90px;
     }
 
     body {
@@ -39,19 +43,28 @@
     a { color: inherit; text-decoration: none; }
     button { font: inherit; }
 
-    /* NAVIGATION */
+    /* ============================================
+       NAVIGATION — STICKY FIX
+       ============================================ */
     .navbar {
       position: sticky;
+      position: -webkit-sticky;          /* Safari fallback */
       top: 0;
-      z-index: 20;
+      z-index: 1000;                     /* FIX: raised so nothing overlaps it */
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 22px;
       padding: 12px 3.5%;
       color: var(--main-heading);
+      /* FIX: solid background — no transparency, so content scrolling
+         underneath never bleeds through the sticky bar */
       background: var(--nav-bg);
       box-shadow: 0 3px 18px rgba(0,0,0,0.15);
+      /* FIX: prevent the bar from shrinking if the parent flexes */
+      flex-shrink: 0;
+      /* FIX: ensure GPU layer on iOS */
+      will-change: transform;
     }
 
     .logo { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
@@ -502,7 +515,7 @@
 
 <body>
 
-<header class="navbar">
+<header class="navbar" id="mainNav">
   <a class="logo" href="#home" aria-label="AquaSense home">
     <div class="logo-mark">💧</div>
     <div>
@@ -676,9 +689,10 @@
 
             <div class="context-image-col">
               <div class="context-image-wrapper">
+                <!-- FIX: use local map image (put map.jpg next to index.html) -->
                 <img
                   class="river-photo"
-                  src="https://i.ibb.co/6P7R9zK/ibaba-west-map.jpg"
+                  src="map.jpg"
                   alt="Map of Barangay Ibaba West"
                 >
               </div>
@@ -1038,8 +1052,6 @@
     conclusion: 'tab-conclusion'
   };
 
-  // FIX: drawCharts() helper to redraw all three at once.
-  // FIX: uses fixed chart bounds matching ESP32 thresholds.
   function drawAllCharts() {
     drawChart('phChart',   history.ph,   '#526F5B', 0, 14);
     drawChart('turbChart', history.turb, '#344E3D', 0, 3.3);
@@ -1060,7 +1072,6 @@
 
     $('navlinks').classList.remove('open');
 
-    // Redraw charts after tab is visible (canvas had zero size while hidden)
     if (tabId === 'results') {
       setTimeout(drawAllCharts, 60);
     }
@@ -1118,9 +1129,6 @@
     return Number(v).toFixed(decimals);
   }
 
-  // FIX: append +08:00 to "YYYY-MM-DD HH:MM:SS" so the browser
-  // interprets it with the correct timezone used by the ESP32
-  // (configTime(8 * 3600, 0, ...)).
   function parseTimestamp(ts) {
     if (!ts) return null;
     if (typeof ts === 'string') {
@@ -1136,22 +1144,18 @@
     return null;
   }
 
-  // FIX: check out-of-range FIRST (previous order made the
-  // "Out of range" branch unreachable).
   function phStatus(v) {
     if (v === null || v === undefined || isNaN(v)) return { text: '—', cls: '' };
-    if (v < 0 || v > 14) return { text: 'Invalid',       cls: 'bad'  };
+    if (v < 0 || v > 14) return { text: 'Invalid',        cls: 'bad'  };
     if (v < 6.0 || v > 9.0) return { text: 'Out of range', cls: 'bad'  };
     if (v < 6.5) return { text: 'Acidic',        cls: 'warn' };
     if (v > 8.5) return { text: 'Basic',         cls: 'warn' };
     return { text: 'Normal', cls: '' };
   }
 
-  // FIX: thresholds now match the ESP32 thresholds exactly
-  // (>= 1.543 CLEAN, >= 0.744 SLIGHTLY TURBID, else HIGHLY TURBID).
   function turbStatus(v) {
     if (v === null || v === undefined || isNaN(v)) return { text: '—', cls: '' };
-    if (v >= 1.543) return { text: 'Clean',          cls: '' };
+    if (v >= 1.543) return { text: 'Clean',           cls: '' };
     if (v >= 0.744) return { text: 'Slightly turbid', cls: 'warn' };
     return { text: 'Highly turbid', cls: 'bad' };
   }
@@ -1249,12 +1253,24 @@
     try {
       const url = FIREBASE_URL + LATEST_PATH + '?t=' + Date.now();
       const res = await fetch(url, { cache: 'no-store' });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
+
+      // FIX: log HTTP failures clearly so you can see WHY it's offline
+      if (!res.ok) {
+        console.error('[AquaSense] Firebase HTTP error:', res.status, res.statusText);
+        console.error('[AquaSense] URL:', url);
+        if (res.status === 401 || res.status === 403) {
+          console.error('[AquaSense] → Permission denied. Fix Firebase rules to allow .read: true');
+        }
+        throw new Error('HTTP ' + res.status);
+      }
 
       const data = await res.json();
+
       if (!data) {
+        console.warn('[AquaSense] Firebase returned null — ESP32 has not uploaded any data yet.');
         setOnline(false);
         $('perfSensor').textContent = 'No data in database';
+        $('perfCloud').textContent = 'Firebase reachable (empty)';
         return null;
       }
 
@@ -1276,8 +1292,6 @@
       phStatusEl.textContent = phS.text;
       phStatusEl.className = 'reading-status ' + phS.cls;
 
-      // FIX: use ESP32's turbidityStatus whenever it exists; fall back
-      // to voltage-based classification with matching thresholds.
       const firebaseTurbStatus = data.turbidityStatus ?? data.TurbidityStatus;
       let tbS;
       if (firebaseTurbStatus) {
@@ -1330,7 +1344,7 @@
       return { ph, turbVolt, temp, ts };
 
     } catch (err) {
-      console.error('Fetch error:', err);
+      console.error('[AquaSense] Fetch error:', err);
       setOnline(false);
       $('perfSensor').textContent = 'Connection failed';
       $('perfCloud').textContent  = 'Firebase unreachable';
@@ -1342,7 +1356,10 @@
     try {
       const url = FIREBASE_URL + HISTORY_PATH + '?t=' + Date.now();
       const res = await fetch(url, { cache: 'no-store' });
-      if (!res.ok) return;
+      if (!res.ok) {
+        console.warn('[AquaSense] History fetch HTTP', res.status);
+        return;
+      }
 
       const data = await res.json();
       if (!data || typeof data !== 'object') return;
@@ -1369,7 +1386,7 @@
       drawAllCharts();
 
     } catch (err) {
-      console.warn('History seed failed:', err);
+      console.warn('[AquaSense] History seed failed:', err);
     }
   }
 
