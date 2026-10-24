@@ -25,8 +25,9 @@
 
     * { box-sizing: border-box; }
 
+    /* Removed `scroll-behavior: smooth` from html because it was
+       fighting with window.scrollTo(). JS handles smooth scroll now. */
     html {
-      scroll-behavior: smooth;
       scroll-padding-top: 90px;
     }
 
@@ -499,7 +500,6 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
       *, *::before, *::after {
         transition: none !important; animation: none !important;
       }
@@ -1035,7 +1035,55 @@
   const $ = id => document.getElementById(id);
 
   // =====================================================
-  // TAB SWITCHING
+  // SMOOTH SCROLL — manual animation (works in every browser,
+  // ignores CSS scroll-behavior which was cancelling scrollTo)
+  // =====================================================
+  let activeScrollAnim = null;
+
+  function smoothScrollTo(targetY) {
+    // Cancel any running animation
+    if (activeScrollAnim) cancelAnimationFrame(activeScrollAnim);
+    activeScrollAnim = null;
+
+    // Respect reduced-motion preference → instant jump
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.scrollTo(0, targetY);
+      return;
+    }
+
+    const startY  = window.pageYOffset;
+    const distance = targetY - startY;
+
+    if (Math.abs(distance) < 2) {
+      window.scrollTo(0, targetY);
+      return;
+    }
+
+    const duration = Math.min(700, 300 + Math.abs(distance) * 0.3);
+    let startTime = null;
+
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      // easeInOutQuad
+      const eased = progress < 0.5
+        ? 2 * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+      window.scrollTo(0, Math.round(startY + distance * eased));
+
+      if (progress < 1) {
+        activeScrollAnim = requestAnimationFrame(step);
+      } else {
+        activeScrollAnim = null;
+      }
+    }
+
+    activeScrollAnim = requestAnimationFrame(step);
+  }
+
+  // =====================================================
+  // TAB SWITCHING + AUTO-SCROLL
   // =====================================================
   const tabs = {
     home: 'tab-home',
@@ -1059,45 +1107,52 @@
     if (target) target.classList.add('active-tab');
 
     document.querySelectorAll('.navlinks a').forEach(link => {
-      const linkTab = link.dataset.tab;
-      link.classList.toggle('active', linkTab === tabId);
+      link.classList.toggle('active', link.dataset.tab === tabId);
     });
 
     $('navlinks').classList.remove('open');
 
-    // ===== NEW: AUTO-SCROLL to the target section =====
-    if (tabId === 'home') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      // #introduction, #methodology, #results, #conclusion are the
-      // IDs on the <section class="section-card"> inside each tab.
-      const sectionEl = document.getElementById(tabId);
-      const anchorEl  = sectionEl || document.querySelector('.wrap');
+    // Wait for the DOM to actually lay out the newly visible tab
+    // before measuring its position. Double rAF is the safest way.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        let targetY = 0;
 
-      if (anchorEl) {
-        const navHeight = document.querySelector('.navbar').offsetHeight + 12;
-        const top = anchorEl.getBoundingClientRect().top
-                  + window.pageYOffset
-                  - navHeight;
-        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
-      }
-    }
+        if (tabId === 'home') {
+          targetY = 0;
+        } else {
+          const sectionEl = document.getElementById(tabId);
+          if (sectionEl) {
+            const navHeight = document.querySelector('.navbar').offsetHeight + 12;
+            targetY = sectionEl.getBoundingClientRect().top
+                    + window.pageYOffset
+                    - navHeight;
+          }
+        }
 
-    // Charts are on hidden canvases; redraw AFTER the scroll settles
-    if (tabId === 'results') {
-      setTimeout(drawAllCharts, 400);
-    }
+        smoothScrollTo(Math.max(0, targetY));
+
+        if (tabId === 'results') {
+          // Charts live on hidden canvases; draw after scroll starts
+          setTimeout(drawAllCharts, 400);
+        }
+      });
+    });
   }
 
+  // Click handler — prevent native anchor jump, use our own scroll
   document.querySelectorAll('[data-tab]').forEach(el => {
     el.addEventListener('click', (e) => {
       e.preventDefault();
       const tabId = el.dataset.tab;
-      if (tabId) {
-        switchTab(tabId);
-        if (el.tagName === 'A') {
-          history.replaceState(null, '', el.getAttribute('href') || '#' + tabId);
-        }
+      if (!tabId) return;
+
+      switchTab(tabId);
+
+      // Delay URL update so it doesn't cancel the smooth scroll
+      if (el.tagName === 'A') {
+        const href = el.getAttribute('href') || '#' + tabId;
+        setTimeout(() => history.replaceState(null, '', href), 50);
       }
     });
   });
@@ -1120,9 +1175,7 @@
       btn.classList.add('active');
       const targetId = btn.dataset.target;
       const targetPane = $(targetId);
-      if (targetPane) {
-        targetPane.classList.add('active-pane');
-      }
+      if (targetPane) targetPane.classList.add('active-pane');
     });
   });
 
