@@ -8,14 +8,13 @@
 
   <style>
     :root {
-      /* MUTED SAGE GREEN PALETTE */
       --nav-bg: #526F5B;
       --hero-bg: #879B83;
       --main-heading: #FFFFFF;
       --body-bg: #F0F1E9;
       --button-color: #344E3D;
       --alt-section: #71866D;
-      
+
       --ink: #2B3A30;
       --muted: #6B7B70;
       --line: #D8DCD3;
@@ -268,14 +267,8 @@
       border-radius: 3px;
     }
 
-    /* =========================================
-       INTRODUCTION (STACKED LAYOUT WITH SIDE-BY-SIDE CONTEXT)
-       ========================================= */
-    .intro-layout {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
+    /* INTRODUCTION */
+    .intro-layout { display: flex; flex-direction: column; gap: 20px; }
 
     .copy { font-size: 11.5px; line-height: 1.65; color: var(--ink); }
     .copy p { margin: 0 0 10px; }
@@ -284,98 +277,56 @@
     .context-box {
       background: var(--body-bg); border: 1px solid var(--line);
       border-radius: 9px; padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      display: flex; flex-direction: column; gap: 12px;
     }
 
-    .context-box h3 { font-size: 11px; margin: 0; color: var(--button-color); text-transform: uppercase; letter-spacing: 0.5px; }
+    .context-box h3 {
+      font-size: 11px; margin: 0; color: var(--button-color);
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
 
-    /* DITO ANG PAGBABAGO: NAGING GRID PARA MAGKATABI ANG TEXT AT MAPA */
     .context-content-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      align-items: center;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 20px; align-items: center;
     }
 
-    .context-text-col {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .context-row {
-      display: flex; gap: 12px; align-items: flex-start;
-    }
-
+    .context-text-col { display: flex; flex-direction: column; gap: 12px; }
+    .context-row { display: flex; gap: 12px; align-items: flex-start; }
     .context-row .symbol { font-size: 18px; width: 24px; flex-shrink: 0; color: var(--button-color); }
     .context-row strong { display: block; font-size: 10.5px; margin-bottom: 3px; color: var(--ink); }
-    .context-row small {
-      display: block; font-size: 10px; color: var(--muted); line-height: 1.45;
-    }
+    .context-row small { display: block; font-size: 10px; color: var(--muted); line-height: 1.45; }
 
-    .context-image-col {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+    .context-image-col { display: flex; flex-direction: column; gap: 6px; }
 
     .context-image-wrapper {
-      border-radius: 8px;
-      overflow: hidden;
+      border-radius: 8px; overflow: hidden;
       border: 1px solid var(--line);
       box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
 
     .river-photo {
-      width: 100%; 
-      height: 100%;
-      max-height: 250px;
-      object-fit: cover;
-      display: block;
+      width: 100%; height: 100%; max-height: 250px;
+      object-fit: cover; display: block;
     }
 
-    .photo-caption {
-      font-size: 9px; color: var(--muted); font-style: italic;
-      line-height: 1.45;
-    }
+    .photo-caption { font-size: 9px; color: var(--muted); font-style: italic; line-height: 1.45; }
 
-    /* =========================================
-       INTERACTIVE METHODOLOGY SECTION
-       ========================================= */
+    /* INTERACTIVE METHODOLOGY */
     .interactive-method-container {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 15px;
+      display: grid; grid-template-columns: 1fr 1.2fr; gap: 15px;
     }
 
-    .method-nav {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+    .method-nav { display: flex; flex-direction: column; gap: 8px; }
 
     .method-btn {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: var(--card-bg);
-      border: 1px solid var(--line);
-      border-radius: 9px;
-      padding: 14px;
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.2s ease;
-      color: var(--ink);
-      font-weight: 600;
-      font-size: 12px;
+      display: flex; align-items: center; gap: 12px;
+      background: var(--card-bg); border: 1px solid var(--line);
+      border-radius: 9px; padding: 14px; cursor: pointer;
+      text-align: left; transition: all 0.2s ease;
+      color: var(--ink); font-weight: 600; font-size: 12px;
     }
 
-    .method-btn:hover {
-      background: var(--body-bg);
-      border-color: var(--hero-bg);
-    }
+    .method-btn:hover { background: var(--body-bg); border-color: var(--hero-bg); }
 
     .method-btn.active {
       background: var(--button-color);
@@ -384,40 +335,25 @@
     }
 
     .method-btn .method-icon {
-      width: 30px;
-      height: 30px;
-      background: var(--body-bg);
-      color: var(--button-color);
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 16px;
-      flex-shrink: 0;
-      transition: 0.2s;
+      width: 30px; height: 30px;
+      background: var(--body-bg); color: var(--button-color);
+      border-radius: 50%; display: grid; place-items: center;
+      font-size: 16px; flex-shrink: 0; transition: 0.2s;
     }
 
     .method-btn.active .method-icon {
-      background: rgba(255,255,255,0.2);
-      color: var(--main-heading);
+      background: rgba(255,255,255,0.2); color: var(--main-heading);
     }
 
     .method-display {
-      background: var(--card-bg);
-      border: 1px solid var(--line);
-      border-radius: 9px;
-      padding: 20px;
+      background: var(--card-bg); border: 1px solid var(--line);
+      border-radius: 9px; padding: 20px;
       box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
       position: relative;
     }
 
-    .method-pane {
-      display: none;
-      animation: fadeIn 0.3s ease-in-out;
-    }
-
-    .method-pane.active-pane {
-      display: block;
-    }
+    .method-pane { display: none; animation: fadeIn 0.3s ease-in-out; }
+    .method-pane.active-pane { display: block; }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(5px); }
@@ -425,36 +361,17 @@
     }
 
     .method-pane h3 {
-      font-size: 15px;
-      color: var(--button-color);
-      margin: 0 0 10px;
-      border-bottom: 2px solid var(--body-bg);
+      font-size: 15px; color: var(--button-color);
+      margin: 0 0 10px; border-bottom: 2px solid var(--body-bg);
       padding-bottom: 8px;
     }
 
-    .method-pane p {
-      font-size: 11.5px;
-      line-height: 1.6;
-      color: var(--ink);
-      margin: 0 0 10px;
-    }
-
-    .method-pane ul {
-      margin: 0;
-      padding-left: 18px;
-      font-size: 11.5px;
-      line-height: 1.6;
-      color: var(--ink);
-    }
-    
-    .method-pane li {
-      margin-bottom: 6px;
-    }
+    .method-pane p { font-size: 11.5px; line-height: 1.6; color: var(--ink); margin: 0 0 10px; }
+    .method-pane ul { margin: 0; padding-left: 18px; font-size: 11.5px; line-height: 1.6; color: var(--ink); }
+    .method-pane li { margin-bottom: 6px; }
 
     /* RESULTS */
-    .results-layout {
-      display: grid; grid-template-columns: 1.05fr 1fr .8fr; gap: 12px;
-    }
+    .results-layout { display: grid; grid-template-columns: 1.05fr 1fr .8fr; gap: 12px; }
 
     .mini-panel {
       border: 1px solid var(--line);
@@ -463,9 +380,7 @@
     }
 
     .mini-panel h3 { font-size: 10.5px; color: var(--button-color); margin: 0 0 9px; }
-    .mini-panel h3 small {
-      font-size: 9px; color: var(--muted); font-weight: 500;
-    }
+    .mini-panel h3 small { font-size: 9px; color: var(--muted); font-weight: 500; }
 
     table { border-collapse: collapse; width: 100%; font-size: 9.5px; }
     th, td { border: 1px solid var(--line); padding: 7px 5px; text-align: left; }
@@ -473,10 +388,7 @@
     td { text-align: center; color: var(--ink); }
     td:first-child { text-align: left; }
 
-    .table-note {
-      font-size: 9px; line-height: 1.5;
-      color: var(--muted); margin: 9px 0 0;
-    }
+    .table-note { font-size: 9px; line-height: 1.5; color: var(--muted); margin: 9px 0 0; }
 
     .chart-block { margin-bottom: 9px; }
 
@@ -499,13 +411,8 @@
     }
 
     .performance-item .symbol { font-size: 19px; }
-    .performance-item strong {
-      display: block; font-size: 9.5px; color: var(--button-color);
-    }
-    .performance-item small {
-      display: block; font-size: 9px;
-      color: var(--muted); margin-top: 3px; line-height: 1.4;
-    }
+    .performance-item strong { display: block; font-size: 9.5px; color: var(--button-color); }
+    .performance-item small { display: block; font-size: 9px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
 
     .notice-strip {
       display: flex; gap: 10px; align-items: center;
@@ -518,10 +425,7 @@
     .notice-strip strong { color: var(--button-color); }
 
     /* CONCLUSION */
-    .conclusion-copy {
-      font-size: 11px; line-height: 1.65; color: var(--ink);
-    }
-
+    .conclusion-copy { font-size: 11px; line-height: 1.65; color: var(--ink); }
     .conclusion-copy p { margin: 0 0 10px; }
 
     .quote {
@@ -571,22 +475,14 @@
     @media (max-width: 720px) {
       .navbar { flex-wrap: wrap; padding: 10px 4%; }
       .menu-btn { display: block; }
-      .navlinks {
-        display: none; width: 100%; flex-direction: column;
-        align-items: stretch; gap: 0;
-      }
+      .navlinks { display: none; width: 100%; flex-direction: column; align-items: stretch; gap: 0; }
       .navlinks.open { display: flex; }
       .navlinks a { padding: 12px 4px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-      .hero-inner {
-        grid-template-columns: 1fr; gap: 20px; padding: 30px 5%;
-      }
-      .hero { min-height: 0; }
-      .hero-inner { min-height: 0; }
+      .hero-inner { grid-template-columns: 1fr; gap: 20px; padding: 30px 5%; }
+      .hero, .hero-inner { min-height: 0; }
       .live-card { max-width: 440px; }
       .wrap { width: 94%; }
-      .results-layout, .interactive-method-container {
-        grid-template-columns: 1fr;
-      }
+      .results-layout, .interactive-method-container { grid-template-columns: 1fr; }
       .results-layout .performance { grid-column: auto; }
       .section-card { padding: 14px; }
       .section-title h2 { font-size: 15px; }
@@ -634,12 +530,7 @@
 
 <!-- HERO -->
 <section class="hero" id="home-hero">
-  <!-- SIGURADUHING NASA PAREHONG FOLDER ANG background.jpg -->
-  <img
-    class="hero-image"
-    alt="AquaSense Background"
-    src="background.jpg"
-  >
+  <img class="hero-image" alt="AquaSense Background" src="background.jpg">
 
   <div class="hero-inner">
     <div>
@@ -714,7 +605,7 @@
   <!-- HOME TAB -->
   <div id="tab-home" class="tab-content active-tab"></div>
 
-  <!-- INTRODUCTION TAB (STACKED TEXT, SIDE-BY-SIDE CONTEXT) -->
+  <!-- INTRODUCTION TAB -->
   <div id="tab-introduction" class="tab-content">
     <section class="section-card" id="introduction">
       <div class="section-title">
@@ -726,7 +617,6 @@
       </div>
 
       <div class="intro-layout">
-        <!-- UNA ANG TEXT (BUONG LAPAD) -->
         <div class="copy">
           <p>
             Freshwater ecosystems, especially rivers, are vital for
@@ -751,12 +641,10 @@
           </p>
         </div>
 
-        <!-- PANGALAWA ANG INFO BOX (MAY MAPA SA KANAN) -->
         <aside class="context-box">
           <h3>Research Context</h3>
-          
+
           <div class="context-content-grid">
-            <!-- KALIWA: MGA TEXT INFO -->
             <div class="context-text-col">
               <div class="context-row">
                 <span class="symbol">◎</span>
@@ -786,7 +674,6 @@
               </div>
             </div>
 
-            <!-- KANAN: ANG MAPA -->
             <div class="context-image-col">
               <div class="context-image-wrapper">
                 <img
@@ -817,49 +704,45 @@
       </div>
 
       <div class="interactive-method-container">
-        
-        <!-- LEFT SIDE: CLICKABLE BUTTONS -->
+
         <div class="method-nav">
-          
           <button class="method-btn active" data-target="pane-design">
             <div class="method-icon">⚗</div>
             Research Design
           </button>
-          
+
           <button class="method-btn" data-target="pane-locale">
             <div class="method-icon">⌖</div>
             Locale
           </button>
-          
+
           <button class="method-btn" data-target="pane-participants">
             <div class="method-icon">♟</div>
             Participants / Evaluators
           </button>
-          
+
           <button class="method-btn" data-target="pane-prototype">
             <div class="method-icon">⚙</div>
             Proposed Prototype
           </button>
-          
+
           <button class="method-btn" data-target="pane-data">
             <div class="method-icon">▥</div>
             Data Collection & Analysis
           </button>
-
         </div>
 
-        <!-- RIGHT SIDE: DYNAMIC CONTENT PANELS -->
         <div class="method-display">
-          
+
           <div class="method-pane active-pane" id="pane-design">
             <h3>Research Design</h3>
             <p>
-              This study utilizes a <strong>Quantitative Research Design</strong> with a descriptive component. 
-              It focuses on gathering numerical data through the AquaSense sensor network to determine the 
+              This study utilizes a <strong>Quantitative Research Design</strong> with a descriptive component.
+              It focuses on gathering numerical data through the AquaSense sensor network to determine the
               current water quality parameters (pH, Turbidity, Temperature) of the freshwater ecosystem.
             </p>
             <p>
-              The design is subject to the final approved methodology of the institution, ensuring that 
+              The design is subject to the final approved methodology of the institution, ensuring that
               data gathering and analysis strictly follow academic and scientific standards.
             </p>
           </div>
@@ -873,8 +756,8 @@
               <li><strong>Barangay Ibaba West, Calapan City, Oriental Mindoro.</strong></li>
             </ul>
             <p>
-              This specific freshwater site was chosen due to its ecological significance to the local community. 
-              Any actual field deployment, water sampling, and physical evaluation should be properly documented 
+              This specific freshwater site was chosen due to its ecological significance to the local community.
+              Any actual field deployment, water sampling, and physical evaluation should be properly documented
               and coordinated with local authorities.
             </p>
           </div>
@@ -890,7 +773,7 @@
               <li>Local Environmental Officers (if applicable)</li>
             </ul>
             <p>
-              Their role is to assess the accuracy, functionality, and feasibility of the AquaSense prototype 
+              Their role is to assess the accuracy, functionality, and feasibility of the AquaSense prototype
               according to the approved study protocol and rubrics of the institution.
             </p>
           </div>
@@ -917,7 +800,7 @@
               <li><strong>Network & Transmission Tests:</strong> Evaluating WiFi range and Firebase data logging reliability.</li>
             </ul>
             <p>
-              Latest sensor readings will be transmitted every 3 seconds and stored in the cloud for trend analysis 
+              Latest sensor readings will be transmitted every 3 seconds and stored in the cloud for trend analysis
               and historical review.
             </p>
           </div>
@@ -1010,7 +893,7 @@
 
           <div class="chart-block">
             <div class="chart-label">
-              <b style="color:#344E3D">● Turbidity Voltage (V)</b>
+              <b>● Turbidity Voltage (V)</b>
               <span id="turbChartLatest">—</span>
             </div>
             <canvas id="turbChart" aria-label="Live turbidity trend"></canvas>
@@ -1018,7 +901,7 @@
 
           <div class="chart-block">
             <div class="chart-label">
-              <b style="color:#A89B7A">● Temperature (°C)</b>
+              <b>● Temperature (°C)</b>
               <span id="tempChartLatest">—</span>
             </div>
             <canvas id="tempChart" aria-label="Live temperature trend"></canvas>
@@ -1109,8 +992,8 @@
       <div class="quote">
         <span>🌿</span>
         <div>
-          “AquaSense is a step toward more accessible freshwater
-          monitoring and healthier aquatic ecosystems.”
+          "AquaSense is a step toward more accessible freshwater
+          monitoring and healthier aquatic ecosystems."
         </div>
       </div>
     </section>
@@ -1155,6 +1038,14 @@
     conclusion: 'tab-conclusion'
   };
 
+  // FIX: drawCharts() helper to redraw all three at once.
+  // FIX: uses fixed chart bounds matching ESP32 thresholds.
+  function drawAllCharts() {
+    drawChart('phChart',   history.ph,   '#526F5B', 0, 14);
+    drawChart('turbChart', history.turb, '#344E3D', 0, 3.3);
+    drawChart('tempChart', history.temp, '#A89B7A', 0, 50);
+  }
+
   function switchTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(el => {
       el.classList.remove('active-tab');
@@ -1169,13 +1060,9 @@
 
     $('navlinks').classList.remove('open');
 
-    // When user opens Results tab, redraw charts (canvas may have been hidden)
+    // Redraw charts after tab is visible (canvas had zero size while hidden)
     if (tabId === 'results') {
-      setTimeout(() => {
-        drawChart('phChart',   history.ph,   '#526F5B', 5, 10);
-        drawChart('turbChart', history.turb, '#344E3D', 0, 3.5);
-        drawChart('tempChart', history.temp, '#A89B7A', 15, 40);
-      }, 60);
+      setTimeout(drawAllCharts, 60);
     }
   }
 
@@ -1217,13 +1104,13 @@
   });
 
   // =====================================================
-  // FIREBASE LOGIC 
+  // FIREBASE LOGIC
   // =====================================================
   const FIREBASE_URL =
     "https://aquasense-d03fd-default-rtdb.asia-southeast1.firebasedatabase.app";
   const LATEST_PATH  = "/aquasense/latest.json";
   const HISTORY_PATH = "/aquasense/history.json";
-  const REFRESH_MS = 3 * 1000;  // Check latest data every 3 seconds
+  const REFRESH_MS = 3 * 1000;
   const MAX_POINTS = 22;
 
   function fmt(v, decimals) {
@@ -1231,10 +1118,13 @@
     return Number(v).toFixed(decimals);
   }
 
+  // FIX: append +08:00 to "YYYY-MM-DD HH:MM:SS" so the browser
+  // interprets it with the correct timezone used by the ESP32
+  // (configTime(8 * 3600, 0, ...)).
   function parseTimestamp(ts) {
     if (!ts) return null;
     if (typeof ts === 'string') {
-      const iso = ts.replace(' ', 'T');
+      const iso = ts.replace(' ', 'T') + '+08:00';
       const d = new Date(iso);
       return isNaN(d.getTime()) ? null : d;
     }
@@ -1246,23 +1136,28 @@
     return null;
   }
 
+  // FIX: check out-of-range FIRST (previous order made the
+  // "Out of range" branch unreachable).
   function phStatus(v) {
-    if (v === null || v === undefined) return { text: '—', cls: '' };
-    if (v < 6.5)  return { text: 'Acidic',  cls: 'warn' };
-    if (v > 8.5)  return { text: 'Basic',   cls: 'warn' };
-    if (v < 6.0 || v > 9.0) return { text: 'Out of range', cls: 'bad' };
+    if (v === null || v === undefined || isNaN(v)) return { text: '—', cls: '' };
+    if (v < 0 || v > 14) return { text: 'Invalid',       cls: 'bad'  };
+    if (v < 6.0 || v > 9.0) return { text: 'Out of range', cls: 'bad'  };
+    if (v < 6.5) return { text: 'Acidic',        cls: 'warn' };
+    if (v > 8.5) return { text: 'Basic',         cls: 'warn' };
     return { text: 'Normal', cls: '' };
   }
 
+  // FIX: thresholds now match the ESP32 thresholds exactly
+  // (>= 1.543 CLEAN, >= 0.744 SLIGHTLY TURBID, else HIGHLY TURBID).
   function turbStatus(v) {
-    if (v === null || v === undefined) return { text: '—', cls: '' };
-    if (v >= 1.70) return { text: 'Clear',       cls: '' };
-    if (v >= 1.60) return { text: 'Slightly turbid', cls: 'warn' };
-    return { text: 'Turbid', cls: 'bad' };
+    if (v === null || v === undefined || isNaN(v)) return { text: '—', cls: '' };
+    if (v >= 1.543) return { text: 'Clean',          cls: '' };
+    if (v >= 0.744) return { text: 'Slightly turbid', cls: 'warn' };
+    return { text: 'Highly turbid', cls: 'bad' };
   }
 
   function tempStatus(v) {
-    if (v === null || v === undefined) return { text: '—', cls: '' };
+    if (v === null || v === undefined || isNaN(v)) return { text: '—', cls: '' };
     if (v < 20) return { text: 'Cold', cls: 'warn' };
     if (v > 32) return { text: 'Warm', cls: 'warn' };
     return { text: 'Normal', cls: '' };
@@ -1306,7 +1201,7 @@
 
     const left = 7, right = 7, top = 7, bottom = 7;
 
-    ctx.strokeStyle = '#D8DCD3'; // Grid lines (soft sage)
+    ctx.strokeStyle = '#D8DCD3';
     ctx.lineWidth = 1;
     for (let i = 1; i <= 2; i++) {
       const y = top + (height - top - bottom) * i / 3;
@@ -1365,13 +1260,12 @@
 
       setOnline(true);
 
-      const ph      = Number(data.pH ?? data.PH);
-      const phVolt  = Number(data.pHVoltage ?? data.PHVoltage ?? data.phVoltage);
+      const ph       = Number(data.pH ?? data.PH);
+      const phVolt   = Number(data.pHVoltage ?? data.PHVoltage ?? data.phVoltage);
       const turbVolt = Number(data.turbidityVoltage ?? data.TurbidityVoltage ?? data.turbVoltage);
-      const temp    = (data.temperature ?? data.Temperature ?? data.temp ?? data.Temp) != null 
-                        ? Number(data.temperature ?? data.Temperature ?? data.temp ?? data.Temp) 
-                        : null;
-      const ts      = parseTimestamp(data.timestamp ?? data.Timestamp);
+      const tempRaw  = data.temperature ?? data.Temperature ?? data.temp ?? data.Temp;
+      const temp     = (tempRaw != null) ? Number(tempRaw) : null;
+      const ts       = parseTimestamp(data.timestamp ?? data.Timestamp);
 
       $('heroPh').textContent   = fmt(ph, 2);
       $('heroTurb').textContent = fmt(turbVolt, 2);
@@ -1382,15 +1276,20 @@
       phStatusEl.textContent = phS.text;
       phStatusEl.className = 'reading-status ' + phS.cls;
 
+      // FIX: use ESP32's turbidityStatus whenever it exists; fall back
+      // to voltage-based classification with matching thresholds.
       const firebaseTurbStatus = data.turbidityStatus ?? data.TurbidityStatus;
-      const tbS = firebaseTurbStatus
-        ? {
-            text: String(firebaseTurbStatus),
-            cls: String(firebaseTurbStatus).toUpperCase() === 'CLEAN'
-              ? ''
-              : (String(firebaseTurbStatus).toUpperCase().includes('SLIGHTLY') ? 'warn' : 'bad')
-          }
-        : turbStatus(turbVolt);
+      let tbS;
+      if (firebaseTurbStatus) {
+        const upper = String(firebaseTurbStatus).toUpperCase();
+        tbS = {
+          text: String(firebaseTurbStatus),
+          cls: upper === 'CLEAN' ? '' :
+               (upper.includes('SLIGHT') ? 'warn' : 'bad')
+        };
+      } else {
+        tbS = turbStatus(turbVolt);
+      }
       const tbStatusEl = $('heroTurbStatus');
       tbStatusEl.textContent = tbS.text;
       tbStatusEl.className = 'reading-status ' + tbS.cls;
@@ -1458,18 +1357,16 @@
       tail.forEach(k => {
         const entry = data[k];
         if (!entry) return;
-        const phVal = entry.pH ?? entry.PH;
+        const phVal   = entry.pH ?? entry.PH;
         const turbVal = entry.turbidityVoltage ?? entry.TurbidityVoltage ?? entry.turbVoltage;
         const tempVal = entry.temperature ?? entry.Temperature ?? entry.temp ?? entry.Temp;
-        
-        if (phVal != null)   history.ph.push(Number(phVal));
-        if (turbVal != null) history.turb.push(Number(turbVal));
-        if (tempVal != null) history.temp.push(Number(tempVal));
+
+        if (phVal   != null && !isNaN(phVal))   history.ph.push(Number(phVal));
+        if (turbVal != null && !isNaN(turbVal)) history.turb.push(Number(turbVal));
+        if (tempVal != null && !isNaN(tempVal)) history.temp.push(Number(tempVal));
       });
 
-      drawChart('phChart',   history.ph,   '#526F5B', 5, 10);
-      drawChart('turbChart', history.turb, '#344E3D', 0, 3.5);
-      drawChart('tempChart', history.temp, '#A89B7A', 15, 40);
+      drawAllCharts();
 
     } catch (err) {
       console.warn('History seed failed:', err);
@@ -1480,25 +1377,15 @@
     await fetchHistorySeed();
     await fetchLatest();
 
-    setTimeout(() => {
-      drawChart('phChart',   history.ph,   '#526F5B', 5, 10);
-      drawChart('turbChart', history.turb, '#344E3D', 0, 3.5);
-      drawChart('tempChart', history.temp, '#A89B7A', 15, 40);
-    }, 120);
+    setTimeout(drawAllCharts, 120);
 
     setInterval(async () => {
       await fetchLatest();
-      drawChart('phChart',   history.ph,   '#526F5B', 5, 10);
-      drawChart('turbChart', history.turb, '#344E3D', 0, 3.5);
-      drawChart('tempChart', history.temp, '#A89B7A', 15, 40);
+      drawAllCharts();
     }, REFRESH_MS);
   }
 
-  window.addEventListener('resize', () => {
-    drawChart('phChart',   history.ph,   '#526F5B', 5, 10);
-    drawChart('turbChart', history.turb, '#344E3D', 0, 3.5);
-    drawChart('tempChart', history.temp, '#A89B7A', 15, 40);
-  });
+  window.addEventListener('resize', drawAllCharts);
 
   init();
 
