@@ -25,8 +25,6 @@
 
     * { box-sizing: border-box; }
 
-    /* Removed `scroll-behavior: smooth` from html because it was
-       fighting with window.scrollTo(). JS handles smooth scroll now. */
     html {
       scroll-padding-top: 90px;
     }
@@ -1035,17 +1033,14 @@
   const $ = id => document.getElementById(id);
 
   // =====================================================
-  // SMOOTH SCROLL — manual animation (works in every browser,
-  // ignores CSS scroll-behavior which was cancelling scrollTo)
+  // SMOOTH SCROLL — manual animation (works everywhere)
   // =====================================================
   let activeScrollAnim = null;
 
   function smoothScrollTo(targetY) {
-    // Cancel any running animation
     if (activeScrollAnim) cancelAnimationFrame(activeScrollAnim);
     activeScrollAnim = null;
 
-    // Respect reduced-motion preference → instant jump
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       window.scrollTo(0, targetY);
       return;
@@ -1065,7 +1060,6 @@
     function step(timestamp) {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
-      // easeInOutQuad
       const eased = progress < 0.5
         ? 2 * progress * progress
         : 1 - Math.pow(-2 * progress + 2, 2) / 2;
@@ -1112,8 +1106,6 @@
 
     $('navlinks').classList.remove('open');
 
-    // Wait for the DOM to actually lay out the newly visible tab
-    // before measuring its position. Double rAF is the safest way.
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         let targetY = 0;
@@ -1133,14 +1125,12 @@
         smoothScrollTo(Math.max(0, targetY));
 
         if (tabId === 'results') {
-          // Charts live on hidden canvases; draw after scroll starts
           setTimeout(drawAllCharts, 400);
         }
       });
     });
   }
 
-  // Click handler — prevent native anchor jump, use our own scroll
   document.querySelectorAll('[data-tab]').forEach(el => {
     el.addEventListener('click', (e) => {
       e.preventDefault();
@@ -1149,7 +1139,6 @@
 
       switchTab(tabId);
 
-      // Delay URL update so it doesn't cancel the smooth scroll
       if (el.tagName === 'A') {
         const href = el.getAttribute('href') || '#' + tabId;
         setTimeout(() => history.replaceState(null, '', href), 50);
@@ -1347,9 +1336,10 @@
       const temp     = (tempRaw != null) ? Number(tempRaw) : null;
       const ts       = parseTimestamp(data.timestamp ?? data.Timestamp);
 
+      // TEMPERATURE — always 2 decimals: 27.6875 → "27.69"
       $('heroPh').textContent   = fmt(ph, 2);
       $('heroTurb').textContent = fmt(turbVolt, 2);
-      $('heroTemp').textContent = fmt(temp, 1);
+      $('heroTemp').textContent = fmt(temp, 2);
 
       const phS = phStatus(ph);
       const phStatusEl = $('heroPhStatus');
@@ -1388,6 +1378,7 @@
       $('tblTurbStatus').textContent = tbS.text;
       $('tblTurbStatus').className = tbS.cls;
 
+      // TEMPERATURE — always 2 decimals
       $('tblTemp').textContent = fmt(temp, 2) + ' °C';
       $('tblTempStatus').textContent = tempStatus(temp).text;
 
@@ -1396,7 +1387,8 @@
 
       $('phChartLatest').textContent   = fmt(ph, 2);
       $('turbChartLatest').textContent = fmt(turbVolt, 3);
-      $('tempChartLatest').textContent = fmt(temp, 1);
+      // TEMPERATURE — always 2 decimals in the chart label too
+      $('tempChartLatest').textContent = fmt(temp, 2);
 
       pushHistory(history.ph,   ph,       MAX_POINTS);
       pushHistory(history.turb, turbVolt, MAX_POINTS);
