@@ -1601,14 +1601,15 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 }
 
 /* ============================================================
-   11. RESEARCHERS (SPLIT VIEW)
+   11. RESEARCHERS (SPLIT VIEW - INTERACTIVE)
    ============================================================ */
 .researchers-layout {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   gap: clamp(20px, 4vw, 40px);
   align-items: stretch;
-  min-height: 400px;
+  min-height: 420px;
+  touch-action: pan-y; /* Allow vertical scroll but handle horizontal swipe */
 }
 
 /* Left Side - Highlight */
@@ -1625,18 +1626,27 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   overflow: hidden;
   box-shadow: var(--sh-md);
   border: 1px solid rgba(255,255,255,0.1);
+  transition: box-shadow 0.4s var(--ease-out);
 }
 
+.researcher-left:hover {
+  box-shadow: 0 20px 40px -20px rgba(79,209,176,0.4), var(--sh-md);
+}
+
+/* Animated Background for Left Panel */
 .researcher-left::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 50% 0%, rgba(79,209,176,0.15), transparent 70%),
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 100% 100%, 30px 30px, 30px 30px;
+  inset: -50%;
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(79,209,176,0.15), transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(79,209,176,0.1), transparent 50%);
+  animation: bgPan 15s linear infinite alternate;
   pointer-events: none;
+}
+@keyframes bgPan {
+  0% { transform: rotate(0deg) scale(1); }
+  100% { transform: rotate(360deg) scale(1.2); }
 }
 
 .researcher-avatar-container {
@@ -1649,11 +1659,24 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   margin-bottom: 24px;
   z-index: 1;
   box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
-  transition: transform 0.4s var(--ease-out);
+  animation: floatAvatar 4s ease-in-out infinite;
+}
+@keyframes floatAvatar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
-.researcher-left:hover .researcher-avatar-container {
-  transform: scale(1.03) rotate(2deg);
+.researcher-avatar-container::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(79,209,176,0.4);
+  animation: pulseRing 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+@keyframes pulseRing {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.15); opacity: 0; }
 }
 
 .researcher-avatar {
@@ -1663,7 +1686,8 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   object-fit: cover;
   background: var(--sand-100);
   border: 4px solid var(--green-900);
-  transition: opacity 0.3s var(--ease);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease-out);
+  transform-origin: center;
 }
 
 .researcher-name-large {
@@ -1673,7 +1697,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   line-height: 1.2;
   z-index: 1;
   text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-  transition: opacity 0.3s var(--ease);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease-out);
 }
 
 /* Right Side - Details */
@@ -1686,6 +1710,23 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   border-radius: var(--r-lg);
   border: 1px solid var(--line);
   position: relative;
+  overflow: hidden;
+}
+
+/* Subtle background text for right panel */
+.researcher-right::before {
+  content: "AQUA";
+  position: absolute;
+  right: -20px;
+  bottom: -30px;
+  font-size: 150px;
+  font-weight: 900;
+  color: rgba(220,224,213,0.4);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 0;
+  font-family: var(--font-sans);
+  letter-spacing: -5px;
 }
 
 .researcher-position-badge {
@@ -1701,6 +1742,9 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   border-radius: var(--r-full);
   margin-bottom: 20px;
   border: 1px solid var(--green-200);
+  position: relative;
+  z-index: 1;
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease-out);
 }
 
 .researcher-bio-large {
@@ -1708,7 +1752,9 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   line-height: 1.8;
   color: var(--ink);
   margin-bottom: 32px;
-  transition: opacity 0.3s var(--ease);
+  position: relative;
+  z-index: 1;
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease-out);
 }
 
 /* Navigation Controls */
@@ -1719,11 +1765,13 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   margin-top: auto;
   padding-top: 20px;
   border-top: 1px dashed var(--line);
+  position: relative;
+  z-index: 1;
 }
 
 .res-nav-btn {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: #fff;
   border: 1px solid var(--line);
@@ -1731,26 +1779,47 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   align-items: center;
   justify-content: center;
   color: var(--green-800);
-  transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+  transition: all 0.25s var(--ease-out);
   box-shadow: var(--sh-xs);
+  position: relative;
+  overflow: hidden;
+}
+
+.res-nav-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--green-800);
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.3s var(--ease-out);
+  z-index: -1;
 }
 
 .res-nav-btn:hover:not(:disabled) {
-  background: var(--green-800);
   color: #fff;
   border-color: var(--green-800);
-  transform: translateY(-2px);
-  box-shadow: var(--sh-sm);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: var(--sh-md);
+}
+
+.res-nav-btn:hover:not(:disabled)::after {
+  transform: scale(1);
+}
+
+.res-nav-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.95);
 }
 
 .res-nav-btn:disabled {
-  opacity: 0.4;
+  opacity: 0.3;
   cursor: not-allowed;
 }
 
 .researcher-dots {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
 .res-dot {
@@ -1759,7 +1828,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   border-radius: 50%;
   background: var(--line);
   cursor: pointer;
-  transition: background 0.3s, transform 0.3s;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy effect */
 }
 
 .res-dot:hover {
@@ -1768,17 +1837,38 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
 .res-dot.is-active {
   background: var(--aqua);
-  transform: scale(1.3);
+  width: 24px; /* Stretch active dot into a pill */
+  border-radius: var(--r-full);
+  box-shadow: 0 0 10px rgba(79,209,176,0.4);
 }
 
-/* Fade animation for syncing content */
-.res-fade {
-  animation: resFadeIn 0.4s var(--ease-out);
+/* ============================================================
+   RESEARCHER ANIMATIONS (STAGGERED ENTRY)
+   ============================================================ */
+.res-anim-img {
+  animation: popIn 0.5s var(--ease-out) both;
+}
+.res-anim-name {
+  animation: slideUpIn 0.5s var(--ease-out) both 0.1s;
+}
+.res-anim-role {
+  animation: slideInLeft 0.5s var(--ease-out) both 0.15s;
+}
+.res-anim-bio {
+  animation: slideInLeft 0.5s var(--ease-out) both 0.25s;
 }
 
-@keyframes resFadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes popIn {
+  0% { transform: scale(0.8) rotate(-10deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+@keyframes slideUpIn {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes slideInLeft {
+  0% { transform: translateX(30px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
 }
 
 /* ============================================================
@@ -2086,6 +2176,21 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   .researcher-right { padding: 20px 15px; }
   .researcher-name-large { font-size: 22px; }
   .researcher-bio-large { font-size: 14px; }
+  
+  /* Mobile Swipe Hint */
+  .researchers-layout::after {
+    content: "← Swipe to navigate →";
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }
 
 @media (max-width: 480px){
@@ -2173,6 +2278,10 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   }
   [data-reveal]{opacity:1 !important;transform:none !important;}
   .hero__bg{animation:none;}
+  .researcher-avatar-container { animation: none; }
+  .researcher-avatar-container::after { animation: none; display: none; }
+  .researcher-left::before { animation: none; }
+  .res-anim-img, .res-anim-name, .res-anim-role, .res-anim-bio { animation: none !important; opacity: 1 !important; transform: none !important; }
 }
 </style>
 </head>
@@ -2898,7 +3007,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     </section>
   </div>
 
-  <!-- NEW: SPLIT-SCREEN RESEARCHERS TAB -->
+  <!-- INTERACTIVE RESEARCHERS TAB -->
   <div class="tab-panel" id="tab-researchers" role="tabpanel" aria-label="Researchers">
     <section class="card" id="researchers">
       <div class="section-head">
@@ -2909,20 +3018,20 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
         </h2>
       </div>
 
-      <div class="researchers-layout">
+      <div class="researchers-layout" id="researchersLayout">
         
         <!-- Left Side: Highlight (Picture & Name) -->
         <div class="researcher-left">
           <div class="researcher-avatar-container">
-            <img id="res-img" class="researcher-avatar res-fade" src="" alt="Researcher">
+            <img id="res-img" class="researcher-avatar" src="" alt="Researcher">
           </div>
-          <h3 id="res-name" class="researcher-name-large res-fade">Name</h3>
+          <h3 id="res-name" class="researcher-name-large">Name</h3>
         </div>
 
         <!-- Right Side: Details (Position & Bio) -->
         <div class="researcher-right">
-          <div id="res-role" class="researcher-position-badge res-fade">Position</div>
-          <p id="res-bio" class="researcher-bio-large res-fade">Short introduction goes here.</p>
+          <div id="res-role" class="researcher-position-badge">Position</div>
+          <p id="res-bio" class="researcher-bio-large">Short introduction goes here.</p>
           
           <!-- Sync Controls -->
           <div class="researcher-nav-controls">
@@ -3299,12 +3408,12 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   });
 
   /* ==========================================================
-     RESEARCHERS SPLIT-VIEW LOGIC
+     RESEARCHERS SPLIT-VIEW LOGIC (WITH ANIMATIONS & SWIPE)
      ========================================================== */
   const researchersData = [
     {
       name: "Kenneth H. Pantoja",
-      role: "Reasearch Leader",
+      role: "Research Leader",
       bio: "Specializes in environmental science and oversees the overall research methodology, ensuring that field deployment and data gathering align with academic standards.",
       img: "member1.png"
     },
@@ -3341,6 +3450,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   ];
 
   let activeResearcher = 0;
+  let isAnimatingRes = false;
 
   const resImg = $('res-img');
   const resName = $('res-name');
@@ -3349,22 +3459,31 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   const resDots = $('res-dots');
   const btnPrev = $('res-prev');
   const btnNext = $('res-next');
+  const resLayout = $('researchersLayout');
 
-  function renderResearcher(index) {
+  function renderResearcher(index, direction = 'next') {
+    if (isAnimatingRes) return;
+    
     // Wrap around logic
     if (index < 0) index = researchersData.length - 1;
     if (index >= researchersData.length) index = 0;
     activeResearcher = index;
 
     const data = researchersData[index];
+    isAnimatingRes = true;
 
-    // Apply fade animation
-    const fadeElements = [resImg, resName, resRole, resBio];
-    fadeElements.forEach(el => {
-      el.classList.remove('res-fade');
-      void el.offsetWidth; // trigger reflow
-      el.classList.add('res-fade');
-    });
+    // Remove animation classes
+    const animElements = [
+      { el: resImg, cls: 'res-anim-img' },
+      { el: resName, cls: 'res-anim-name' },
+      { el: resRole, cls: 'res-anim-role' },
+      { el: resBio, cls: 'res-anim-bio' }
+    ];
+
+    animElements.forEach(item => item.el.classList.remove(item.cls));
+
+    // Force reflow to restart animation
+    void resImg.offsetWidth;
 
     // Update content
     resImg.src = data.img;
@@ -3373,10 +3492,16 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     resRole.textContent = data.role;
     resBio.textContent = data.bio;
 
+    // Add animation classes
+    animElements.forEach(item => item.el.classList.add(item.cls));
+
     // Update dots
     Array.from(resDots.children).forEach((dot, i) => {
       dot.classList.toggle('is-active', i === index);
     });
+
+    // Lock animation briefly
+    setTimeout(() => { isAnimatingRes = false; }, 500);
   }
 
   function createDots() {
@@ -3392,10 +3517,37 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
   if (resImg && resName && resRole && resBio) {
     createDots();
-    renderResearcher(0);
+    renderResearcher(0, 'none'); // Initial load
 
-    btnPrev.addEventListener('click', () => renderResearcher(activeResearcher - 1));
-    btnNext.addEventListener('click', () => renderResearcher(activeResearcher + 1));
+    btnPrev.addEventListener('click', () => renderResearcher(activeResearcher - 1, 'prev'));
+    btnNext.addEventListener('click', () => renderResearcher(activeResearcher + 1, 'next'));
+  }
+
+  // Swipe support for touch devices
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  if (resLayout) {
+    resLayout.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    resLayout.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+  }
+
+  function handleSwipe() {
+    const swipeThreshold = 50;
+    if (touchEndX < touchStartX - swipeThreshold) {
+      // Swiped Left -> Next
+      renderResearcher(activeResearcher + 1, 'next');
+    }
+    if (touchEndX > touchStartX + swipeThreshold) {
+      // Swiped Right -> Prev
+      renderResearcher(activeResearcher - 1, 'prev');
+    }
   }
 
   function initTilt() {
