@@ -1515,6 +1515,23 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   color:var(--muted);
 }
 
+/* Storage Bar */
+.storage-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--sand-200);
+  border-radius: var(--r-full);
+  margin-top: 6px;
+  overflow: hidden;
+}
+.storage-bar__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--aqua), var(--green-500));
+  border-radius: inherit;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  min-width: 2px;
+}
+
 /* ============================================================
    11. CONCLUSION
    ============================================================ */
@@ -2404,6 +2421,18 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
                 <small id="perfCloud">Checking Firebase…</small>
               </div>
             </li>
+            <!-- NEW: Firebase Storage Showcase -->
+            <li class="status-item">
+              <span class="status-item__icon" aria-hidden="true">☁️</span>
+              <div style="width:100%;">
+                <strong>Cloud Storage Usage</strong>
+                <small id="perfStorageText">Calculating…</small>
+                <div class="storage-bar">
+                  <div class="storage-bar__fill" id="perfStorageBar" style="width: 0%;"></div>
+                </div>
+                <small style="font-size: 8.5px; margin-top: 4px; opacity: 0.7;">Free Tier Limit: 1 GB (Spark Plan)</small>
+              </div>
+            </li>
             <li class="status-item">
               <span class="status-item__icon" aria-hidden="true">◷</span>
               <div>
@@ -2988,6 +3017,31 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   }
 
   /* ==========================================================
+     STORAGE SHOWCASE
+     ========================================================== */
+  function updateStorageUI(bytes) {
+    const textEl = $('perfStorageText');
+    const barEl = $('perfStorageBar');
+    if (!textEl || !barEl) return;
+
+    // Format bytes to KB or MB
+    let sizeText = '';
+    if (bytes < 1024) sizeText = bytes + ' B';
+    else if (bytes < 1024 * 1024) sizeText = (bytes / 1024).toFixed(2) + ' KB';
+    else sizeText = (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+
+    // 1 GB limit in bytes
+    const limitGB = 1024 * 1024 * 1024;
+    const pct = (bytes / limitGB) * 100;
+    
+    // Display usage
+    textEl.textContent = sizeText + ' used (' + pct.toFixed(6) + '%)';
+    
+    // Update the visual bar
+    barEl.style.width = Math.max(pct, 0.5) + '%'; // Keep it slightly visible to show it's active
+  }
+
+  /* ==========================================================
      CHARTS
      ========================================================== */
   const charts = [
@@ -3306,8 +3360,13 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
         const pc = $('perfCloud');
         if (ps) ps.textContent = 'No data in database yet';
         if (pc) pc.textContent = 'Firebase reachable (empty)';
+        updateStorageUI(0);
         return;
       }
+
+      // Calculate payload size for the storage showcase
+      const payloadSize = new Blob([JSON.stringify(data)]).size;
+      updateStorageUI(payloadSize);
 
       renderLatest(data);
       setConnection('live');
@@ -3324,6 +3383,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
       const pc = $('perfCloud');
       if (ps) ps.textContent = 'Connection failed';
       if (pc) pc.textContent = 'Firebase unreachable';
+      updateStorageUI(0);
     }
   }
 
@@ -3331,6 +3391,13 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     try {
       const data = await getJSON(HISTORY_PATH);
       if (!data || typeof data !== 'object') return;
+
+      // Calculate history payload size for the storage showcase
+      const historySize = new Blob([JSON.stringify(data)]).size;
+      
+      // Add to the total storage display (history + latest)
+      // Wait for fetchLatest to finish to get the exact total, but we can update the bar now
+      updateStorageUI(historySize);
 
       const keys = Object.keys(data).sort().slice(-MAX_POINTS);
 
