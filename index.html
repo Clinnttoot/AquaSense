@@ -858,7 +858,6 @@ main{
   color:var(--muted);
 }
 
-/* System Anatomy Grid */
 .anatomy-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1602,7 +1601,119 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 }
 
 /* ============================================================
-   11. CONCLUSION
+   11. RESEARCHERS (CAROUSEL)
+   ============================================================ */
+.researchers-wrapper {
+  position: relative;
+  margin-top: 20px;
+}
+.researchers-track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 10px 4px 20px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  -webkit-overflow-scrolling: touch;
+}
+.researchers-track::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+.researcher-card {
+  flex: 0 0 280px;
+  scroll-snap-align: start;
+  background: var(--sand-50);
+  border-radius: var(--r-md);
+  padding: 24px;
+  text-align: center;
+  border: 1px solid var(--line);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), border-color 0.3s;
+}
+.researcher-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--sh-md);
+  border-color: var(--green-300);
+}
+.researcher-img-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, var(--aqua), var(--green-600));
+}
+.researcher-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--sand-200);
+  border: 3px solid var(--card);
+}
+.researcher-role {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--green-600);
+  margin-bottom: 6px;
+  background: rgba(82,111,91,0.1);
+  padding: 3px 10px;
+  border-radius: var(--r-full);
+}
+.researcher-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--green-800);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.researcher-bio {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--green-800);
+  transition: background 0.2s, transform 0.2s;
+  border: 1px solid var(--line);
+}
+.scroll-btn:hover {
+  background: var(--green-800);
+  color: #fff;
+  transform: translateY(-50%) scale(1.05);
+}
+.scroll-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+.scroll-btn--left {
+  left: -22px;
+}
+.scroll-btn--right {
+  right: -22px;
+}
+/* Hide arrows on mobile where native swipe is preferred */
+@media (max-width: 900px) {
+  .scroll-btn { display: none; }
+}
+
+/* ============================================================
+   12. CONCLUSION
    ============================================================ */
 .conclusion{display:grid;gap:16px;}
 
@@ -1658,7 +1769,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 }
 
 /* ============================================================
-   12. FOOTER
+   13. FOOTER
    ============================================================ */
 .site-footer{
   margin-top:8px;
@@ -1736,7 +1847,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 }
 
 /* ============================================================
-   13. RESPONSIVE
+   14. RESPONSIVE
    ============================================================ */
 @media (max-width: 1080px){
   .results{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
@@ -1966,7 +2077,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 }
 
 /* ============================================================
-   14. MOTION PREFERENCES
+   15. MOTION PREFERENCES
    ============================================================ */
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{
@@ -2007,6 +2118,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
       <a class="nav__link" href="#introduction" data-tab="introduction">Introduction</a>
       <a class="nav__link" href="#methodology" data-tab="methodology">Methodology</a>
       <a class="nav__link" href="#results" data-tab="results">Results</a>
+      <a class="nav__link" href="#researchers" data-tab="researchers">Researchers</a>
       <a class="nav__link" href="#conclusion" data-tab="conclusion">Conclusion</a>
     </nav>
 
@@ -2174,7 +2286,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
         </article>
       </div>
 
-      <!-- NEW: System Anatomy -->
       <div class="section-head" style="margin-top: 32px; border-bottom: none; padding-bottom: 0;">
         <span class="section-head__num" aria-hidden="true" style="background: linear-gradient(150deg, var(--aqua), var(--green-600));">01</span>
         <h2 class="section-head__title">
@@ -2386,12 +2497,10 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
             </p>
           </div>
 
-          <!-- UPDATED: PROPOSED PROTOTYPE TAB -->
           <div class="method__pane" id="pane-prototype" role="tabpanel">
             <h3>Proposed Prototype (AquaSense)</h3>
             <p>The system combines hardware and software to deliver real-time telemetry. Here is the data flow and the specific function of each component:</p>
             
-            <!-- Data Flow Diagram -->
             <div class="flow-diagram">
               <div class="flow-node">
                 <div class="flow-node__icon">🌡️</div>
@@ -2704,11 +2813,84 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     </section>
   </div>
 
+  <!-- NEW: RESEARCHERS TAB -->
+  <div class="tab-panel" id="tab-researchers" role="tabpanel" aria-label="Researchers">
+    <section class="card" id="researchers">
+      <div class="section-head">
+        <span class="section-head__num" aria-hidden="true">04</span>
+        <h2 class="section-head__title">
+          The Researchers
+          <span class="section-head__sub">The minds behind AquaSense</span>
+        </h2>
+      </div>
+
+      <div class="researchers-wrapper">
+        <!-- Left Arrow -->
+        <button class="scroll-btn scroll-btn--left" aria-label="Scroll left">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+
+        <div class="researchers-track" id="researchersTrack">
+          
+          <!-- Researcher 1 -->
+          <article class="researcher-card">
+            <div class="researcher-img-wrapper">
+              <!-- Replace the src below with your actual image file -->
+              <img class="researcher-img" src="https://placehold.co/240x240/E3E7DB/344E3D?text=JD" alt="John Doe">
+            </div>
+            <span class="researcher-role">Project Lead</span>
+            <h3 class="researcher-name">John Doe</h3>
+            <p class="researcher-bio">Specializes in environmental science and oversees the overall research methodology and field deployment.</p>
+          </article>
+
+          <!-- Researcher 2 -->
+          <article class="researcher-card">
+            <div class="researcher-img-wrapper">
+              <!-- Replace the src below with your actual image file -->
+              <img class="researcher-img" src="https://placehold.co/240x240/E3E7DB/344E3D?text=JS" alt="Jane Smith">
+            </div>
+            <span class="researcher-role">Hardware Engineer</span>
+            <h3 class="researcher-name">Jane Smith</h3>
+            <p class="researcher-bio">Responsible for the physical prototype, solar integration, and the ESP32 sensor array circuitry.</p>
+          </article>
+
+          <!-- Researcher 3 -->
+          <article class="researcher-card">
+            <div class="researcher-img-wrapper">
+              <!-- Replace the src below with your actual image file -->
+              <img class="researcher-img" src="https://placehold.co/240x240/E3E7DB/344E3D?text=AR" alt="Alex Rivera">
+            </div>
+            <span class="researcher-role">Data Analyst</span>
+            <h3 class="researcher-name">Alex Rivera</h3>
+            <p class="researcher-bio">Handles the cloud architecture, Firebase integration, and develops the real-time web dashboard.</p>
+          </article>
+
+          <!-- Researcher 4 -->
+          <article class="researcher-card">
+            <div class="researcher-img-wrapper">
+              <!-- Replace the src below with your actual image file -->
+              <img class="researcher-img" src="https://placehold.co/240x240/E3E7DB/344E3D?text=MC" alt="Maria Clara">
+            </div>
+            <span class="researcher-role">Field Coordinator</span>
+            <h3 class="researcher-name">Maria Clara</h3>
+            <p class="researcher-bio">Liaises with local authorities in Barangay Ibaba West and manages water sampling calibration checks.</p>
+          </article>
+
+        </div>
+
+        <!-- Right Arrow -->
+        <button class="scroll-btn scroll-btn--right" aria-label="Scroll right">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </section>
+  </div>
+
   <div class="tab-panel" id="tab-conclusion" role="tabpanel" aria-label="Conclusion">
     <section class="card" id="conclusion">
 
       <div class="section-head">
-        <span class="section-head__num" aria-hidden="true">04</span>
+        <span class="section-head__num" aria-hidden="true">05</span>
         <h2 class="section-head__title">
           Conclusion
           <span class="section-head__sub">Findings and future work</span>
@@ -2961,7 +3143,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     });
   }
 
-  const TAB_IDS = ['home', 'introduction', 'methodology', 'results', 'conclusion'];
+  const TAB_IDS = ['home', 'introduction', 'methodology', 'results', 'researchers', 'conclusion'];
 
   const navLinks = $('navlinks');
   const menuBtn  = $('menuBtn');
@@ -3061,6 +3243,22 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     }
     moveIndicator();
   });
+
+  /* ==========================================================
+     RESEARCHERS CAROUSEL LOGIC
+     ========================================================== */
+  const resTrack = $('researchersTrack');
+  const btnLeft = document.querySelector('.scroll-btn--left');
+  const btnRight = document.querySelector('.scroll-btn--right');
+
+  if (resTrack && btnLeft && btnRight) {
+    btnLeft.addEventListener('click', () => {
+      resTrack.scrollBy({ left: -300, behavior: 'smooth' });
+    });
+    btnRight.addEventListener('click', () => {
+      resTrack.scrollBy({ left: 300, behavior: 'smooth' });
+    });
+  }
 
   function initTilt() {
     $$('[data-tilt]').forEach(el => {
