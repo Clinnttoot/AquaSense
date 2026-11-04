@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#344E3D">
+<meta name="theme-color" content="#1B2A20">
 <meta name="description" content="AquaSense — a solar-powered IoT water quality monitoring dashboard for Barangay Ibaba West, Calapan City, Oriental Mindoro.">
 <title>AquaSense | Live Water Quality Monitor</title>
 
@@ -13,8 +13,9 @@
    ============================================================ */
 :root{
   /* Brand greens */
-  --green-950:#1B2A20;
-  --green-900:#24352A;
+  --green-950:#14211A;
+  --green-900:#1B2A20;
+  --green-850:#24352A;
   --green-800:#344E3D;
   --green-700:#3F5C49;
   --green-600:#526F5B;
@@ -34,15 +35,19 @@
   --line:#DCE0D5;
   --card:#FFFFFF;
 
-  /* Semantic (light backgrounds) */
+  /* Semantic (light) */
   --ok:#2E8B62;
   --warn:#B3781F;
   --bad:#C0453D;
 
-  /* Semantic (dark backgrounds) */
+  /* Semantic (dark) */
   --ok-lt:#4FE0AC;
   --warn-lt:#F0C878;
   --bad-lt:#F0928C;
+
+  /* Water accent */
+  --aqua:#4FD1B0;
+  --aqua-dim:rgba(79,209,176,.28);
 
   /* Chart accents */
   --c-ph:#526F5B;
@@ -50,22 +55,23 @@
   --c-temp:#A9603F;
 
   /* Shape */
-  --r-sm:8px;
-  --r-md:12px;
-  --r-lg:18px;
-  --r-xl:24px;
+  --r-sm:10px;
+  --r-md:16px;
+  --r-lg:22px;
+  --r-xl:30px;
   --r-full:999px;
 
   /* Elevation */
   --sh-xs:0 1px 2px rgba(27,42,32,.06);
   --sh-sm:0 2px 6px rgba(27,42,32,.06), 0 1px 2px rgba(27,42,32,.04);
-  --sh-md:0 12px 32px -14px rgba(27,42,32,.30);
-  --sh-lg:0 32px 64px -32px rgba(27,42,32,.55);
+  --sh-md:0 18px 40px -20px rgba(27,42,32,.45);
+  --sh-lg:0 36px 70px -34px rgba(27,42,32,.6);
 
   /* Layout */
-  --nav-h:64px;
+  --nav-h:66px;
   --container:1280px;
   --ease:cubic-bezier(.4,0,.2,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
 
   /* Type */
   --font-sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -92,9 +98,10 @@ body{
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
   text-rendering:optimizeLegibility;
+  overflow-x:hidden;
 }
 
-h1,h2,h3,h4,p,ul,ol,figure{margin:0;}
+h1,h2,h3,h4,p,ul,ol,figure,blockquote{margin:0;}
 ul,ol{padding:0;list-style:none;}
 img{max-width:100%;display:block;}
 a{color:inherit;text-decoration:none;}
@@ -102,9 +109,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
 canvas{display:block;}
 
 :focus-visible{
-  outline:2px solid var(--green-400);
+  outline:2px solid var(--aqua);
   outline-offset:3px;
-  border-radius:4px;
+  border-radius:6px;
 }
 
 .container{
@@ -122,23 +129,80 @@ canvas{display:block;}
   white-space:nowrap;border:0;
 }
 
+/* Rising-bubble canvas layer */
+#bubbleLayer{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  pointer-events:none;
+}
+
+header,main,footer{position:relative;z-index:1;}
+
+/* Click ripple */
+.click-ripple{
+  position:fixed;
+  width:14px;height:14px;
+  margin:-7px 0 0 -7px;
+  border-radius:50%;
+  border:2px solid var(--aqua);
+  pointer-events:none;
+  z-index:9999;
+  animation:rippleOut .85s var(--ease-out) forwards;
+}
+@keyframes rippleOut{
+  0%{transform:scale(.35);opacity:.9;}
+  100%{transform:scale(13);opacity:0;}
+}
+
+/* Swim-away easter egg */
+.fish{
+  position:fixed;
+  bottom:8vh;
+  left:-14vw;
+  font-size:clamp(30px,5vw,52px);
+  z-index:9998;
+  pointer-events:none;
+  animation:swim 6.5s linear forwards;
+  filter:drop-shadow(0 8px 12px rgba(0,0,0,.25));
+}
+@keyframes swim{
+  0%{transform:translate(0,0) scaleX(-1);opacity:0;}
+  8%{opacity:1;}
+  50%{transform:translate(65vw,-6vh) scaleX(-1);}
+  92%{opacity:1;}
+  100%{transform:translate(130vw,4vh) scaleX(-1);opacity:0;}
+}
+
+/* Scroll reveal utility */
+[data-reveal]{
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity .65s var(--ease-out), transform .65s var(--ease-out);
+  will-change:opacity,transform;
+}
+[data-reveal].is-in{opacity:1;transform:none;}
+
 /* ============================================================
    3. HEADER / NAVIGATION
    ============================================================ */
 .site-header{
   position:sticky;
-  position:-webkit-sticky;
   top:0;
   z-index:200;
-  background:var(--green-600);
+  background:rgba(20,33,26,.82);
+  -webkit-backdrop-filter:blur(18px) saturate(150%);
+  backdrop-filter:blur(18px) saturate(150%);
+  border-bottom:1px solid rgba(255,255,255,.09);
   color:#fff;
-  box-shadow:0 1px 0 rgba(255,255,255,.10), 0 12px 32px -22px rgba(15,26,18,.9);
 }
 
 .nav{
   display:flex;
   align-items:center;
-  gap:16px;
+  gap:14px;
   height:var(--nav-h);
 }
 
@@ -149,18 +213,26 @@ canvas{display:block;}
   gap:11px;
   flex:0 0 auto;
   border-radius:var(--r-md);
+  padding:4px 6px 4px 4px;
 }
 .brand__mark{
-  width:38px;height:38px;
+  width:40px;height:40px;
   display:grid;place-items:center;
-  border-radius:12px;
-  background:linear-gradient(150deg,rgba(255,255,255,.26),rgba(255,255,255,.08));
+  border-radius:13px;
+  background:linear-gradient(150deg,rgba(79,209,176,.35),rgba(255,255,255,.06));
   border:1px solid rgba(255,255,255,.22);
-  font-size:18px;
+  color:#fff;
   flex:0 0 auto;
+  transition:transform .3s var(--ease-out), box-shadow .3s var(--ease-out);
+  box-shadow:0 0 0 0 var(--aqua-dim);
+}
+.brand:hover .brand__mark{
+  transform:rotate(-8deg) scale(1.06);
+  box-shadow:0 0 0 6px var(--aqua-dim);
 }
 .brand__text{line-height:1.1;}
 .brand__name{
+  display:block;
   font-size:19px;
   font-weight:800;
   letter-spacing:-.4px;
@@ -173,31 +245,47 @@ canvas{display:block;}
   font-weight:600;
   letter-spacing:1.4px;
   text-transform:uppercase;
-  color:rgba(255,255,255,.62);
+  color:rgba(255,255,255,.55);
   margin-top:3px;
 }
 
-/* Links */
+/* Nav links */
 .nav__links{
+  position:relative;
   display:flex;
   align-items:center;
-  gap:4px;
+  gap:2px;
   margin-left:auto;
+}
+.nav__indicator{
+  position:absolute;
+  top:50%;
+  left:0;
+  height:36px;
+  margin-top:-18px;
+  width:0;
+  border-radius:var(--r-full);
+  background:rgba(255,255,255,.14);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);
+  transition:transform .38s var(--ease-out), width .38s var(--ease-out);
+  z-index:0;
+  pointer-events:none;
 }
 .nav__link{
   position:relative;
+  z-index:1;
   display:block;
-  padding:8px 13px;
-  border-radius:var(--r-sm);
+  padding:9px 14px;
+  border-radius:var(--r-full);
   font-size:13.5px;
   font-weight:600;
   letter-spacing:.1px;
-  color:rgba(255,255,255,.78);
+  color:rgba(255,255,255,.74);
   white-space:nowrap;
-  transition:color .18s var(--ease), background-color .18s var(--ease);
+  transition:color .2s var(--ease);
 }
-.nav__link:hover{color:#fff;background:rgba(255,255,255,.10);}
-.nav__link.is-active{color:#fff;background:rgba(255,255,255,.16);}
+.nav__link:hover{color:#fff;}
+.nav__link.is-active{color:#fff;}
 
 /* Live status pill */
 .nav__status{
@@ -207,7 +295,7 @@ canvas{display:block;}
   padding:6px 13px 6px 11px;
   border:1px solid rgba(255,255,255,.18);
   border-radius:var(--r-full);
-  background:rgba(255,255,255,.07);
+  background:rgba(255,255,255,.06);
   font-size:11.5px;
   font-weight:600;
   letter-spacing:.2px;
@@ -236,24 +324,33 @@ canvas{display:block;}
 }
 @keyframes pulse{
   0%,100%{box-shadow:0 0 0 3px rgba(59,214,155,.22);}
-  50%{box-shadow:0 0 0 6px rgba(59,214,155,.06);}
+  50%{box-shadow:0 0 0 7px rgba(59,214,155,.04);}
 }
 
 /* Hamburger */
 .nav__toggle{
   display:none;
-  align-items:center;
+  flex-direction:column;
   justify-content:center;
-  width:40px;height:38px;
+  gap:4px;
+  width:42px;height:40px;
+  padding:0 10px;
   border:1px solid rgba(255,255,255,.24);
-  border-radius:var(--r-sm);
-  color:#fff;
-  font-size:17px;
-  line-height:1;
+  border-radius:12px;
   flex:0 0 auto;
   transition:background .18s var(--ease);
 }
-.nav__toggle:hover{background:rgba(255,255,255,.12);}
+.nav__toggle:hover{background:rgba(255,255,255,.10);}
+.nav__toggle span{
+  display:block;
+  height:2px;
+  border-radius:2px;
+  background:#fff;
+  transition:transform .28s var(--ease), opacity .2s var(--ease);
+}
+.nav__toggle.is-open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.nav__toggle.is-open span:nth-child(2){opacity:0;}
+.nav__toggle.is-open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
 
 /* ============================================================
    4. HERO
@@ -262,35 +359,57 @@ canvas{display:block;}
   position:relative;
   isolation:isolate;
   overflow:hidden;
-  background:var(--green-600);
   color:#fff;
-}
-.hero__bg{
-  position:absolute;
-  inset:0;
-  z-index:-2;
-  background-image:url('background.jpg');
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-}
-.hero__bg::after{
-  content:"";
-  position:absolute;
-  inset:0;
   background:
-    linear-gradient(105deg,
-      rgba(27,42,32,.95) 0%,
-      rgba(52,78,61,.90) 34%,
-      rgba(82,111,91,.62) 66%,
-      rgba(41,62,48,.92) 100%);
+    radial-gradient(120% 90% at 15% 0%, #2C4436 0%, transparent 60%),
+    linear-gradient(160deg, #1B2A20 0%, #2C4436 34%, #3F5C49 62%, #24352A 100%);
+  padding-top:clamp(30px,5vw,58px);
+  padding-bottom:230px;
 }
+
+.hero__glow{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(70px);
+  pointer-events:none;
+  z-index:-1;
+}
+.hero__glow--1{
+  width:560px;height:560px;
+  top:-200px;right:-140px;
+  background:radial-gradient(circle,rgba(79,209,176,.30),transparent 68%);
+  animation:floaty 14s ease-in-out infinite;
+}
+.hero__glow--2{
+  width:460px;height:460px;
+  bottom:-160px;left:-160px;
+  background:radial-gradient(circle,rgba(200,210,192,.20),transparent 68%);
+  animation:floaty 19s ease-in-out infinite reverse;
+}
+@keyframes floaty{
+  0%,100%{transform:translate3d(0,0,0) scale(1);}
+  50%{transform:translate3d(-24px,26px,0) scale(1.08);}
+}
+
+/* subtle tech grid */
+.hero__grid{
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+  background-size:56px 56px;
+  -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 10%, #000 20%, transparent 80%);
+  mask-image:radial-gradient(ellipse 90% 70% at 50% 10%, #000 20%, transparent 80%);
+}
+
 .hero__inner{
   display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(300px,360px);
+  grid-template-columns:minmax(0,1fr) minmax(300px,370px);
   align-items:center;
-  gap:clamp(24px,4vw,52px);
-  padding-block:clamp(32px,5vw,60px);
+  gap:clamp(24px,4vw,56px);
 }
 
 .eyebrow{
@@ -311,17 +430,27 @@ canvas{display:block;}
   width:6px;height:6px;border-radius:50%;
   background:#3BD69B;
   box-shadow:0 0 0 3px rgba(59,214,155,.22);
+  animation:pulse 2.2s var(--ease) infinite;
 }
 
 .hero__title{
-  margin:16px 0 10px;
-  font-size:clamp(2.6rem,6vw,4.1rem);
-  font-weight:800;
-  letter-spacing:-.035em;
-  line-height:.98;
+  margin:18px 0 12px;
+  font-size:clamp(2.9rem,7vw,5rem);
+  font-weight:900;
+  letter-spacing:-.04em;
+  line-height:.94;
   color:#fff;
 }
-.hero__title span{color:var(--green-200);}
+.hero__title span{
+  background:linear-gradient(110deg,var(--green-200) 0%,var(--aqua) 45%,var(--green-100) 100%);
+  background-size:220% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+  animation:shimmer 7s linear infinite;
+}
+@keyframes shimmer{to{background-position:220% 0;}}
 
 .hero__subtitle{
   font-size:clamp(15px,1.6vw,18px);
@@ -331,17 +460,17 @@ canvas{display:block;}
   margin-bottom:10px;
 }
 .hero__text{
-  max-width:60ch;
+  max-width:58ch;
   font-size:13.5px;
-  line-height:1.75;
-  color:rgba(255,255,255,.80);
+  line-height:1.78;
+  color:rgba(255,255,255,.78);
 }
 
 .chips{
   display:flex;
   flex-wrap:wrap;
   gap:8px;
-  margin:18px 0 24px;
+  margin:20px 0 26px;
 }
 .chips li{
   display:inline-flex;
@@ -350,55 +479,104 @@ canvas{display:block;}
   padding:6px 13px;
   border-radius:var(--r-full);
   border:1px solid rgba(255,255,255,.16);
-  background:rgba(255,255,255,.07);
+  background:rgba(255,255,255,.06);
   font-size:11px;
   font-weight:600;
   color:rgba(255,255,255,.88);
   white-space:nowrap;
+  transition:transform .25s var(--ease-out), background .25s, border-color .25s;
 }
 .chips li::before{
   content:"";
   width:5px;height:5px;border-radius:50%;
-  background:var(--green-300);
+  background:var(--aqua);
+  box-shadow:0 0 8px var(--aqua);
+}
+.chips li:hover{
+  transform:translateY(-3px);
+  background:rgba(79,209,176,.16);
+  border-color:rgba(79,209,176,.5);
+}
+
+.hero__actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  align-items:center;
 }
 
 .btn{
+  position:relative;
   display:inline-flex;
   align-items:center;
   gap:10px;
-  padding:12px 22px;
+  padding:13px 24px;
   border-radius:var(--r-full);
   font-size:13.5px;
   font-weight:700;
   letter-spacing:.1px;
-  transition:transform .18s var(--ease), box-shadow .18s var(--ease), background-color .18s var(--ease);
+  transition:transform .25s var(--ease-out), box-shadow .25s var(--ease-out),
+             background-color .2s var(--ease), border-color .2s var(--ease);
+  will-change:transform;
 }
 .btn--primary{
-  background:var(--green-800);
+  background:linear-gradient(135deg,var(--green-800),var(--green-700));
   color:#fff;
-  box-shadow:0 10px 26px -12px rgba(0,0,0,.7);
-  border:1px solid rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 14px 30px -14px rgba(0,0,0,.8);
 }
 .btn--primary:hover{
-  background:var(--green-900);
-  transform:translateY(-2px);
-  box-shadow:0 16px 32px -14px rgba(0,0,0,.8);
+  box-shadow:0 20px 38px -16px rgba(0,0,0,.9), 0 0 0 6px rgba(79,209,176,.14);
 }
-.btn__arrow{transition:transform .18s var(--ease);}
-.btn:hover .btn__arrow{transform:translateX(3px);}
+.btn--ghost{
+  color:#fff;
+  border:1px solid rgba(255,255,255,.28);
+  background:rgba(255,255,255,.05);
+}
+.btn--ghost:hover{
+  background:rgba(79,209,176,.16);
+  border-color:rgba(79,209,176,.55);
+}
+.btn__arrow{transition:transform .25s var(--ease-out);}
+.btn:hover .btn__arrow{transform:translateX(4px);}
 
 /* ---- Live card ---- */
 .live-card{
   position:relative;
-  padding:18px 18px 14px;
+  padding:20px 18px 16px;
   border-radius:var(--r-lg);
-  border:1px solid rgba(255,255,255,.16);
-  background:linear-gradient(160deg,rgba(52,78,61,.92) 0%,rgba(27,42,32,.94) 100%);
+  border:1px solid rgba(255,255,255,.18);
+  background:linear-gradient(160deg,rgba(63,92,73,.88) 0%,rgba(27,42,32,.94) 100%);
   box-shadow:var(--sh-lg);
-  -webkit-backdrop-filter:blur(14px);
-  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(16px) saturate(130%);
+  backdrop-filter:blur(16px) saturate(130%);
+  overflow:hidden;
+  transition:transform .3s var(--ease-out), box-shadow .3s var(--ease-out);
+  will-change:transform;
+  animation:cardIn .9s var(--ease-out) both .15s;
 }
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(26px) scale(.96);}
+  to{opacity:1;transform:none;}
+}
+.live-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  pointer-events:none;
+  background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.10) 46%,transparent 60%);
+  background-size:260% 100%;
+  animation:sweep 8s ease-in-out infinite;
+}
+@keyframes sweep{
+  0%{background-position:170% 0;}
+  55%,100%{background-position:-90% 0;}
+}
+
 .live-card__head{
+  position:relative;
+  z-index:1;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -424,9 +602,10 @@ canvas{display:block;}
   white-space:nowrap;
   transition:color .25s, background-color .25s;
 }
-.live-card__tag.is-live{background:rgba(59,214,155,.14);color:var(--ok-lt);}
-.live-card__tag.is-offline{background:rgba(228,103,95,.16);color:var(--bad-lt);}
+.live-card__tag.is-live{background:rgba(59,214,155,.16);color:var(--ok-lt);}
+.live-card__tag.is-offline{background:rgba(228,103,95,.18);color:var(--bad-lt);}
 
+.readings{position:relative;z-index:1;}
 .reading{
   display:grid;
   grid-template-columns:26px minmax(0,1fr) auto;
@@ -459,7 +638,7 @@ canvas{display:block;}
 .reading__value{
   grid-area:value;
   font-family:var(--font-mono);
-  font-size:14px;
+  font-size:14.5px;
   font-weight:600;
   color:#fff;
   white-space:nowrap;
@@ -467,7 +646,7 @@ canvas{display:block;}
   letter-spacing:-.2px;
 }
 .reading__value .unit{
-  font-size:.74em;
+  font-size:.72em;
   font-weight:500;
   opacity:.6;
   margin-left:3px;
@@ -482,12 +661,13 @@ canvas{display:block;}
   color:rgba(255,255,255,.55);
 }
 
-/* dark-bg semantic colors */
 .reading__status.txt-ok,.live-card .txt-ok{color:var(--ok-lt);}
 .reading__status.txt-warn,.live-card .txt-warn{color:var(--warn-lt);}
 .reading__status.txt-bad,.live-card .txt-bad{color:var(--bad-lt);}
 
 .live-card__foot{
+  position:relative;
+  z-index:1;
   margin-top:12px;
   padding-top:12px;
   border-top:1px solid rgba(255,255,255,.09);
@@ -497,22 +677,105 @@ canvas{display:block;}
 }
 .live-card__foot b{color:rgba(255,255,255,.72);font-weight:600;}
 
+/* ---- Floating buoy (prototype reference) ---- */
+.buoy{
+  position:absolute;
+  right:12%;
+  bottom:34px;
+  width:150px;
+  z-index:2;
+  pointer-events:none;
+  filter:drop-shadow(0 22px 26px rgba(0,0,0,.45));
+}
+.buoy__bob{animation:bob 5.5s ease-in-out infinite;}
+@keyframes bob{
+  0%,100%{transform:translateY(0) rotate(-1.6deg);}
+  50%{transform:translateY(-11px) rotate(1.6deg);}
+}
+.buoy__signal circle{
+  transform-box:fill-box;
+  transform-origin:center;
+  animation:ping 2.6s var(--ease-out) infinite;
+}
+@keyframes ping{
+  0%{transform:scale(.55);opacity:.9;}
+  75%,100%{transform:scale(2.8);opacity:0;}
+}
+.buoy__led{animation:ledPulse 1.8s ease-in-out infinite;transition:fill .5s var(--ease);}
+@keyframes ledPulse{
+  0%,100%{opacity:1;}
+  50%{opacity:.32;}
+}
+.buoy[data-status="warn"] .buoy__led{fill:var(--warn-lt);}
+.buoy[data-status="bad"]  .buoy__led{fill:var(--bad-lt);}
+.buoy[data-status="ok"]   .buoy__led{fill:var(--ok-lt);}
+
+/* ---- Waves ---- */
+.hero__waves{
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:170px;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:1;
+}
+.waves{
+  position:absolute;
+  bottom:0;left:0;
+  width:200%;
+  height:100%;
+}
+.waves--back{animation:waveDrift 30s linear infinite;opacity:.5;}
+.waves--mid{animation:waveDrift 22s linear infinite reverse;opacity:.72;}
+.waves--front{animation:waveDrift 15s linear infinite;opacity:1;}
+@keyframes waveDrift{to{transform:translateX(-50%);}}
+
 /* ============================================================
-   5. MAIN / TABS
+   5. TICKER
+   ============================================================ */
+.ticker{
+  overflow:hidden;
+  background:var(--sand-50);
+  border-block:1px solid var(--line);
+  position:relative;
+  z-index:1;
+}
+.ticker__track{
+  display:flex;
+  width:max-content;
+  animation:marquee 34s linear infinite;
+}
+.ticker:hover .ticker__track{animation-play-state:paused;}
+@keyframes marquee{to{transform:translateX(-50%);}}
+.ticker__group{
+  display:flex;
+  align-items:center;
+  gap:26px;
+  padding:11px 13px;
+}
+.ticker__group span{
+  font-size:10.5px;
+  font-weight:800;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  color:var(--green-600);
+  white-space:nowrap;
+}
+.ticker__group i{
+  font-style:normal;
+  font-size:7px;
+  color:var(--aqua);
+}
+
+/* ============================================================
+   6. MAIN / PANELS
    ============================================================ */
 main{
-  padding-block:clamp(20px,3vw,34px) 48px;
+  padding-block:clamp(22px,3.4vw,40px) 56px;
 }
 
 .tab-panel{display:none;}
-.tab-panel.is-active{
-  display:block;
-  animation:fadeUp .34s var(--ease) both;
-}
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(10px);}
-  to{opacity:1;transform:none;}
-}
+.tab-panel.is-active{display:block;}
 
 .card{
   background:var(--card);
@@ -520,6 +783,11 @@ main{
   border-radius:var(--r-lg);
   box-shadow:var(--sh-sm);
   padding:clamp(18px,2.6vw,30px);
+  animation:panelIn .55s var(--ease-out) both;
+}
+@keyframes panelIn{
+  from{opacity:0;transform:translateY(18px) scale(.995);}
+  to{opacity:1;transform:none;}
 }
 
 .section-head{
@@ -531,17 +799,19 @@ main{
   border-bottom:1px solid var(--line);
 }
 .section-head__num{
-  width:38px;height:38px;
+  width:40px;height:40px;
   flex:0 0 auto;
   display:grid;place-items:center;
-  border-radius:12px;
-  background:linear-gradient(150deg,var(--green-700),var(--green-800));
+  border-radius:13px;
+  background:linear-gradient(150deg,var(--green-700),var(--green-900));
   color:#fff;
   font-size:14px;
   font-weight:800;
   font-family:var(--font-mono);
-  box-shadow:0 6px 14px -8px rgba(27,42,32,.9);
+  box-shadow:0 8px 18px -10px rgba(27,42,32,.95);
+  transition:transform .4s var(--ease-out);
 }
+.card:hover .section-head__num{transform:rotate(-8deg) scale(1.05);}
 .section-head__title{
   font-size:clamp(15px,1.7vw,18px);
   font-weight:800;
@@ -560,21 +830,133 @@ main{
   color:var(--muted);
 }
 
-/* Prose */
 .prose p{
   font-size:13.5px;
-  line-height:1.78;
+  line-height:1.8;
   color:var(--ink);
   margin-bottom:14px;
 }
 .prose p:last-child{margin-bottom:0;}
+.prose strong{color:var(--green-800);font-weight:700;}
 
 /* ============================================================
-   6. INTRODUCTION
+   7. HOME — PILLARS & FLOW
+   ============================================================ */
+.pillars{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+.pillar{
+  position:relative;
+  overflow:hidden;
+  padding:22px 20px;
+  border-radius:var(--r-lg);
+  border:1px solid var(--line);
+  background:linear-gradient(160deg,#fff,var(--sand-50));
+  transition:transform .35s var(--ease-out), box-shadow .35s var(--ease-out), border-color .35s;
+}
+.pillar:hover{
+  transform:translateY(-7px);
+  box-shadow:var(--sh-md);
+  border-color:var(--green-300);
+}
+.pillar::after{
+  content:"";
+  position:absolute;
+  right:-50px;bottom:-70px;
+  width:170px;height:170px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(79,209,176,.22),transparent 70%);
+  opacity:0;
+  transition:opacity .45s var(--ease);
+}
+.pillar:hover::after{opacity:1;}
+.pillar__icon{
+  width:48px;height:48px;
+  display:grid;place-items:center;
+  border-radius:15px;
+  background:var(--green-100);
+  color:var(--green-700);
+  font-size:21px;
+  margin-bottom:14px;
+  transition:transform .35s var(--ease-out), background .35s, color .35s;
+}
+.pillar:hover .pillar__icon{
+  transform:rotate(-9deg) scale(1.1);
+  background:linear-gradient(150deg,var(--green-700),var(--green-900));
+  color:#fff;
+}
+.pillar h3{
+  font-size:14px;
+  font-weight:800;
+  color:var(--green-800);
+  margin-bottom:6px;
+}
+.pillar p{
+  font-size:12.5px;
+  line-height:1.7;
+  color:var(--muted);
+}
+
+.flow{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin-top:22px;
+}
+.flow__step{
+  position:relative;
+  padding:16px 14px;
+  border-radius:var(--r-md);
+  background:var(--sand-100);
+  border:1px solid var(--line);
+  text-align:center;
+  transition:transform .3s var(--ease-out), background .3s, border-color .3s;
+}
+.flow__step:hover{
+  transform:translateY(-5px);
+  background:#fff;
+  border-color:var(--green-300);
+}
+.flow__step::after{
+  content:"→";
+  position:absolute;
+  right:-13px;top:50%;
+  transform:translateY(-50%);
+  font-size:13px;
+  color:var(--green-400);
+  z-index:2;
+}
+.flow__step:last-child::after{display:none;}
+.flow__step b{
+  display:block;
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:1.4px;
+  color:var(--green-500);
+  margin-bottom:6px;
+}
+.flow__step strong{
+  display:block;
+  font-size:12.5px;
+  font-weight:800;
+  color:var(--green-800);
+  margin-bottom:4px;
+}
+.flow__step small{
+  display:block;
+  font-size:10.5px;
+  line-height:1.55;
+  color:var(--muted);
+}
+
+/* ============================================================
+   8. INTRODUCTION
    ============================================================ */
 .intro{
   display:grid;
-  grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+  grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
   gap:clamp(20px,3vw,32px);
   align-items:start;
 }
@@ -591,24 +973,33 @@ main{
   letter-spacing:1.2px;
   text-transform:uppercase;
   color:var(--green-700);
-  margin-bottom:16px;
+  margin-bottom:8px;
 }
 .context__row{
   display:flex;
   gap:12px;
-  padding:11px 0;
+  padding:12px 10px;
+  border-radius:var(--r-sm);
   border-bottom:1px dashed var(--line);
+  transition:background .25s var(--ease), transform .25s var(--ease-out);
 }
 .context__row:last-of-type{border-bottom:0;}
+.context__row:hover{background:#fff;transform:translateX(3px);}
 .context__symbol{
-  width:30px;height:30px;
+  width:32px;height:32px;
   flex:0 0 auto;
   display:grid;place-items:center;
-  border-radius:9px;
+  border-radius:10px;
   background:#fff;
   border:1px solid var(--line);
   color:var(--green-700);
   font-size:14px;
+  transition:transform .3s var(--ease-out), background .3s, color .3s;
+}
+.context__row:hover .context__symbol{
+  transform:rotate(-10deg) scale(1.08);
+  background:var(--green-800);
+  color:#fff;
 }
 .context__row strong{
   display:block;
@@ -626,16 +1017,56 @@ main{
   color:var(--muted);
 }
 
+/* Stylised map */
 .map{
+  position:relative;
   margin-top:16px;
   aspect-ratio:16/10;
   border-radius:var(--r-md);
   border:1px solid var(--line);
+  overflow:hidden;
   background-color:#DDE4D6;
   background-image:url('map.jpg');
   background-size:cover;
   background-position:center;
   box-shadow:var(--sh-xs);
+}
+.map::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(52,78,61,.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(52,78,61,.10) 1px, transparent 1px);
+  background-size:26px 26px;
+}
+.map__pin{
+  position:absolute;
+  left:52%;top:48%;
+  width:16px;height:16px;
+  margin:-8px 0 0 -8px;
+  border-radius:50%;
+  background:var(--green-800);
+  box-shadow:0 0 0 0 rgba(52,78,61,.45);
+  animation:pinPulse 2.4s ease-out infinite;
+}
+@keyframes pinPulse{
+  0%{box-shadow:0 0 0 0 rgba(52,78,61,.45);}
+  70%{box-shadow:0 0 0 26px rgba(52,78,61,0);}
+  100%{box-shadow:0 0 0 0 rgba(52,78,61,0);}
+}
+.map__label{
+  position:absolute;
+  left:52%;top:48%;
+  transform:translate(-50%,-160%);
+  padding:4px 10px;
+  border-radius:var(--r-full);
+  background:rgba(27,42,32,.85);
+  color:#fff;
+  font-size:9.5px;
+  font-weight:700;
+  letter-spacing:.6px;
+  white-space:nowrap;
 }
 .map__caption{
   margin-top:8px;
@@ -646,11 +1077,11 @@ main{
 }
 
 /* ============================================================
-   7. METHODOLOGY
+   9. METHODOLOGY
    ============================================================ */
 .method{
   display:grid;
-  grid-template-columns:290px minmax(0,1fr);
+  grid-template-columns:280px minmax(0,1fr);
   gap:clamp(16px,2.4vw,24px);
   align-items:start;
 }
@@ -674,18 +1105,20 @@ main{
   font-size:13px;
   font-weight:600;
   color:var(--ink);
-  transition:background-color .18s var(--ease), border-color .18s var(--ease), color .18s var(--ease), transform .18s var(--ease);
+  transition:background-color .22s var(--ease), border-color .22s var(--ease),
+             color .22s var(--ease), transform .22s var(--ease-out),
+             box-shadow .22s var(--ease);
 }
 .method__btn:hover{
   background:var(--sand-100);
   border-color:var(--green-300);
-  transform:translateX(2px);
+  transform:translateX(3px);
 }
 .method__btn.is-active{
-  background:linear-gradient(150deg,var(--green-700),var(--green-800));
-  border-color:var(--green-800);
+  background:linear-gradient(150deg,var(--green-700),var(--green-900));
+  border-color:var(--green-900);
   color:#fff;
-  box-shadow:0 12px 24px -16px rgba(27,42,32,.95);
+  box-shadow:0 14px 28px -18px rgba(27,42,32,.95);
 }
 .method__icon{
   width:30px;height:30px;
@@ -695,1639 +1128,18 @@ main{
   background:var(--sand-100);
   color:var(--green-700);
   font-size:14px;
-  transition:background-color .18s var(--ease), color .18s var(--ease);
+  transition:background-color .22s var(--ease), color .22s var(--ease), transform .3s var(--ease-out);
 }
 .method__btn.is-active .method__icon{
   background:rgba(255,255,255,.18);
   color:#fff;
+  transform:rotate(-8deg);
 }
 
 .method__display{
   position:relative;
-  min-height:290px;
+  min-height:300px;
   padding:clamp(18px,2.4vw,26px);
   border-radius:var(--r-md);
   border:1px solid var(--line);
-  background:var(--card);
-  box-shadow:inset 0 2px 10px rgba(27,42,32,.03);
-}
-.method__pane{display:none;}
-.method__pane.is-active{
-  display:block;
-  animation:fadeIn .3s var(--ease) both;
-}
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(6px);}
-  to{opacity:1;transform:none;}
-}
-.method__pane h3{
-  font-size:15px;
-  font-weight:800;
-  color:var(--green-800);
-  margin-bottom:12px;
-  padding-bottom:10px;
-  border-bottom:2px solid var(--sand-200);
-}
-.method__pane p{
-  font-size:13px;
-  line-height:1.75;
-  color:var(--ink);
-  margin-bottom:12px;
-}
-.method__pane p:last-child{margin-bottom:0;}
-.method__pane ul{
-  margin:0 0 12px;
-  display:grid;
-  gap:8px;
-}
-.method__pane li{
-  position:relative;
-  padding-left:20px;
-  font-size:13px;
-  line-height:1.65;
-  color:var(--ink);
-}
-.method__pane li::before{
-  content:"";
-  position:absolute;
-  left:2px;top:.62em;
-  width:6px;height:6px;
-  border-radius:2px;
-  background:var(--green-400);
-}
-.method__pane strong{color:var(--green-800);font-weight:700;}
-
-/* ============================================================
-   8. RESULTS
-   ============================================================ */
-.results{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1.05fr) minmax(0,.85fr);
-  gap:clamp(14px,2vw,20px);
-  align-items:start;
-}
-
-.panel{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  padding:clamp(15px,2vw,20px);
-  border-radius:var(--r-md);
-  border:1px solid var(--line);
-  background:var(--card);
-  box-shadow:var(--sh-xs);
-  min-width:0;
-}
-.panel__head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-}
-.panel__head h3{
-  font-size:11.5px;
-  font-weight:800;
-  letter-spacing:.8px;
-  text-transform:uppercase;
-  color:var(--green-800);
-  line-height:1.3;
-}
-.panel__head h3 small{
-  display:block;
-  font-size:9.5px;
-  font-weight:600;
-  letter-spacing:.3px;
-  text-transform:none;
-  color:var(--muted);
-  margin-top:2px;
-}
-.badge{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  padding:3px 9px;
-  border-radius:var(--r-full);
-  background:var(--sand-200);
-  color:var(--green-700);
-  font-size:9px;
-  font-weight:800;
-  letter-spacing:.7px;
-  text-transform:uppercase;
-  white-space:nowrap;
-}
-.badge--live{background:rgba(46,139,98,.12);color:var(--ok);}
-
-/* Table */
-.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-table.data{
-  width:100%;
-  border-collapse:collapse;
-  font-size:12px;
-  font-variant-numeric:tabular-nums;
-}
-table.data th{
-  padding:8px 8px;
-  text-align:left;
-  font-size:9.5px;
-  font-weight:800;
-  letter-spacing:.7px;
-  text-transform:uppercase;
-  color:var(--green-700);
-  background:var(--sand-100);
-  border-bottom:1px solid var(--line);
-  white-space:nowrap;
-}
-table.data th:first-child{border-radius:var(--r-sm) 0 0 0;}
-table.data th:last-child{border-radius:0 var(--r-sm) 0 0;}
-table.data td{
-  padding:9px 8px;
-  border-bottom:1px solid var(--line);
-  color:var(--ink);
-  text-align:right;
-  white-space:nowrap;
-}
-table.data td:first-child{
-  text-align:left;
-  font-weight:600;
-  color:var(--green-800);
-}
-table.data tbody tr:last-child td{border-bottom:0;}
-table.data tbody tr:hover td{background:var(--sand-50);}
-table.data td.txt-ok{color:var(--ok);font-weight:700;}
-table.data td.txt-warn{color:var(--warn);font-weight:700;}
-table.data td.txt-bad{color:var(--bad);font-weight:700;}
-.mono{font-family:var(--font-mono);font-size:11.5px;}
-
-.note{
-  font-size:10.5px;
-  line-height:1.6;
-  color:var(--muted);
-}
-
-.info-strip{
-  display:flex;
-  gap:9px;
-  align-items:flex-start;
-  padding:11px 13px;
-  border-radius:var(--r-sm);
-  background:var(--sand-100);
-  border:1px solid var(--line);
-  font-size:10.5px;
-  line-height:1.6;
-  color:var(--muted);
-}
-.info-strip__icon{
-  flex:0 0 auto;
-  color:var(--green-600);
-  font-size:12px;
-  line-height:1.5;
-}
-.info-strip strong{color:var(--green-800);font-weight:700;}
-
-/* Charts */
-.chart + .chart{margin-top:14px;}
-.chart__head{
-  display:flex;
-  align-items:baseline;
-  justify-content:space-between;
-  gap:8px;
-  margin-bottom:6px;
-}
-.chart__label{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  font-size:10.5px;
-  font-weight:700;
-  letter-spacing:.4px;
-  color:var(--green-800);
-  text-transform:uppercase;
-}
-.chart__swatch{
-  width:7px;height:7px;border-radius:50%;
-  flex:0 0 auto;
-}
-.chart__value{
-  font-family:var(--font-mono);
-  font-size:11px;
-  font-weight:600;
-  color:var(--muted);
-  font-variant-numeric:tabular-nums;
-}
-.chart canvas{
-  width:100%;
-  height:92px;
-  border-radius:var(--r-sm);
-  background:var(--sand-50);
-  border:1px solid var(--line);
-}
-
-/* System status list */
-.status-list{display:flex;flex-direction:column;gap:9px;}
-.status-item{
-  display:flex;
-  gap:11px;
-  align-items:flex-start;
-  padding:11px 12px;
-  border-radius:var(--r-sm);
-  background:var(--sand-100);
-  border:1px solid var(--line);
-}
-.status-item__icon{
-  width:26px;height:26px;
-  flex:0 0 auto;
-  display:grid;place-items:center;
-  border-radius:8px;
-  background:#fff;
-  border:1px solid var(--line);
-  color:var(--green-700);
-  font-size:12px;
-}
-.status-item strong{
-  display:block;
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:.6px;
-  text-transform:uppercase;
-  color:var(--green-800);
-  margin-bottom:2px;
-}
-.status-item small{
-  display:block;
-  font-size:10.5px;
-  line-height:1.5;
-  color:var(--muted);
-}
-
-/* ============================================================
-   9. CONCLUSION
-   ============================================================ */
-.conclusion{
-  display:grid;
-  gap:16px;
-}
-.quote{
-  display:flex;
-  gap:14px;
-  align-items:center;
-  padding:16px 18px;
-  border-radius:var(--r-md);
-  border:1px solid var(--line);
-  border-left:4px solid var(--green-500);
-  background:var(--sand-100);
-  color:var(--green-800);
-  font-size:12.5px;
-  font-weight:600;
-  line-height:1.6;
-}
-.quote__mark{
-  font-size:26px;
-  line-height:1;
-  color:var(--green-400);
-  flex:0 0 auto;
-}
-
-/* ============================================================
-   10. FOOTER
-   ============================================================ */
-.site-footer{
-  margin-top:8px;
-  background:var(--green-800);
-  color:#fff;
-}
-.footer__grid{
-  display:grid;
-  grid-template-columns:1.2fr 1.3fr 1fr 1.2fr;
-  gap:clamp(18px,3vw,32px);
-  align-items:center;
-  padding-block:clamp(26px,3.4vw,40px);
-}
-.footer__brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:19px;
-  font-weight:800;
-  letter-spacing:-.3px;
-}
-.footer__brand span{color:var(--green-200);}
-.footer__brand small{
-  display:block;
-  font-size:8.5px;
-  font-weight:600;
-  letter-spacing:1.3px;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.55);
-  margin-top:2px;
-}
-.footer__text{
-  font-size:11.5px;
-  line-height:1.7;
-  color:rgba(255,255,255,.72);
-}
-.footer__text strong{display:block;color:#fff;font-size:12px;margin-bottom:3px;}
-.footer__sdg{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  flex-wrap:wrap;
-}
-.sdg{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 12px;
-  border-radius:var(--r-sm);
-  background:rgba(255,255,255,.09);
-  border:1px solid rgba(255,255,255,.13);
-  font-size:10px;
-  font-weight:600;
-  line-height:1.25;
-  color:rgba(255,255,255,.85);
-}
-.sdg b{
-  font-family:var(--font-mono);
-  font-size:13px;
-  font-weight:800;
-  color:#fff;
-}
-.footer__bottom{
-  border-top:1px solid rgba(255,255,255,.10);
-  padding-block:14px;
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  font-size:10.5px;
-  color:rgba(255,255,255,.55);
-}
-
-/* ============================================================
-   11. RESPONSIVE
-   ============================================================ */
-
-/* --- Large tablets / small laptops --- */
-@media (max-width:1080px){
-  .results{
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  }
-  .panel--status{grid-column:1 / -1;}
-  .footer__grid{grid-template-columns:1fr 1fr;}
-}
-
-/* --- Tablets --- */
-@media (max-width:900px){
-  .nav__toggle{display:inline-flex;margin-left:auto;}
-  .nav__links{
-    position:absolute;
-    top:100%;
-    left:0;
-    right:0;
-    display:none;
-    flex-direction:column;
-    align-items:stretch;
-    gap:2px;
-    margin-left:0;
-    padding:10px clamp(14px,4vw,24px) 18px;
-    background:var(--green-600);
-    border-top:1px solid rgba(255,255,255,.12);
-    box-shadow:0 26px 44px -22px rgba(0,0,0,.75);
-    border-radius:0 0 var(--r-md) var(--r-md);
-  }
-  .nav__links.is-open{
-    display:flex;
-    animation:menuIn .22s var(--ease) both;
-  }
-  @keyframes menuIn{
-    from{opacity:0;transform:translateY(-10px);}
-    to{opacity:1;transform:none;}
-  }
-  .nav__link{padding:12px 14px;font-size:14px;}
-
-  .hero__inner{
-    grid-template-columns:1fr;
-    gap:26px;
-    padding-block:clamp(28px,5vw,44px);
-  }
-  .live-card{max-width:520px;width:100%;}
-
-  .intro{grid-template-columns:1fr;}
-  .method{grid-template-columns:1fr;}
-  .method__display{min-height:0;}
-
-  .method__nav{
-    flex-direction:row;
-    overflow-x:auto;
-    gap:8px;
-    padding-bottom:6px;
-    scrollbar-width:none;
-    -ms-overflow-style:none;
-  }
-  .method__nav::-webkit-scrollbar{display:none;}
-  .method__btn{
-    flex:0 0 auto;
-    width:auto;
-    white-space:nowrap;
-    padding:10px 14px;
-    font-size:12.5px;
-  }
-  .method__btn:hover{transform:none;}
-}
-
-/* --- Small tablets / large phones --- */
-@media (max-width:760px){
-  .results{grid-template-columns:1fr;}
-  .panel--status{grid-column:auto;}
-  .footer__grid{grid-template-columns:1fr;gap:20px;}
-  .footer__bottom{justify-content:flex-start;}
-}
-
-/* --- Phones --- */
-@media (max-width:640px){
-  :root{--nav-h:58px;}
-
-  body{font-size:14.5px;}
-
-  .brand__mark{width:34px;height:34px;font-size:16px;border-radius:10px;}
-  .brand__name{font-size:17px;}
-  .brand__tag{font-size:7px;letter-spacing:1.1px;}
-
-  .nav__status{padding:5px 10px;font-size:10.5px;}
-  .nav__status span:last-child{display:none;} /* hide "Live" text, keep dot */
-  .nav__status{padding:7px;}
-
-  .hero__text{font-size:13px;}
-  .chips{gap:6px;margin:16px 0 20px;}
-  .chips li{font-size:10px;padding:5px 10px;}
-
-  /* Live card: compact 3-up tile grid */
-  .live-card{padding:15px 14px 12px;}
-  .live-card__title{font-size:9.5px;letter-spacing:1.1px;}
-
-  .readings{
-    display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:8px;
-    margin-top:12px;
-  }
-  .reading{
-    display:flex;
-    flex-direction:column;
-    align-items:flex-start;
-    gap:2px;
-    padding:10px 9px;
-    border:1px solid rgba(255,255,255,.12);
-    border-radius:10px;
-    background:rgba(255,255,255,.05);
-  }
-  .reading:last-child{border-bottom:1px solid rgba(255,255,255,.12);}
-  .reading__icon{display:none;}
-  .reading__name{
-    font-size:9px;
-    font-weight:700;
-    letter-spacing:.6px;
-    text-transform:uppercase;
-    color:rgba(255,255,255,.6);
-  }
-  .reading__value{font-size:13.5px;}
-  .reading__status{font-size:9px;}
-
-  .card{padding:16px 15px;}
-  .section-head{gap:11px;padding-bottom:14px;margin-bottom:18px;}
-  .section-head__num{width:34px;height:34px;font-size:13px;border-radius:10px;}
-  .section-head__title{font-size:14px;letter-spacing:.4px;}
-
-  .method__display{padding:16px 15px;}
-  .method__pane h3{font-size:14px;}
-
-  .panel{padding:14px 13px;}
-  table.data{font-size:11px;}
-  table.data th,table.data td{padding:8px 6px;}
-
-  .chart canvas{height:80px;}
-
-  .quote{flex-direction:column;align-items:flex-start;gap:6px;}
-}
-
-/* --- Very small phones --- */
-@media (max-width:380px){
-  .readings{grid-template-columns:1fr 1fr;}
-  .reading__value{font-size:13px;}
-  .hero__title{font-size:2.35rem;}
-  .btn{padding:11px 18px;font-size:12.5px;}
-}
-
-/* ============================================================
-   12. MOTION PREFERENCES
-   ============================================================ */
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{
-    animation-duration:.001ms !important;
-    animation-iteration-count:1 !important;
-    transition-duration:.001ms !important;
-    scroll-behavior:auto !important;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<!-- ============================================================
-     HEADER
-     ============================================================ -->
-<header class="site-header">
-  <div class="container">
-    <nav class="nav" aria-label="Main navigation">
-
-      <a class="brand" href="#home" data-tab="home" aria-label="AquaSense — home">
-        <span class="brand__mark" aria-hidden="true">💧</span>
-        <span class="brand__text">
-          <span class="brand__name">Aqua<span>Sense</span></span>
-          <span class="brand__tag">Smarter Water · Safer Tomorrow</span>
-        </span>
-      </a>
-
-      <div class="nav__links" id="navlinks">
-        <a class="nav__link is-active" href="#home" data-tab="home">Home</a>
-        <a class="nav__link" href="#introduction" data-tab="introduction">Introduction</a>
-        <a class="nav__link" href="#methodology" data-tab="methodology">Methodology</a>
-        <a class="nav__link" href="#results" data-tab="results">Results</a>
-        <a class="nav__link" href="#conclusion" data-tab="conclusion">Conclusion</a>
-      </div>
-
-      <span class="nav__status" aria-live="polite">
-        <span class="dot" id="navLiveDot" aria-hidden="true"></span>
-        <span id="navLiveText">Connecting…</span>
-      </span>
-
-      <button class="nav__toggle" id="menuBtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navlinks">☰</button>
-
-    </nav>
-  </div>
-</header>
-
-<!-- ============================================================
-     HERO
-     ============================================================ -->
-<section class="hero" aria-labelledby="hero-title">
-  <div class="hero__bg" aria-hidden="true"></div>
-
-  <div class="container hero__inner">
-
-    <div class="hero__content">
-      <p class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>Solar-powered · IoT-based · Live Monitoring</p>
-
-      <h1 class="hero__title" id="hero-title">Aqua<span>Sense</span></h1>
-
-      <p class="hero__subtitle">Mitigating Freshwater Degradation via AquaSense</p>
-
-      <p class="hero__text">
-        A proposed solar-powered IoT-based sensor network delivering real-time
-        pH, turbidity, and temperature assessment of freshwater in Barangay
-        Ibaba West, Calapan City.
-      </p>
-
-      <ul class="chips">
-        <li>Cleaner Rivers</li>
-        <li>Healthier Aquatic Life</li>
-        <li>A Sustainable Future</li>
-      </ul>
-
-      <a class="btn btn--primary" href="#introduction" data-tab="introduction">
-        Explore the Research
-        <span class="btn__arrow" aria-hidden="true">→</span>
-      </a>
-    </div>
-
-    <aside class="live-card" aria-label="Live sensor readings">
-      <div class="live-card__head">
-        <span class="live-card__title">Live Sensor Readings</span>
-        <span class="live-card__tag" id="cardLiveTag" aria-live="polite">● CONNECTING</span>
-      </div>
-
-      <ul class="readings">
-        <li class="reading">
-          <span class="reading__icon" aria-hidden="true">◉</span>
-          <span class="reading__name">pH Level</span>
-          <strong class="reading__value" id="heroPh">--</strong>
-          <small class="reading__status" id="heroPhStatus">Waiting…</small>
-        </li>
-
-        <li class="reading">
-          <span class="reading__icon" aria-hidden="true">≋</span>
-          <span class="reading__name">Turbidity</span>
-          <strong class="reading__value"><span id="heroTurb">--</span><span class="unit">V</span></strong>
-          <small class="reading__status" id="heroTurbStatus">Waiting…</small>
-        </li>
-
-        <li class="reading">
-          <span class="reading__icon" aria-hidden="true">℃</span>
-          <span class="reading__name">Temperature</span>
-          <strong class="reading__value"><span id="heroTemp">--</span><span class="unit">°C</span></strong>
-          <small class="reading__status" id="heroTempStatus">Waiting…</small>
-        </li>
-      </ul>
-
-      <p class="live-card__foot">
-        Streamed from the ESP32 unit via Firebase every 3&nbsp;seconds.<br>
-        Last sync: <b id="heroLastSync">—</b>
-      </p>
-    </aside>
-
-  </div>
-</section>
-
-<!-- ============================================================
-     MAIN CONTENT
-     ============================================================ -->
-<main class="container">
-
-  <!-- ---------- HOME ---------- -->
-  <div class="tab-panel is-active" id="tab-home" role="tabpanel" aria-label="Home"></div>
-
-  <!-- ---------- INTRODUCTION ---------- -->
-  <div class="tab-panel" id="tab-introduction" role="tabpanel" aria-label="Introduction">
-    <section class="card" id="introduction">
-
-      <div class="section-head">
-        <span class="section-head__num" aria-hidden="true">1</span>
-        <h2 class="section-head__title">
-          Introduction
-          <span class="section-head__sub">Background and rationale of the study</span>
-        </h2>
-      </div>
-
-      <div class="intro">
-        <div class="prose">
-          <p>
-            Freshwater ecosystems — especially rivers — are vital for biodiversity,
-            human health, and local communities. Pollution, urbanization, and
-            improper waste disposal, however, contribute to declining water
-            quality in many areas, including communities around Calapan City.
-          </p>
-          <p>
-            Traditional water-quality monitoring often relies on manual sampling
-            and laboratory analysis. While these approaches provide useful
-            measurements, they can be time-consuming, labor-intensive, and unable
-            to deliver continuous updates.
-          </p>
-          <p>
-            AquaSense proposes a solar-powered IoT-based sensor network that
-            monitors pH, turbidity, and temperature. The concept explores how more
-            frequent readings could help identify changes earlier and support
-            informed environmental monitoring.
-          </p>
-        </div>
-
-        <aside class="context" aria-label="Research context">
-          <h3 class="context__title">Research Context</h3>
-
-          <div class="context__row">
-            <span class="context__symbol" aria-hidden="true">◎</span>
-            <div>
-              <strong>Global</strong>
-              <small>SDG 6: Clean Water and Sanitation<br>SDG 14: Life Below Water</small>
-            </div>
-          </div>
-
-          <div class="context__row">
-            <span class="context__symbol" aria-hidden="true">⌖</span>
-            <div>
-              <strong>National</strong>
-              <small>Philippine water-quality protection and environmental policies</small>
-            </div>
-          </div>
-
-          <div class="context__row">
-            <span class="context__symbol" aria-hidden="true">◈</span>
-            <div>
-              <strong>Local</strong>
-              <small>Barangay Ibaba West, Calapan City, Oriental Mindoro</small>
-            </div>
-          </div>
-
-          <div class="map" role="img" aria-label="Map of Barangay Ibaba West, the proposed deployment site"></div>
-          <p class="map__caption">
-            Map highlighting Barangay Ibaba West, the proposed deployment site.
-          </p>
-        </aside>
-      </div>
-
-    </section>
-  </div>
-
-  <!-- ---------- METHODOLOGY ---------- -->
-  <div class="tab-panel" id="tab-methodology" role="tabpanel" aria-label="Methodology">
-    <section class="card" id="methodology">
-
-      <div class="section-head">
-        <span class="section-head__num" aria-hidden="true">2</span>
-        <h2 class="section-head__title">
-          Methodology
-          <span class="section-head__sub">Research design, locale, and proposed prototype</span>
-        </h2>
-      </div>
-
-      <div class="method">
-
-        <div class="method__nav" role="tablist" aria-label="Methodology sections" aria-orientation="vertical">
-          <button class="method__btn is-active" data-target="pane-design" role="tab" aria-selected="true" aria-controls="pane-design">
-            <span class="method__icon" aria-hidden="true">◈</span>
-            <span>Research Design</span>
-          </button>
-          <button class="method__btn" data-target="pane-locale" role="tab" aria-selected="false" aria-controls="pane-locale">
-            <span class="method__icon" aria-hidden="true">⌖</span>
-            <span>Locale</span>
-          </button>
-          <button class="method__btn" data-target="pane-participants" role="tab" aria-selected="false" aria-controls="pane-participants">
-            <span class="method__icon" aria-hidden="true">♟</span>
-            <span>Participants / Evaluators</span>
-          </button>
-          <button class="method__btn" data-target="pane-prototype" role="tab" aria-selected="false" aria-controls="pane-prototype">
-            <span class="method__icon" aria-hidden="true">⚙</span>
-            <span>Proposed Prototype</span>
-          </button>
-          <button class="method__btn" data-target="pane-data" role="tab" aria-selected="false" aria-controls="pane-data">
-            <span class="method__icon" aria-hidden="true">▥</span>
-            <span>Data Collection &amp; Analysis</span>
-          </button>
-        </div>
-
-        <div class="method__display">
-
-          <div class="method__pane is-active" id="pane-design" role="tabpanel">
-            <h3>Research Design</h3>
-            <p>
-              This study utilizes a <strong>Quantitative Research Design</strong> with a
-              descriptive component. It focuses on gathering numerical data through the
-              AquaSense sensor network to determine the current water quality parameters
-              (pH, turbidity, temperature) of the freshwater ecosystem.
-            </p>
-            <p>
-              The design is subject to the final approved methodology of the institution,
-              ensuring that data gathering and analysis strictly follow academic and
-              scientific standards.
-            </p>
-          </div>
-
-          <div class="method__pane" id="pane-locale" role="tabpanel">
-            <h3>Locale of the Study</h3>
-            <p>The proposed deployment and field evaluation will be conducted at:</p>
-            <ul>
-              <li><strong>Barangay Ibaba West, Calapan City, Oriental Mindoro.</strong></li>
-            </ul>
-            <p>
-              This freshwater site was chosen for its ecological significance to the local
-              community. Any actual field deployment, water sampling, and physical
-              evaluation should be properly documented and coordinated with local authorities.
-            </p>
-          </div>
-
-          <div class="method__pane" id="pane-participants" role="tabpanel">
-            <h3>Participants and Evaluators</h3>
-            <p>The intended subject-matter evaluators for this prototype may include:</p>
-            <ul>
-              <li>Science and IT Teachers</li>
-              <li>Qualified Environmental Reviewers</li>
-              <li>Local Environmental Officers (if applicable)</li>
-            </ul>
-            <p>
-              Their role is to assess the accuracy, functionality, and feasibility of the
-              AquaSense prototype according to the approved study protocol and rubrics of
-              the institution.
-            </p>
-          </div>
-
-          <div class="method__pane" id="pane-prototype" role="tabpanel">
-            <h3>Proposed Prototype (AquaSense)</h3>
-            <p>The system is composed of the following key components:</p>
-            <ul>
-              <li><strong>Solar-powered floating platform</strong> — allows autonomous deployment in water.</li>
-              <li><strong>ESP32-based controller</strong> — the brain of the system for data processing.</li>
-              <li><strong>Sensor array</strong> — industrial-grade pH, turbidity, and temperature sensors.</li>
-              <li><strong>Cloud transmission</strong> — sends data via Wi-Fi to Firebase Realtime Database.</li>
-              <li><strong>Web dashboard</strong> — provides real-time visualization of water quality data.</li>
-            </ul>
-          </div>
-
-          <div class="method__pane" id="pane-data" role="tabpanel">
-            <h3>Data Collection and Analysis</h3>
-            <p>To ensure reliable and accurate readings, the following procedures are planned:</p>
-            <ul>
-              <li><strong>Sensor validation</strong> — comparing AquaSense readings against standard laboratory instruments.</li>
-              <li><strong>Repeatability checks</strong> — placing sensors in the same water sample multiple times to check consistency.</li>
-              <li><strong>Power measurements</strong> — monitoring battery and solar panel efficiency over time.</li>
-              <li><strong>Network &amp; transmission tests</strong> — evaluating Wi-Fi range and Firebase data logging reliability.</li>
-            </ul>
-            <p>
-              Latest sensor readings are transmitted every 3 seconds and stored in the cloud
-              for trend analysis and historical review.
-            </p>
-          </div>
-
-        </div>
-      </div>
-
-    </section>
-  </div>
-
-  <!-- ---------- RESULTS ---------- -->
-  <div class="tab-panel" id="tab-results" role="tabpanel" aria-label="Results and discussion">
-    <section class="card" id="results">
-
-      <div class="section-head">
-        <span class="section-head__num" aria-hidden="true">3</span>
-        <h2 class="section-head__title">
-          Results and Discussion
-          <span class="section-head__sub">Live readings, trends, and system health</span>
-        </h2>
-      </div>
-
-      <div class="results">
-
-        <!-- Latest readings -->
-        <section class="panel" aria-label="Latest sensor readings">
-          <div class="panel__head">
-            <h3>Latest Readings <small>Live from Firebase</small></h3>
-            <span class="badge badge--live">● Live</span>
-          </div>
-
-          <div class="table-wrap">
-            <table class="data">
-              <thead>
-                <tr>
-                  <th scope="col">Parameter</th>
-                  <th scope="col">Value</th>
-                  <th scope="col">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>pH</td>
-                  <td class="mono" id="tblPh">—</td>
-                  <td id="tblPhStatus">—</td>
-                </tr>
-                <tr>
-                  <td>Turbidity</td>
-                  <td class="mono" id="tblTurb">—</td>
-                  <td id="tblTurbStatus">—</td>
-                </tr>
-                <tr>
-                  <td>Temperature</td>
-                  <td class="mono" id="tblTemp">—</td>
-                  <td id="tblTempStatus">—</td>
-                </tr>
-                <tr>
-                  <td>pH Voltage</td>
-                  <td class="mono" id="tblPhVolt">—</td>
-                  <td>—</td>
-                </tr>
-                <tr>
-                  <td>Last Update</td>
-                  <td class="mono" id="tblTimestamp" colspan="2" style="text-align:left;">—</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <p class="note">
-            Data is fetched directly from the AquaSense Firebase Realtime Database.
-            Values refresh automatically every 3 seconds.
-          </p>
-
-          <div class="info-strip">
-            <span class="info-strip__icon" aria-hidden="true">ⓘ</span>
-            <div>
-              Charts show the <strong>last 22 live readings</strong> received from the
-              sensor network.
-            </div>
-          </div>
-        </section>
-
-        <!-- Trends -->
-        <section class="panel" aria-label="Water quality trends">
-          <div class="panel__head">
-            <h3>Water Quality Trends <small>Rolling window</small></h3>
-            <span class="badge">Last 22</span>
-          </div>
-
-          <div class="chart">
-            <div class="chart__head">
-              <span class="chart__label">
-                <span class="chart__swatch" style="background:#526F5B" aria-hidden="true"></span>
-                pH Level
-              </span>
-              <span class="chart__value" id="phChartLatest">—</span>
-            </div>
-            <canvas id="phChart" role="img" aria-label="Live pH trend chart"></canvas>
-          </div>
-
-          <div class="chart">
-            <div class="chart__head">
-              <span class="chart__label">
-                <span class="chart__swatch" style="background:#8A7A4E" aria-hidden="true"></span>
-                Turbidity (V)
-              </span>
-              <span class="chart__value" id="turbChartLatest">—</span>
-            </div>
-            <canvas id="turbChart" role="img" aria-label="Live turbidity trend chart"></canvas>
-          </div>
-
-          <div class="chart">
-            <div class="chart__head">
-              <span class="chart__label">
-                <span class="chart__swatch" style="background:#A9603F" aria-hidden="true"></span>
-                Temperature (°C)
-              </span>
-              <span class="chart__value" id="tempChartLatest">—</span>
-            </div>
-            <canvas id="tempChart" role="img" aria-label="Live temperature trend chart"></canvas>
-          </div>
-        </section>
-
-        <!-- System status -->
-        <section class="panel panel--status" aria-label="System status">
-          <div class="panel__head">
-            <h3>System Status <small>Sensor unit &amp; cloud</small></h3>
-          </div>
-
-          <ul class="status-list">
-            <li class="status-item">
-              <span class="status-item__icon" aria-hidden="true">◉</span>
-              <div>
-                <strong>Sensor Unit</strong>
-                <small id="perfSensor">Checking connection…</small>
-              </div>
-            </li>
-            <li class="status-item">
-              <span class="status-item__icon" aria-hidden="true">⌁</span>
-              <div>
-                <strong>Cloud Connection</strong>
-                <small id="perfCloud">Checking Firebase…</small>
-              </div>
-            </li>
-            <li class="status-item">
-              <span class="status-item__icon" aria-hidden="true">◷</span>
-              <div>
-                <strong>Update Interval</strong>
-                <small>Live readings every 3 s · history saved every 60 s</small>
-              </div>
-            </li>
-            <li class="status-item">
-              <span class="status-item__icon" aria-hidden="true">◔</span>
-              <div>
-                <strong>Last Sync</strong>
-                <small id="perfLastSync">—</small>
-              </div>
-            </li>
-          </ul>
-
-          <div class="info-strip">
-            <span class="info-strip__icon" aria-hidden="true">ⓘ</span>
-            <div>
-              If values show “—”, the ESP32 may be offline or Firebase may be
-              unreachable. Check the network and power supply.
-            </div>
-          </div>
-        </section>
-
-      </div>
-    </section>
-  </div>
-
-  <!-- ---------- CONCLUSION ---------- -->
-  <div class="tab-panel" id="tab-conclusion" role="tabpanel" aria-label="Conclusion">
-    <section class="card" id="conclusion">
-
-      <div class="section-head">
-        <span class="section-head__num" aria-hidden="true">4</span>
-        <h2 class="section-head__title">
-          Conclusion
-          <span class="section-head__sub">Findings and future work</span>
-        </h2>
-      </div>
-
-      <div class="conclusion">
-        <div class="prose">
-          <p>
-            AquaSense presents a proposed solar-powered IoT approach to monitoring
-            selected freshwater parameters: pH, turbidity, and temperature. By
-            combining sensors, a microcontroller, wireless communication, and a web
-            dashboard, the concept aims to make readings easier to review and support
-            timely follow-up.
-          </p>
-          <p>
-            The dashboard displays live data streamed from the ESP32 sensor unit via
-            Firebase Realtime Database. Readings update automatically and are stored
-            for historical review.
-          </p>
-          <p>
-            Future work may include physical deployment, calibration against reference
-            instruments, extended durability and power testing, connectivity evaluation,
-            and field validation with appropriate permissions.
-          </p>
-        </div>
-
-        <blockquote class="quote">
-          <span class="quote__mark" aria-hidden="true">❝</span>
-          <p>
-            AquaSense is a step toward more accessible freshwater monitoring and
-            healthier aquatic ecosystems.
-          </p>
-        </blockquote>
-      </div>
-
-    </section>
-  </div>
-
-</main>
-
-<!-- ============================================================
-     FOOTER
-     ============================================================ -->
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer__grid">
-
-      <div>
-        <div class="footer__brand">
-          <span aria-hidden="true">💧</span>
-          <span>Aqua<span>Sense</span></span>
-        </div>
-        <p class="footer__text" style="margin-top:8px;">Smarter Water · Safer Tomorrow</p>
-      </div>
-
-      <div class="footer__text">
-        <strong>Mitigating Freshwater Degradation via AquaSense</strong>
-        A proposed solar-powered IoT-based water quality monitoring system for a
-        more sustainable future.
-      </div>
-
-      <div class="footer__text">
-        <strong>Deployment Site</strong>
-        Barangay Ibaba West<br>
-        Calapan City, Oriental Mindoro
-      </div>
-
-      <div class="footer__sdg">
-        <span class="sdg"><b>6</b> Clean Water<br>&amp; Sanitation</span>
-        <span class="sdg"><b>14</b> Life Below<br>Water</span>
-      </div>
-
-    </div>
-
-    <div class="footer__bottom">
-      <span>© <span id="year">2025</span> AquaSense Research Project · All rights reserved.</span>
-      <span>Data streamed live via Firebase Realtime Database</span>
-    </div>
-  </div>
-</footer>
-
-<script>
-(() => {
-  'use strict';
-
-  /* ==========================================================
-     HELPERS
-     ========================================================== */
-  const $  = (id) => document.getElementById(id);
-  const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
-
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  const fmt = (v, d) => (v === null || v === undefined || Number.isNaN(Number(v)))
-    ? '—'
-    : Number(v).toFixed(d);
-
-  function pickNum(...candidates) {
-    for (const v of candidates) {
-      if (v === null || v === undefined || v === '') continue;
-      const n = Number(v);
-      if (!Number.isNaN(n)) return n;
-    }
-    return null;
-  }
-
-  function parseTs(ts) {
-    if (ts === null || ts === undefined || ts === '') return null;
-
-    if (typeof ts === 'number') {
-      const ms = ts < 1e12 ? ts * 1000 : ts;
-      const d = new Date(ms);
-      return Number.isNaN(d.getTime()) ? null : d;
-    }
-
-    const s = String(ts).trim();
-
-    // "YYYY-MM-DD HH:MM(:SS)" → assume Philippine time (UTC+8)
-    if (/^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}(:\d{2})?$/.test(s)) {
-      const d = new Date(s.replace(' ', 'T') + '+08:00');
-      if (!Number.isNaN(d.getTime())) return d;
-    }
-
-    const d2 = new Date(s);
-    return Number.isNaN(d2.getTime()) ? null : d2;
-  }
-
-  /* ==========================================================
-     TABS + NAVIGATION
-     ========================================================== */
-  const TAB_IDS = ['home', 'introduction', 'methodology', 'results', 'conclusion'];
-
-  const navLinks = $('navlinks');
-  const menuBtn  = $('menuBtn');
-  const header   = document.querySelector('.site-header');
-
-  function navHeight() {
-    return (header ? header.offsetHeight : 64) + 16;
-  }
-
-  function scrollToY(y) {
-    window.scrollTo({
-      top: Math.max(0, Math.round(y)),
-      behavior: reduceMotion ? 'auto' : 'smooth'
-    });
-  }
-
-  function switchTab(tabId, opts) {
-    const options = Object.assign({ scroll: true, hash: true }, opts || {});
-    if (!TAB_IDS.includes(tabId)) return;
-
-    // Panels
-    $$('.tab-panel').forEach(p => p.classList.remove('is-active'));
-    const panel = $('tab-' + tabId);
-    if (panel) panel.classList.add('is-active');
-
-    // Nav state
-    $$('.nav__link').forEach(link => {
-      link.classList.toggle('is-active', link.dataset.tab === tabId);
-    });
-
-    // Close mobile menu
-    navLinks.classList.remove('is-open');
-    menuBtn.setAttribute('aria-expanded', 'false');
-
-    if (options.hash) {
-      history.replaceState(null, '', '#' + tabId);
-    }
-
-    if (!options.scroll) return;
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        if (tabId === 'home') {
-          scrollToY(0);
-          return;
-        }
-        const section = $(tabId);
-        if (!section) return;
-        const top = section.getBoundingClientRect().top + window.pageYOffset - navHeight();
-        scrollToY(top);
-      });
-    });
-  }
-
-  // Bind every element with data-tab (nav links, brand, CTA)
-  $$('[data-tab]').forEach(el => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      const tabId = el.dataset.tab;
-      if (tabId) switchTab(tabId);
-    });
-  });
-
-  // Mobile menu
-  menuBtn.addEventListener('click', () => {
-    const open = navLinks.classList.toggle('is-open');
-    menuBtn.setAttribute('aria-expanded', String(open));
-  });
-
-  // Close menu when resizing up
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 900 && navLinks.classList.contains('is-open')) {
-      navLinks.classList.remove('is-open');
-      menuBtn.setAttribute('aria-expanded', 'false');
-    }
-  });
-
-  /* ==========================================================
-     METHODOLOGY ACCORDION
-     ========================================================== */
-  const methodBtns  = $$('.method__btn');
-  const methodPanes = $$('.method__pane');
-
-  methodBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      methodBtns.forEach(b => {
-        b.classList.remove('is-active');
-        b.setAttribute('aria-selected', 'false');
-      });
-      methodPanes.forEach(p => p.classList.remove('is-active'));
-
-      btn.classList.add('is-active');
-      btn.setAttribute('aria-selected', 'true');
-
-      const pane = $(btn.dataset.target);
-      if (pane) pane.classList.add('is-active');
-    });
-  });
-
-  /* ==========================================================
-     LIVE DATA — FIREBASE
-     ========================================================== */
-  const FIREBASE_URL = 'https://aquasense-d03fd-default-rtdb.asia-southeast1.firebasedatabase.app';
-  const LATEST_PATH  = '/aquasense/latest.json';
-  const HISTORY_PATH = '/aquasense/history.json';
-  const REFRESH_MS   = 3000;
-  const MAX_POINTS   = 22;
-  const FETCH_TIMEOUT = 8000;
-
-  const state = {
-    hist: { ph: [], turb: [], temp: [] },
-    lastSync: null
-  };
-
-  /* ---------- Connection indicator ---------- */
-  function setConnection(mode) {
-    const dot  = $('navLiveDot');
-    const text = $('navLiveText');
-    const tag  = $('cardLiveTag');
-
-    dot.classList.remove('is-live', 'is-offline');
-
-    if (mode === 'live') {
-      dot.classList.add('is-live');
-      text.textContent = 'Live';
-      tag.textContent = '● LIVE';
-      tag.classList.add('is-live');
-      tag.classList.remove('is-offline');
-    } else if (mode === 'offline') {
-      dot.classList.add('is-offline');
-      text.textContent = 'Offline';
-      tag.textContent = '● OFFLINE';
-      tag.classList.add('is-offline');
-      tag.classList.remove('is-live');
-    } else {
-      text.textContent = 'Connecting…';
-      tag.textContent = '● CONNECTING';
-      tag.classList.remove('is-live', 'is-offline');
-    }
-  }
-
-  /* ---------- Status classifiers ---------- */
-  function phStatus(v) {
-    if (v === null || Number.isNaN(v)) return { text: '—', cls: '' };
-    if (v < 0 || v > 14)     return { text: 'Invalid',        cls: 'txt-bad'  };
-    if (v < 6.0 || v > 9.0)  return { text: 'Out of range',   cls: 'txt-bad'  };
-    if (v < 6.5)             return { text: 'Acidic',         cls: 'txt-warn' };
-    if (v > 8.5)             return { text: 'Basic',          cls: 'txt-warn' };
-    return { text: 'Normal', cls: 'txt-ok' };
-  }
-
-  function turbStatus(v) {
-    if (v === null || Number.isNaN(v)) return { text: '—', cls: '' };
-    if (v >= 1.543) return { text: 'Clear',           cls: 'txt-ok'   };
-    if (v >= 0.744) return { text: 'Slightly turbid', cls: 'txt-warn' };
-    return { text: 'Highly turbid', cls: 'txt-bad' };
-  }
-
-  function tempStatus(v) {
-    if (v === null || Number.isNaN(v)) return { text: '—', cls: '' };
-    if (v < 20) return { text: 'Cold',   cls: 'txt-warn' };
-    if (v > 32) return { text: 'Warm',   cls: 'txt-warn' };
-    return { text: 'Normal', cls: 'txt-ok' };
-  }
-
-  function applyStatus(el, s) {
-    if (!el) return;
-    el.textContent = s.text;
-    el.classList.remove('txt-ok', 'txt-warn', 'txt-bad');
-    if (s.cls) el.classList.add(s.cls);
-  }
-
-  /* ---------- Network ---------- */
-  async function getJSON(path) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT);
-
-    try {
-      const res = await fetch(
-        FIREBASE_URL + path + '?t=' + Date.now(),
-        { cache: 'no-store', signal: controller.signal }
-      );
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      return await res.json();
-    } finally {
-      clearTimeout(timer);
-    }
-  }
-
-  /* ---------- History ---------- */
-  function pushHistory(arr, value) {
-    if (value === null || value === undefined || Number.isNaN(value)) return;
-    arr.push(Number(value));
-    while (arr.length > MAX_POINTS) arr.shift();
-  }
-
-  /* ==========================================================
-     CHARTS
-     ========================================================== */
-  const chartEls = {
-    ph:   $('phChart'),
-    turb: $('turbChart'),
-    temp: $('tempChart')
-  };
-
-  function drawChart(canvas, values, color) {
-    if (!canvas) return;
-
-    const w = canvas.clientWidth;
-    const h = canvas.clientHeight;
-    if (w < 4 || h < 4) return;
-
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const bw = Math.round(w * dpr);
-    const bh = Math.round(h * dpr);
-
-    if (canvas.width !== bw || canvas.height !== bh) {
-      canvas.width = bw;
-      canvas.height = bh;
-    }
-
-    const ctx = canvas.getContext('2d');
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, w, h);
-
-    const padL = 9, padR = 9, padT = 11, padB = 11;
-    const plotW = Math.max(1, w - padL - padR);
-    const plotH = Math.max(1, h - padT - padB);
-
-    // Grid
-    ctx.strokeStyle = '#E3E7DB';
-    ctx.lineWidth = 1;
-    for (let i = 0; i <= 2; i++) {
-      const y = Math.round(padT + (plotH * i) / 2) + 0.5;
-      ctx.beginPath();
-      ctx.moveTo(padL, y);
-      ctx.lineTo(w - padR, y);
-      ctx.stroke();
-    }
-
-    // Empty state
-    if (!values.length) {
-      ctx.fillStyle = '#96A295';
-      ctx.font = '600 10px ' + getComputedStyle(document.body).fontFamily;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('Awaiting data', w / 2, h / 2);
-      return;
-    }
-
-    // Scale
-    let lo = Math.min(...values);
-    let hi = Math.max(...values);
-
-    if (hi - lo < 1e-6) {
-      const pad = Math.max(Math.abs(hi) * 0.05, 0.5);
-      lo -= pad;
-      hi += pad;
-    } else {
-      const pad = (hi - lo) * 0.18;
-      lo -= pad;
-      hi += pad;
-    }
-
-    const xAt = (i) => values.length === 1
-      ? padL + plotW / 2
-      : padL + (i * plotW) / (values.length - 1);
-
-    const yAt = (v) => padT + plotH - ((v - lo) / (hi - lo)) * plotH;
-
-    // Area
-    const grad = ctx.createLinearGradient(0, padT, 0, padT + plotH);
-    grad.addColorStop(0, color + '3D');
-    grad.addColorStop(1, color + '00');
-
-    ctx.beginPath();
-    ctx.moveTo(xAt(0), padT + plotH);
-    values.forEach((v, i) => ctx.lineTo(xAt(i), yAt(v)));
-    ctx.lineTo(xAt(values.length - 1), padT + plotH);
-    ctx.closePath();
-    ctx.fillStyle = grad;
-    ctx.fill();
-
-    // Line
-    ctx.beginPath();
-    values.forEach((v, i) => {
-      if (i === 0) ctx.moveTo(xAt(i), yAt(v));
-      else ctx.lineTo(xAt(i), yAt(v));
-    });
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 2;
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
-    ctx.stroke();
-
-    // Last point
-    const lx = xAt(values.length - 1);
-    const ly = yAt(values[values.length - 1]);
-
-    ctx.beginPath();
-    ctx.arc(lx, ly, 4.6, 0, Math.PI * 2);
-    ctx.fillStyle = color + '33';
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(lx, ly, 2.6, 0, Math.PI * 2);
-    ctx.fillStyle = color;
-    ctx.fill();
-  }
-
-  function redrawCharts() {
-    drawChart(chartEls.ph,   state.hist.ph,   '#526F5B');
-    drawChart(chartEls.turb, state.hist.turb, '#8A7A4E');
-    drawChart(chartEls.temp, state.hist.temp, '#A9603F');
-  }
-
-  let rafId = null;
-  function scheduleRedraw() {
-    if (rafId) return;
-    rafId = requestAnimationFrame(() => {
-      rafId = null;
-      redrawCharts();
-    });
-  }
-
-  if (window.ResizeObserver) {
-    const ro = new ResizeObserver(scheduleRedraw);
-    Object.values(chartEls).forEach(c => { if (c) ro.observe(c); });
-  }
-  window.addEventListener('resize', scheduleRedraw);
-  window.addEventListener('orientationchange', scheduleRedraw);
-
-  /* ==========================================================
-     RENDER LATEST READING
-     ========================================================== */
-  function renderLatest(d) {
-    const ph     = pickNum(d.pH, d.PH, d.ph);
-    const phVolt = pickNum(d.pHVoltage, d.PHVoltage, d.phVoltage);
-    const turbV  = pickNum(d.turbidityVoltage, d.TurbidityVoltage, d.turbVoltage);
-    const temp   = pickNum(d.temperature, d.Temperature, d.temp, d.Temp);
-    const ts     = parseTs(d.timestamp ?? d.Timestamp ?? d.updatedAt ?? d.updated_at);
-
-    /* --- Hero card --- */
-    $('heroPh').textContent   = fmt(ph, 2);
-    $('heroTurb').textContent = fmt(turbV, 3);
-    $('heroTemp').textContent = fmt(temp, 2);
-
-    const phS = phStatus(ph);
-    applyStatus($('heroPhStatus'), phS);
-
-    // Turbidity status — prefer the device-reported string
-    const fbTurb = d.turbidityStatus ?? d.TurbidityStatus;
-    let tbS;
-    if (fbTurb) {
-      const upper = String(fbTurb).toUpperCase();
-      tbS = {
-        text: String(fbTurb),
-        cls: upper === 'CLEAN'
-          ? 'txt-ok'
-          : (upper.includes('SLIGHT') ? 'txt-warn' : 'txt-bad')
-      };
-    } else {
-      tbS = turbStatus(turbV);
-    }
-    applyStatus($('heroTurbStatus'), tbS);
-
-    applyStatus($('heroTempStatus'), tempStatus(temp));
-
-    /* --- Timestamps --- */
-    const stamp = ts ? ts.toLocaleString() : '—';
-    $('heroLastSync').textContent = stamp;
-    $('perfLastSync').textContent = stamp;
-
-    /* --- Results table --- */
-    $('tblPh').textContent   = fmt(ph, 2);
-    $('tblTurb').textContent = turbV === null ? '—' : fmt(turbV, 3) + ' V';
-    $('tblTemp').textContent = temp === null ? '—' : fmt(temp, 2) + ' °C';
-    $('tblPhVolt').textContent = phVolt === null ? '—' : fmt(phVolt, 3) + ' V';
-    $('tblTimestamp').textContent = stamp;
-
-    applyStatus($('tblPhStatus'), phS);
-    applyStatus($('tblTurbStatus'), tbS);
-    applyStatus($('tblTempStatus'), tempStatus(temp));
-
-    /* --- Chart labels --- */
-    $('phChartLatest').textContent   = fmt(ph, 2);
-    $('turbChartLatest').textContent = fmt(turbV, 3);
-    $('tempChartLatest').textContent = fmt(temp, 2);
-
-    /* --- History --- */
-    pushHistory(state.hist.ph, ph);
-    pushHistory(state.hist.turb, turbV);
-    pushHistory(state.hist.temp, temp);
-
-    redrawCharts();
-  }
-
-  /* ==========================================================
-     POLLING
-     ========================================================== */
-  async function fetchLatest() {
-    try {
-      const data = await getJSON(LATEST_PATH);
-
-      if (!data) {
-        setConnection('connecting');
-        $('perfSensor').textContent = 'No data in database yet';
-        $('perfCloud').textContent  = 'Firebase reachable (empty)';
-        return;
-      }
-
-      renderLatest(data);
-      setConnection('live');
-
-      $('perfSensor').textContent = 'ESP32 online — streaming data';
-      $('perfCloud').textContent  = 'Firebase connected';
-
-    } catch (err) {
-      console.warn('[AquaSense] Latest fetch failed:', err);
-      setConnection('offline');
-      $('perfSensor').textContent = 'Connection failed';
-      $('perfCloud').textContent  = 'Firebase unreachable';
-    }
-  }
-
-  async function seedHistory() {
-    try {
-      const data = await getJSON(HISTORY_PATH);
-      if (!data || typeof data !== 'object') return;
-
-      const keys = Object.keys(data).sort().slice(-MAX_POINTS);
-
-      state.hist.ph.length   = 0;
-      state.hist.turb.length = 0;
-      state.hist.temp.length = 0;
-
-      keys.forEach(k => {
-        const entry = data[k];
-        if (!entry) return;
-
-        const ph    = pickNum(entry.pH, entry.PH);
-        const turb  = pickNum(entry.turbidityVoltage, entry.TurbidityVoltage, entry.turbVoltage);
-        const temp  = pickNum(entry.temperature, entry.Temperature, entry.temp, entry.Temp);
-
-        if (ph   !== null) state.hist.ph.push(ph);
-        if (turb !== null) state.hist.turb.push(turb);
-        if (temp !== null) state.hist.temp.push(temp);
-      });
-
-      redrawCharts();
-    } catch (err) {
-      console.warn('[AquaSense] History seed failed:', err);
-    }
-  }
-
-  /* ==========================================================
-     BOOT
-     ========================================================== */
-  async function init() {
-    // Year in footer
-    const yearEl = $('year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-    // Restore tab from URL hash
-    const hash = (location.hash || '').replace('#', '');
-    if (TAB_IDS.includes(hash) && hash !== 'home') {
-      switchTab(hash, { scroll: false, hash: false });
-      requestAnimationFrame(() => {
-        const section = $(hash);
-        if (section) {
-          const top = section.getBoundingClientRect().top + window.pageYOffset - navHeight();
-          window.scrollTo(0, Math.max(0, top));
-        }
-      });
-    }
-
-    setConnection('connecting');
-
-    await seedHistory();
-    await fetchLatest();
-
-    setInterval(fetchLatest, REFRESH_MS);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-
-})();
-</script>
-
-</body>
-</html>
+  background:var(--
