@@ -353,45 +353,51 @@ header,main,footer{position:relative;z-index:1;}
 .nav__toggle.is-open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
 
 /* ============================================================
-   4. HERO
+   4. HERO (WITH ANIMATED BACKGROUND)
    ============================================================ */
 .hero{
   position:relative;
   isolation:isolate;
   overflow:hidden;
   color:#fff;
-  background:
-    radial-gradient(120% 90% at 15% 0%, #2C4436 0%, transparent 60%),
-    linear-gradient(160deg, #1B2A20 0%, #2C4436 34%, #3F5C49 62%, #24352A 100%);
-  padding-top:clamp(30px,5vw,58px);
-  padding-bottom:230px;
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top:clamp(30px,6vw,70px);
+  padding-bottom:230px; /* Room for waves */
 }
 
-.hero__glow{
-  position:absolute;
-  border-radius:50%;
-  filter:blur(70px);
-  pointer-events:none;
-  z-index:-1;
-}
-.hero__glow--1{
-  width:560px;height:560px;
-  top:-200px;right:-140px;
-  background:radial-gradient(circle,rgba(79,209,176,.30),transparent 68%);
-  animation:floaty 14s ease-in-out infinite;
-}
-.hero__glow--2{
-  width:460px;height:460px;
-  bottom:-160px;left:-160px;
-  background:radial-gradient(circle,rgba(200,210,192,.20),transparent 68%);
-  animation:floaty 19s ease-in-out infinite reverse;
-}
-@keyframes floaty{
-  0%,100%{transform:translate3d(0,0,0) scale(1);}
-  50%{transform:translate3d(-24px,26px,0) scale(1.08);}
+/* The animated background image */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: url('background.jpg'); /* YOUR IMAGE HERE */
+  background-size: cover;
+  background-position: center 30%; /* Focus on the buoy */
+  background-repeat: no-repeat;
+  animation: kenBurns 30s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
-/* subtle tech grid */
+/* Dark gradient overlay so text pops */
+.hero__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(to bottom, rgba(20,33,26,0.6) 0%, rgba(20,33,26,0.75) 50%, rgba(20,33,26,1) 100%),
+    linear-gradient(to right, rgba(20,33,26,0.7) 0%, transparent 60%);
+}
+
+/* Cinematic pan and zoom */
+@keyframes kenBurns {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.15) translate(-2%, -2%); }
+}
+
+/* Tech grid overlay */
 .hero__grid{
   position:absolute;
   inset:0;
@@ -410,6 +416,8 @@ header,main,footer{position:relative;z-index:1;}
   grid-template-columns:minmax(0,1fr) minmax(300px,370px);
   align-items:center;
   gap:clamp(24px,4vw,56px);
+  position: relative;
+  z-index: 2;
 }
 
 .eyebrow{
@@ -420,6 +428,7 @@ header,main,footer{position:relative;z-index:1;}
   border-radius:var(--r-full);
   border:1px solid rgba(255,255,255,.20);
   background:rgba(255,255,255,.08);
+  backdrop-filter: blur(8px);
   font-size:10px;
   font-weight:700;
   letter-spacing:1.6px;
@@ -440,6 +449,7 @@ header,main,footer{position:relative;z-index:1;}
   letter-spacing:-.04em;
   line-height:.94;
   color:#fff;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 .hero__title span{
   background:linear-gradient(110deg,var(--green-200) 0%,var(--aqua) 45%,var(--green-100) 100%);
@@ -458,12 +468,14 @@ header,main,footer{position:relative;z-index:1;}
   line-height:1.4;
   color:#fff;
   margin-bottom:10px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 .hero__text{
   max-width:58ch;
   font-size:13.5px;
   line-height:1.78;
-  color:rgba(255,255,255,.78);
+  color:rgba(255,255,255,.85);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
 }
 
 .chips{
@@ -479,10 +491,11 @@ header,main,footer{position:relative;z-index:1;}
   padding:6px 13px;
   border-radius:var(--r-full);
   border:1px solid rgba(255,255,255,.16);
-  background:rgba(255,255,255,.06);
+  background:rgba(20,33,26,.4);
+  backdrop-filter: blur(6px);
   font-size:11px;
   font-weight:600;
-  color:rgba(255,255,255,.88);
+  color:rgba(255,255,255,.9);
   white-space:nowrap;
   transition:transform .25s var(--ease-out), background .25s, border-color .25s;
 }
@@ -531,7 +544,8 @@ header,main,footer{position:relative;z-index:1;}
 .btn--ghost{
   color:#fff;
   border:1px solid rgba(255,255,255,.28);
-  background:rgba(255,255,255,.05);
+  background:rgba(20,33,26,.4);
+  backdrop-filter: blur(6px);
 }
 .btn--ghost:hover{
   background:rgba(79,209,176,.16);
@@ -545,8 +559,8 @@ header,main,footer{position:relative;z-index:1;}
   position:relative;
   padding:20px 18px 16px;
   border-radius:var(--r-lg);
-  border:1px solid rgba(255,255,255,.18);
-  background:linear-gradient(160deg,rgba(63,92,73,.88) 0%,rgba(27,42,32,.94) 100%);
+  border:1px solid rgba(255,255,255,.25);
+  background:linear-gradient(160deg,rgba(52,78,61,.85) 0%,rgba(20,33,26,.95) 100%);
   box-shadow:var(--sh-lg);
   -webkit-backdrop-filter:blur(16px) saturate(130%);
   backdrop-filter:blur(16px) saturate(130%);
@@ -676,39 +690,6 @@ header,main,footer{position:relative;z-index:1;}
   color:rgba(255,255,255,.48);
 }
 .live-card__foot b{color:rgba(255,255,255,.72);font-weight:600;}
-
-/* ---- Floating buoy (prototype reference) ---- */
-.buoy{
-  position:absolute;
-  right:12%;
-  bottom:34px;
-  width:150px;
-  z-index:2;
-  pointer-events:none;
-  filter:drop-shadow(0 22px 26px rgba(0,0,0,.45));
-}
-.buoy__bob{animation:bob 5.5s ease-in-out infinite;}
-@keyframes bob{
-  0%,100%{transform:translateY(0) rotate(-1.6deg);}
-  50%{transform:translateY(-11px) rotate(1.6deg);}
-}
-.buoy__signal circle{
-  transform-box:fill-box;
-  transform-origin:center;
-  animation:ping 2.6s var(--ease-out) infinite;
-}
-@keyframes ping{
-  0%{transform:scale(.55);opacity:.9;}
-  75%,100%{transform:scale(2.8);opacity:0;}
-}
-.buoy__led{animation:ledPulse 1.8s ease-in-out infinite;transition:fill .5s var(--ease);}
-@keyframes ledPulse{
-  0%,100%{opacity:1;}
-  50%{opacity:.32;}
-}
-.buoy[data-status="warn"] .buoy__led{fill:var(--warn-lt);}
-.buoy[data-status="bad"]  .buoy__led{fill:var(--bad-lt);}
-.buoy[data-status="ok"]   .buoy__led{fill:var(--ok-lt);}
 
 /* ---- Waves ---- */
 .hero__waves{
@@ -1675,7 +1656,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   .results{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
   .panel--status{grid-column:1 / -1;}
   .footer__grid{grid-template-columns:1fr 1fr;}
-  .buoy{right:6%;width:130px;}
 }
 
 @media (max-width:900px){
@@ -1709,13 +1689,12 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   .nav__indicator{display:none;}
   .nav__link{padding:12px 14px;font-size:14px;}
 
-  .hero{padding-bottom:180px;}
+  .hero{min-height: 85vh; padding-bottom:180px;}
   .hero__inner{
     grid-template-columns:1fr;
     gap:26px;
   }
   .live-card{max-width:520px;width:100%;}
-  .buoy{display:none;}
 
   .intro{grid-template-columns:1fr;}
   .method{grid-template-columns:1fr;}
@@ -1763,7 +1742,8 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   .nav__status{padding:7px;}
   .nav__status span:last-child{display:none;}
 
-  .hero{padding-bottom:150px;}
+  .hero{padding-bottom:150px; min-height: 95vh;}
+  .hero__bg { background-position: center 40%; } /* Adjust focus for mobile */
   .hero__text{font-size:13px;}
   .chips{gap:6px;margin:16px 0 20px;}
   .chips li{font-size:10px;padding:5px 10px;}
@@ -1836,6 +1816,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     scroll-behavior:auto !important;
   }
   [data-reveal]{opacity:1 !important;transform:none !important;}
+  .hero__bg { animation: none; }
 }
 </style>
 </head>
@@ -1890,8 +1871,10 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
      HERO
      ============================================================ -->
 <section class="hero" aria-labelledby="hero-title">
-  <div class="hero__glow hero__glow--1" aria-hidden="true"></div>
-  <div class="hero__glow hero__glow--2" aria-hidden="true"></div>
+  
+  <!-- Animated Image Background -->
+  <div class="hero__bg" aria-hidden="true"></div>
+  
   <div class="hero__grid" aria-hidden="true"></div>
 
   <div class="container hero__inner">
@@ -1962,35 +1945,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
       </p>
     </aside>
 
-  </div>
-
-  <!-- Floating prototype buoy -->
-  <div class="buoy" data-status="ok" aria-hidden="true">
-    <div class="buoy__bob">
-      <svg viewBox="0 0 160 190" width="100%" height="auto">
-        <g class="buoy__signal">
-          <circle cx="80" cy="30" r="8" fill="none" stroke="#4FE0AC" stroke-width="2"/>
-        </g>
-        <line x1="80" y1="34" x2="80" y2="66" stroke="#C8D2C0" stroke-width="3.5" stroke-linecap="round"/>
-
-        <path d="M36 74 L124 74 L116 92 L44 92 Z" fill="#2F4457" stroke="#4FE0AC"
-              stroke-width="1.6" stroke-linejoin="round"/>
-        <path d="M80 74 L80 92" stroke="#4FE0AC" stroke-width="1" opacity=".45"/>
-        <path d="M58 74 L56 92" stroke="#4FE0AC" stroke-width="1" opacity=".45"/>
-        <path d="M102 74 L104 92" stroke="#4FE0AC" stroke-width="1" opacity=".45"/>
-        <path d="M36 83 L124 83" stroke="#4FE0AC" stroke-width="1" opacity=".3"/>
-
-        <rect x="77" y="92" width="6" height="34" rx="3" fill="#A6B8A0"/>
-
-        <ellipse cx="80" cy="136" rx="56" ry="18" fill="#14211A" opacity=".45"/>
-        <ellipse cx="80" cy="130" rx="56" ry="18" fill="#344E3D" stroke="#A6B8A0" stroke-width="2.5"/>
-        <ellipse cx="80" cy="126" rx="56" ry="18" fill="#526F5B" stroke="#C8D2C0" stroke-width="2.5"/>
-        <ellipse cx="80" cy="122" rx="30" ry="9" fill="#71866D" opacity=".65"/>
-
-        <rect x="76" y="144" width="8" height="30" rx="4" fill="#879B83"/>
-        <circle class="buoy__led" cx="80" cy="178" r="6" fill="#4FE0AC"/>
-      </svg>
-    </div>
   </div>
 
   <!-- Animated waves -->
@@ -2945,8 +2899,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     lastSync: null
   };
 
-  const buoyEl = document.querySelector('.buoy');
-
   /* ---------- Connection indicator ---------- */
   function setConnection(mode) {
     const dot  = $('navLiveDot');
@@ -3009,16 +2961,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   function applyStatState(el, s) {
     if (!el) return;
     el.dataset.state = s.state || '';
-  }
-
-  function worstState(...states) {
-    const rank = { bad: 3, warn: 2, ok: 1, '': 0 };
-    let worst = '';
-    states.forEach(s => {
-      const v = s && s.state ? s.state : '';
-      if (rank[v] > rank[worst]) worst = v;
-    });
-    return worst || 'ok';
   }
 
   /* ---------- Network ---------- */
@@ -3342,11 +3284,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     if (phLatest)   phLatest.textContent   = fmt(ph, 2);
     if (turbLatest) turbLatest.textContent = fmt(turbV, 3);
     if (tempLatest) tempLatest.textContent = fmt(temp, 2);
-
-    /* --- Buoy reacts to water quality --- */
-    if (buoyEl) {
-      buoyEl.dataset.status = worstState(phS, tbS, tmS);
-    }
 
     /* --- History --- */
     pushHistory(state.hist.ph, ph);
