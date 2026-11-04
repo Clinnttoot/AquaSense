@@ -1601,115 +1601,184 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 }
 
 /* ============================================================
-   11. RESEARCHERS (CAROUSEL)
+   11. RESEARCHERS (SPLIT VIEW)
    ============================================================ */
-.researchers-wrapper {
-  position: relative;
-  margin-top: 20px;
+.researchers-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: clamp(20px, 4vw, 40px);
+  align-items: stretch;
+  min-height: 400px;
 }
-.researchers-track {
+
+/* Left Side - Highlight */
+.researcher-left {
+  background: linear-gradient(160deg, var(--green-900), var(--green-800));
+  border-radius: var(--r-lg);
+  padding: 40px 20px;
   display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding: 10px 4px 20px;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
-  -webkit-overflow-scrolling: touch;
-}
-.researchers-track::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
-}
-.researcher-card {
-  flex: 0 0 280px;
-  scroll-snap-align: start;
-  background: var(--sand-50);
-  border-radius: var(--r-md);
-  padding: 24px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  border: 1px solid var(--line);
-  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), border-color 0.3s;
-}
-.researcher-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--sh-md);
-  border-color: var(--green-300);
-}
-.researcher-img-wrapper {
   position: relative;
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 16px;
-  border-radius: 50%;
-  padding: 4px;
-  background: linear-gradient(135deg, var(--aqua), var(--green-600));
+  overflow: hidden;
+  box-shadow: var(--sh-md);
+  border: 1px solid rgba(255,255,255,0.1);
 }
-.researcher-img {
+
+.researcher-left::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(79,209,176,0.15), transparent 70%),
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 30px 30px, 30px 30px;
+  pointer-events: none;
+}
+
+.researcher-avatar-container {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  padding: 6px;
+  background: linear-gradient(135deg, var(--aqua), var(--green-500));
+  margin-bottom: 24px;
+  z-index: 1;
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+  transition: transform 0.4s var(--ease-out);
+}
+
+.researcher-left:hover .researcher-avatar-container {
+  transform: scale(1.03) rotate(2deg);
+}
+
+.researcher-avatar {
   width: 100%;
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  background-color: var(--sand-200);
-  border: 3px solid var(--card);
+  background: var(--sand-100);
+  border: 4px solid var(--green-900);
+  transition: opacity 0.3s var(--ease);
 }
-.researcher-role {
+
+.researcher-name-large {
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.2;
+  z-index: 1;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  transition: opacity 0.3s var(--ease);
+}
+
+/* Right Side - Details */
+.researcher-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(20px, 3vw, 40px);
+  background: var(--sand-50);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line);
+  position: relative;
+}
+
+.researcher-position-badge {
   display: inline-block;
-  font-size: 10px;
+  align-self: flex-start;
+  font-size: 11px;
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: var(--green-600);
-  margin-bottom: 6px;
-  background: rgba(82,111,91,0.1);
-  padding: 3px 10px;
-  border-radius: var(--r-full);
-}
-.researcher-name {
-  font-size: 16px;
-  font-weight: 800;
   color: var(--green-800);
-  margin-bottom: 8px;
-  line-height: 1.3;
+  background: var(--green-100);
+  padding: 6px 14px;
+  border-radius: var(--r-full);
+  margin-bottom: 20px;
+  border: 1px solid var(--green-200);
 }
-.researcher-bio {
-  font-size: 12px;
-  line-height: 1.6;
-  color: var(--muted);
+
+.researcher-bio-large {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--ink);
+  margin-bottom: 32px;
+  transition: opacity 0.3s var(--ease);
 }
-.scroll-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  width: 44px;
-  height: 44px;
+
+/* Navigation Controls */
+.researcher-nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px dashed var(--line);
+}
+
+.res-nav-btn {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: #fff;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  border: 1px solid var(--line);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--green-800);
-  transition: background 0.2s, transform 0.2s;
-  border: 1px solid var(--line);
+  transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: var(--sh-xs);
 }
-.scroll-btn:hover {
+
+.res-nav-btn:hover:not(:disabled) {
   background: var(--green-800);
   color: #fff;
-  transform: translateY(-50%) scale(1.05);
+  border-color: var(--green-800);
+  transform: translateY(-2px);
+  box-shadow: var(--sh-sm);
 }
-.scroll-btn:active {
-  transform: translateY(-50%) scale(0.95);
+
+.res-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
-.scroll-btn--left {
-  left: -22px;
+
+.researcher-dots {
+  display: flex;
+  gap: 8px;
 }
-.scroll-btn--right {
-  right: -22px;
+
+.res-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--line);
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
 }
-/* Hide arrows on mobile where native swipe is preferred */
-@media (max-width: 900px) {
-  .scroll-btn { display: none; }
+
+.res-dot:hover {
+  background: var(--green-300);
+}
+
+.res-dot.is-active {
+  background: var(--aqua);
+  transform: scale(1.3);
+}
+
+/* Fade animation for syncing content */
+.res-fade {
+  animation: resFadeIn 0.4s var(--ease-out);
+}
+
+@keyframes resFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ============================================================
@@ -1858,6 +1927,18 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 @media (max-width: 1024px){
   .flow-node__label{font-size:9px;}
   .flow-node__desc{font-size:8.5px;}
+  
+  .researchers-layout {
+    grid-template-columns: 1fr;
+  }
+  .researcher-left {
+    padding: 30px 20px;
+  }
+  .researcher-avatar-container {
+    width: 140px;
+    height: 140px;
+    margin-bottom: 16px;
+  }
 }
 
 @media (max-width: 900px){
@@ -2001,6 +2082,10 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   .stat-tiles{grid-template-columns:1fr;}
 
   .stepper-btn{padding:11px 18px;min-height:42px;}
+  
+  .researcher-right { padding: 20px 15px; }
+  .researcher-name-large { font-size: 22px; }
+  .researcher-bio-large { font-size: 14px; }
 }
 
 @media (max-width: 480px){
@@ -2813,7 +2898,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     </section>
   </div>
 
-  <!-- NEW: RESEARCHERS TAB -->
+  <!-- NEW: SPLIT-SCREEN RESEARCHERS TAB -->
   <div class="tab-panel" id="tab-researchers" role="tabpanel" aria-label="Researchers">
     <section class="card" id="researchers">
       <div class="section-head">
@@ -2824,64 +2909,33 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
         </h2>
       </div>
 
-      <div class="researchers-wrapper">
-        <!-- Left Arrow -->
-        <button class="scroll-btn scroll-btn--left" aria-label="Scroll left">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-
-        <div class="researchers-track" id="researchersTrack">
-          
-          <!-- Researcher 1 -->
-          <article class="researcher-card">
-            <div class="researcher-img-wrapper">
-              <!-- Replace the src below with your actual image file -->
-              <img class="researcher-img" src="https://placehold.co/240x240/E3E7DB/344E3D?text=JD" alt="John Doe">
-            </div>
-            <span class="researcher-role">Project Lead</span>
-            <h3 class="researcher-name">John Doe</h3>
-            <p class="researcher-bio">Specializes in environmental science and oversees the overall research methodology and field deployment.</p>
-          </article>
-
-          <!-- Researcher 2 -->
-          <article class="researcher-card">
-            <div class="researcher-img-wrapper">
-              <!-- Replace the src below with your actual image file -->
-              <img class="researcher-img" src="https://placehold.co/240x240/E3E7DB/344E3D?text=JS" alt="Jane Smith">
-            </div>
-            <span class="researcher-role">Hardware Engineer</span>
-            <h3 class="researcher-name">Jane Smith</h3>
-            <p class="researcher-bio">Responsible for the physical prototype, solar integration, and the ESP32 sensor array circuitry.</p>
-          </article>
-
-          <!-- Researcher 3 -->
-          <article class="researcher-card">
-            <div class="researcher-img-wrapper">
-              <!-- Replace the src below with your actual image file -->
-              <img class="researcher-img" src="https://placehold.co/240x240/E3E7DB/344E3D?text=AR" alt="Alex Rivera">
-            </div>
-            <span class="researcher-role">Data Analyst</span>
-            <h3 class="researcher-name">Alex Rivera</h3>
-            <p class="researcher-bio">Handles the cloud architecture, Firebase integration, and develops the real-time web dashboard.</p>
-          </article>
-
-          <!-- Researcher 4 -->
-          <article class="researcher-card">
-            <div class="researcher-img-wrapper">
-              <!-- Replace the src below with your actual image file -->
-              <img class="researcher-img" src="https://placehold.co/240x240/E3E7DB/344E3D?text=MC" alt="Maria Clara">
-            </div>
-            <span class="researcher-role">Field Coordinator</span>
-            <h3 class="researcher-name">Maria Clara</h3>
-            <p class="researcher-bio">Liaises with local authorities in Barangay Ibaba West and manages water sampling calibration checks.</p>
-          </article>
-
+      <div class="researchers-layout">
+        
+        <!-- Left Side: Highlight (Picture & Name) -->
+        <div class="researcher-left">
+          <div class="researcher-avatar-container">
+            <img id="res-img" class="researcher-avatar res-fade" src="" alt="Researcher">
+          </div>
+          <h3 id="res-name" class="researcher-name-large res-fade">Name</h3>
         </div>
 
-        <!-- Right Arrow -->
-        <button class="scroll-btn scroll-btn--right" aria-label="Scroll right">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-        </button>
+        <!-- Right Side: Details (Position & Bio) -->
+        <div class="researcher-right">
+          <div id="res-role" class="researcher-position-badge res-fade">Position</div>
+          <p id="res-bio" class="researcher-bio-large res-fade">Short introduction goes here.</p>
+          
+          <!-- Sync Controls -->
+          <div class="researcher-nav-controls">
+            <button id="res-prev" class="res-nav-btn" aria-label="Previous researcher">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <div id="res-dots" class="researcher-dots"></div>
+            <button id="res-next" class="res-nav-btn" aria-label="Next researcher">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+
       </div>
     </section>
   </div>
@@ -3245,19 +3299,91 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   });
 
   /* ==========================================================
-     RESEARCHERS CAROUSEL LOGIC
+     RESEARCHERS SPLIT-VIEW LOGIC
      ========================================================== */
-  const resTrack = $('researchersTrack');
-  const btnLeft = document.querySelector('.scroll-btn--left');
-  const btnRight = document.querySelector('.scroll-btn--right');
+  const researchersData = [
+    {
+      name: "John Doe",
+      role: "Project Lead",
+      bio: "Specializes in environmental science and oversees the overall research methodology, ensuring that field deployment and data gathering align with academic standards.",
+      img: "https://placehold.co/300x300/E3E7DB/344E3D?text=JD"
+    },
+    {
+      name: "Jane Smith",
+      role: "Hardware Engineer",
+      bio: "Responsible for the physical prototype design, solar integration, and circuitry of the ESP32 sensor array. Focuses on durability and waterproofing.",
+      img: "https://placehold.co/300x300/E3E7DB/344E3D?text=JS"
+    },
+    {
+      name: "Alex Rivera",
+      role: "Data Analyst",
+      bio: "Handles the cloud architecture, Firebase integration, and develops the real-time web dashboard. Ensures seamless telemetry transmission from water to web.",
+      img: "https://placehold.co/300x300/E3E7DB/344E3D?text=AR"
+    },
+    {
+      name: "Maria Clara",
+      role: "Field Coordinator",
+      bio: "Liaises with local authorities in Barangay Ibaba West, manages water sampling, and conducts repeatability checks to calibrate the sensors.",
+      img: "https://placehold.co/300x300/E3E7DB/344E3D?text=MC"
+    }
+  ];
 
-  if (resTrack && btnLeft && btnRight) {
-    btnLeft.addEventListener('click', () => {
-      resTrack.scrollBy({ left: -300, behavior: 'smooth' });
+  let activeResearcher = 0;
+
+  const resImg = $('res-img');
+  const resName = $('res-name');
+  const resRole = $('res-role');
+  const resBio = $('res-bio');
+  const resDots = $('res-dots');
+  const btnPrev = $('res-prev');
+  const btnNext = $('res-next');
+
+  function renderResearcher(index) {
+    // Wrap around logic
+    if (index < 0) index = researchersData.length - 1;
+    if (index >= researchersData.length) index = 0;
+    activeResearcher = index;
+
+    const data = researchersData[index];
+
+    // Apply fade animation
+    const fadeElements = [resImg, resName, resRole, resBio];
+    fadeElements.forEach(el => {
+      el.classList.remove('res-fade');
+      void el.offsetWidth; // trigger reflow
+      el.classList.add('res-fade');
     });
-    btnRight.addEventListener('click', () => {
-      resTrack.scrollBy({ left: 300, behavior: 'smooth' });
+
+    // Update content
+    resImg.src = data.img;
+    resImg.alt = data.name;
+    resName.textContent = data.name;
+    resRole.textContent = data.role;
+    resBio.textContent = data.bio;
+
+    // Update dots
+    Array.from(resDots.children).forEach((dot, i) => {
+      dot.classList.toggle('is-active', i === index);
     });
+  }
+
+  function createDots() {
+    resDots.innerHTML = '';
+    researchersData.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'res-dot';
+      dot.setAttribute('aria-label', 'Go to researcher ' + (i + 1));
+      dot.addEventListener('click', () => renderResearcher(i));
+      resDots.appendChild(dot);
+    });
+  }
+
+  if (resImg && resName && resRole && resBio) {
+    createDots();
+    renderResearcher(0);
+
+    btnPrev.addEventListener('click', () => renderResearcher(activeResearcher - 1));
+    btnNext.addEventListener('click', () => renderResearcher(activeResearcher + 1));
   }
 
   function initTilt() {
