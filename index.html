@@ -12,7 +12,6 @@
    1. DESIGN TOKENS
    ============================================================ */
 :root{
-  /* Brand greens */
   --green-950:#14211A;
   --green-900:#1B2A20;
   --green-850:#24352A;
@@ -25,7 +24,6 @@
   --green-200:#C8D2C0;
   --green-100:#E3E7DB;
 
-  /* Neutrals / sand */
   --sand-50:#F7F8F2;
   --sand-100:#F0F1E9;
   --sand-200:#E6E8DD;
@@ -35,45 +33,37 @@
   --line:#DCE0D5;
   --card:#FFFFFF;
 
-  /* Semantic (light) */
   --ok:#2E8B62;
   --warn:#B3781F;
   --bad:#C0453D;
 
-  /* Semantic (dark) */
   --ok-lt:#4FE0AC;
   --warn-lt:#F0C878;
   --bad-lt:#F0928C;
 
-  /* Water accent */
   --aqua:#4FD1B0;
   --aqua-dim:rgba(79,209,176,.28);
 
-  /* Chart accents */
   --c-ph:#526F5B;
   --c-turb:#8A7A4E;
   --c-temp:#A9603F;
 
-  /* Shape */
   --r-sm:10px;
   --r-md:16px;
   --r-lg:22px;
   --r-xl:30px;
   --r-full:999px;
 
-  /* Elevation */
   --sh-xs:0 1px 2px rgba(27,42,32,.06);
   --sh-sm:0 2px 6px rgba(27,42,32,.06), 0 1px 2px rgba(27,42,32,.04);
   --sh-md:0 18px 40px -20px rgba(27,42,32,.45);
   --sh-lg:0 36px 70px -34px rgba(27,42,32,.6);
 
-  /* Layout */
   --nav-h:66px;
   --container:1280px;
   --ease:cubic-bezier(.4,0,.2,1);
   --ease-out:cubic-bezier(.16,1,.3,1);
 
-  /* Type */
   --font-sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --font-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
 }
@@ -99,13 +89,14 @@ body{
   -moz-osx-font-smoothing:grayscale;
   text-rendering:optimizeLegibility;
   overflow-x:hidden;
+  -webkit-tap-highlight-color:transparent;
 }
 
 h1,h2,h3,h4,p,ul,ol,figure,blockquote{margin:0;}
 ul,ol{padding:0;list-style:none;}
 img{max-width:100%;display:block;}
 a{color:inherit;text-decoration:none;}
-button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent;}
 canvas{display:block;}
 
 :focus-visible{
@@ -129,7 +120,6 @@ canvas{display:block;}
   white-space:nowrap;border:0;
 }
 
-/* Rising-bubble canvas layer */
 #bubbleLayer{
   position:fixed;
   inset:0;
@@ -141,7 +131,6 @@ canvas{display:block;}
 
 header,main,footer{position:relative;z-index:1;}
 
-/* Click ripple */
 .click-ripple{
   position:fixed;
   width:14px;height:14px;
@@ -157,7 +146,6 @@ header,main,footer{position:relative;z-index:1;}
   100%{transform:scale(13);opacity:0;}
 }
 
-/* Swim-away easter egg */
 .fish{
   position:fixed;
   bottom:8vh;
@@ -176,7 +164,6 @@ header,main,footer{position:relative;z-index:1;}
   100%{transform:translate(130vw,4vh) scaleX(-1);opacity:0;}
 }
 
-/* Scroll reveal utility */
 [data-reveal]{
   opacity:0;
   transform:translateY(20px);
@@ -206,7 +193,6 @@ header,main,footer{position:relative;z-index:1;}
   height:var(--nav-h);
 }
 
-/* Brand */
 .brand{
   display:flex;
   align-items:center;
@@ -249,7 +235,6 @@ header,main,footer{position:relative;z-index:1;}
   margin-top:3px;
 }
 
-/* Nav links */
 .nav__links{
   position:relative;
   display:flex;
@@ -287,7 +272,6 @@ header,main,footer{position:relative;z-index:1;}
 .nav__link:hover{color:#fff;}
 .nav__link.is-active{color:#fff;}
 
-/* Live status pill */
 .nav__status{
   display:inline-flex;
   align-items:center;
@@ -327,7 +311,6 @@ header,main,footer{position:relative;z-index:1;}
   50%{box-shadow:0 0 0 7px rgba(59,214,155,.04);}
 }
 
-/* Hamburger */
 .nav__toggle{
   display:none;
   flex-direction:column;
@@ -353,51 +336,48 @@ header,main,footer{position:relative;z-index:1;}
 .nav__toggle.is-open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
 
 /* ============================================================
-   4. HERO (WITH ANIMATED BACKGROUND)
+   4. HERO
    ============================================================ */
 .hero{
   position:relative;
   isolation:isolate;
   overflow:hidden;
   color:#fff;
-  min-height: 92vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  min-height:92vh;
+  min-height:92svh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
   padding-top:clamp(30px,6vw,70px);
-  padding-bottom:230px; /* Room for waves */
+  padding-bottom:230px;
 }
 
-/* The animated background image */
-.hero__bg {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background-image: url('background.jpg'); /* YOUR IMAGE HERE */
-  background-size: cover;
-  background-position: center 30%; /* Focus on the buoy */
-  background-repeat: no-repeat;
-  animation: kenBurns 30s ease-in-out infinite alternate;
-  will-change: transform;
+.hero__bg{
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  background-image:url('background.jpg');
+  background-size:cover;
+  background-position:center 30%;
+  background-repeat:no-repeat;
+  animation:kenBurns 30s ease-in-out infinite alternate;
+  will-change:transform;
 }
 
-/* Dark gradient overlay so text pops */
-.hero__bg::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: 
+.hero__bg::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
     linear-gradient(to bottom, rgba(20,33,26,0.6) 0%, rgba(20,33,26,0.75) 50%, rgba(20,33,26,1) 100%),
     linear-gradient(to right, rgba(20,33,26,0.7) 0%, transparent 60%);
 }
 
-/* Cinematic pan and zoom */
-@keyframes kenBurns {
-  0% { transform: scale(1) translate(0, 0); }
-  100% { transform: scale(1.15) translate(-2%, -2%); }
+@keyframes kenBurns{
+  0%{transform:scale(1) translate(0,0);}
+  100%{transform:scale(1.15) translate(-2%,-2%);}
 }
 
-/* Tech grid overlay */
 .hero__grid{
   position:absolute;
   inset:0;
@@ -416,8 +396,8 @@ header,main,footer{position:relative;z-index:1;}
   grid-template-columns:minmax(0,1fr) minmax(300px,370px);
   align-items:center;
   gap:clamp(24px,4vw,56px);
-  position: relative;
-  z-index: 2;
+  position:relative;
+  z-index:2;
 }
 
 .eyebrow{
@@ -428,7 +408,7 @@ header,main,footer{position:relative;z-index:1;}
   border-radius:var(--r-full);
   border:1px solid rgba(255,255,255,.20);
   background:rgba(255,255,255,.08);
-  backdrop-filter: blur(8px);
+  backdrop-filter:blur(8px);
   font-size:10px;
   font-weight:700;
   letter-spacing:1.6px;
@@ -449,7 +429,7 @@ header,main,footer{position:relative;z-index:1;}
   letter-spacing:-.04em;
   line-height:.94;
   color:#fff;
-  text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  text-shadow:0 4px 20px rgba(0,0,0,0.4);
 }
 .hero__title span{
   background:linear-gradient(110deg,var(--green-200) 0%,var(--aqua) 45%,var(--green-100) 100%);
@@ -468,14 +448,14 @@ header,main,footer{position:relative;z-index:1;}
   line-height:1.4;
   color:#fff;
   margin-bottom:10px;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  text-shadow:0 2px 10px rgba(0,0,0,0.5);
 }
 .hero__text{
   max-width:58ch;
   font-size:13.5px;
   line-height:1.78;
   color:rgba(255,255,255,.85);
-  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  text-shadow:0 2px 8px rgba(0,0,0,0.5);
 }
 
 .chips{
@@ -492,7 +472,7 @@ header,main,footer{position:relative;z-index:1;}
   border-radius:var(--r-full);
   border:1px solid rgba(255,255,255,.16);
   background:rgba(20,33,26,.4);
-  backdrop-filter: blur(6px);
+  backdrop-filter:blur(6px);
   font-size:11px;
   font-weight:600;
   color:rgba(255,255,255,.9);
@@ -545,7 +525,7 @@ header,main,footer{position:relative;z-index:1;}
   color:#fff;
   border:1px solid rgba(255,255,255,.28);
   background:rgba(20,33,26,.4);
-  backdrop-filter: blur(6px);
+  backdrop-filter:blur(6px);
 }
 .btn--ghost:hover{
   background:rgba(79,209,176,.16);
@@ -554,7 +534,6 @@ header,main,footer{position:relative;z-index:1;}
 .btn__arrow{transition:transform .25s var(--ease-out);}
 .btn:hover .btn__arrow{transform:translateX(4px);}
 
-/* ---- Live card ---- */
 .live-card{
   position:relative;
   padding:20px 18px 16px;
@@ -691,7 +670,6 @@ header,main,footer{position:relative;z-index:1;}
 }
 .live-card__foot b{color:rgba(255,255,255,.72);font-weight:600;}
 
-/* ---- Waves ---- */
 .hero__waves{
   position:absolute;
   left:0;right:0;bottom:0;
@@ -821,7 +799,7 @@ main{
 .prose strong{color:var(--green-800);font-weight:700;}
 
 /* ============================================================
-   7. HOME — PILLARS & FLOW
+   7. HOME — PILLARS & ANATOMY
    ============================================================ */
 .pillars{
   display:grid;
@@ -880,56 +858,70 @@ main{
   color:var(--muted);
 }
 
-.flow{
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:12px;
-  margin-top:22px;
+/* System Anatomy Grid */
+.anatomy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
 }
-.flow__step{
-  position:relative;
-  padding:16px 14px;
-  border-radius:var(--r-md);
-  background:var(--sand-100);
-  border:1px solid var(--line);
-  text-align:center;
-  transition:transform .3s var(--ease-out), background .3s, border-color .3s;
+.anatomy-card {
+  position: relative;
+  padding: 20px;
+  border-radius: var(--r-md);
+  background: var(--sand-50);
+  border: 1px solid var(--line);
+  transition: transform .3s var(--ease-out), border-color .3s, box-shadow .3s;
 }
-.flow__step:hover{
-  transform:translateY(-5px);
-  background:#fff;
-  border-color:var(--green-300);
+.anatomy-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--aqua);
+  box-shadow: 0 10px 24px -10px rgba(79,209,176,.3);
 }
-.flow__step::after{
-  content:"→";
-  position:absolute;
-  right:-13px;top:50%;
-  transform:translateY(-50%);
-  font-size:13px;
-  color:var(--green-400);
-  z-index:2;
+.anatomy-card__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
 }
-.flow__step:last-child::after{display:none;}
-.flow__step b{
-  display:block;
-  font-family:var(--font-mono);
-  font-size:10px;
-  letter-spacing:1.4px;
-  color:var(--green-500);
-  margin-bottom:6px;
+.anatomy-card__icon {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid var(--line);
+  display: grid; place-items: center;
+  font-size: 18px;
 }
-.flow__step strong{
-  display:block;
-  font-size:12.5px;
-  font-weight:800;
-  color:var(--green-800);
-  margin-bottom:4px;
+.anatomy-card__title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--green-800);
+  line-height: 1.2;
 }
-.flow__step small{
-  display:block;
-  font-size:10.5px;
-  line-height:1.55;
-  color:var(--muted);
+.anatomy-card__title small {
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 3px;
+}
+.anatomy-card__function {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line);
+}
+.anatomy-card__function strong {
+  color: var(--green-700);
+  display: block;
+  margin-bottom: 2px;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 /* ============================================================
@@ -998,7 +990,6 @@ main{
   color:var(--muted);
 }
 
-/* Stylised map */
 .map{
   position:relative;
   margin-top:16px;
@@ -1058,7 +1049,7 @@ main{
 }
 
 /* ============================================================
-   9. METHODOLOGY
+   9. METHODOLOGY & PROTOTYPE BLUEPRINT
    ============================================================ */
 .method{
   display:grid;
@@ -1177,33 +1168,113 @@ main{
 }
 .method__pane strong{color:var(--green-800);font-weight:700;}
 
-.proto-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:10px;
-  margin:4px 0 12px;
+/* Data Flow Diagram */
+.flow-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 20px 10px;
+  background: var(--sand-100);
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  margin-bottom: 24px;
+  overflow-x: auto;
 }
-.proto-item{
-  padding:12px;
-  border-radius:var(--r-sm);
-  background:var(--sand-100);
-  border:1px solid var(--line);
-  font-size:11.5px;
-  line-height:1.5;
-  color:var(--muted);
-  transition:transform .3s var(--ease-out), background .3s, border-color .3s;
+.flow-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  flex: 1;
+  min-width: 80px;
 }
-.proto-item:hover{
-  transform:translateY(-4px);
-  background:#fff;
-  border-color:var(--green-300);
+.flow-node__icon {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--green-300);
+  display: grid; place-items: center;
+  font-size: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.05);
+  transition: transform .3s var(--ease-out), border-color .3s, background .3s;
 }
-.proto-item b{
-  display:block;
-  font-size:11.5px;
-  font-weight:800;
-  color:var(--green-800);
-  margin-bottom:2px;
+.flow-node:hover .flow-node__icon {
+  transform: scale(1.1);
+  border-color: var(--aqua);
+  background: var(--green-800);
+  color: #fff;
+}
+.flow-node__label {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--green-800);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.flow-node__desc {
+  font-size: 9.5px;
+  color: var(--muted);
+  line-height: 1.3;
+}
+.flow-arrow {
+  color: var(--green-300);
+  font-size: 18px;
+  font-weight: bold;
+  animation: arrowPulse 2s infinite;
+}
+@keyframes arrowPulse {
+  0%, 100% { opacity: 0.4; transform: translateX(0); }
+  50% { opacity: 1; transform: translateX(4px); }
+}
+
+/* Blueprint Grid */
+.blueprint-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+.blueprint-card {
+  padding: 16px;
+  border-radius: var(--r-sm);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--green-500);
+  transition: transform .3s var(--ease-out), box-shadow .3s, border-left-color .3s;
+}
+.blueprint-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px -10px rgba(0,0,0,.1);
+  border-left-color: var(--aqua);
+}
+.blueprint-card__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.blueprint-card__icon {
+  font-size: 20px;
+}
+.blueprint-card__title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--green-800);
+}
+.blueprint-card__role {
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.blueprint-card__role strong {
+  display: block;
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--aqua);
+  margin-bottom: 2px;
 }
 
 .method__actions{
@@ -1226,6 +1297,7 @@ main{
   font-weight:700;
   color:var(--green-800);
   transition:background .2s, border-color .2s, transform .2s var(--ease-out);
+  min-height:40px;
 }
 .stepper-btn:hover{
   background:var(--green-800);
@@ -1436,7 +1508,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 }
 .info-strip strong{color:var(--green-800);font-weight:700;}
 
-/* Charts */
 .chart + .chart{margin-top:14px;}
 .chart__head{
   display:flex;
@@ -1476,7 +1547,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   touch-action:pan-y;
 }
 
-/* System status list */
 .status-list{display:flex;flex-direction:column;gap:9px;}
 .status-item{
   display:flex;
@@ -1515,21 +1585,20 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   color:var(--muted);
 }
 
-/* Storage Bar */
-.storage-bar {
-  width: 100%;
-  height: 6px;
-  background: var(--sand-200);
-  border-radius: var(--r-full);
-  margin-top: 6px;
-  overflow: hidden;
+.storage-bar{
+  width:100%;
+  height:6px;
+  background:var(--sand-200);
+  border-radius:var(--r-full);
+  margin-top:6px;
+  overflow:hidden;
 }
-.storage-bar__fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--aqua), var(--green-500));
-  border-radius: inherit;
-  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  min-width: 2px;
+.storage-bar__fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--aqua),var(--green-500));
+  border-radius:inherit;
+  transition:width 0.6s cubic-bezier(0.16,1,0.3,1);
+  min-width:2px;
 }
 
 /* ============================================================
@@ -1669,13 +1738,18 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 /* ============================================================
    13. RESPONSIVE
    ============================================================ */
-@media (max-width:1080px){
+@media (max-width: 1080px){
   .results{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
   .panel--status{grid-column:1 / -1;}
   .footer__grid{grid-template-columns:1fr 1fr;}
 }
 
-@media (max-width:900px){
+@media (max-width: 1024px){
+  .flow-node__label{font-size:9px;}
+  .flow-node__desc{font-size:8.5px;}
+}
+
+@media (max-width: 900px){
   .nav__toggle{display:inline-flex;margin-left:auto;}
   .nav__links{
     position:absolute;
@@ -1706,11 +1780,8 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   .nav__indicator{display:none;}
   .nav__link{padding:12px 14px;font-size:14px;}
 
-  .hero{min-height: 85vh; padding-bottom:180px;}
-  .hero__inner{
-    grid-template-columns:1fr;
-    gap:26px;
-  }
+  .hero{padding-bottom:180px;}
+  .hero__inner{grid-template-columns:1fr;gap:26px;}
   .live-card{max-width:520px;width:100%;}
 
   .intro{grid-template-columns:1fr;}
@@ -1724,30 +1795,34 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     padding-bottom:6px;
     scrollbar-width:none;
     -ms-overflow-style:none;
+    -webkit-overflow-scrolling:touch;
+    scroll-snap-type:x proximity;
   }
   .method__nav::-webkit-scrollbar{display:none;}
   .method__btn{
     flex:0 0 auto;
     width:auto;
     white-space:nowrap;
-    padding:10px 14px;
+    padding:11px 15px;
     font-size:12.5px;
+    scroll-snap-align:start;
+    min-height:44px;
   }
   .method__btn:hover{transform:none;}
 
-  .flow{grid-template-columns:repeat(2,minmax(0,1fr));}
-  .flow__step::after{display:none;}
-}
+  .flow-diagram { flex-direction: column; gap: 16px; }
+  .flow-arrow { transform: rotate(90deg); animation: none; }
 
-@media (max-width:760px){
   .results{grid-template-columns:1fr;}
   .panel--status{grid-column:auto;}
-  .footer__grid{grid-template-columns:1fr;gap:20px;}
-  .footer__bottom{justify-content:flex-start;}
-  .stat-tiles{grid-template-columns:1fr;}
 }
 
-@media (max-width:640px){
+@media (max-width: 768px){
+  .footer__grid{grid-template-columns:1fr;gap:20px;}
+  .footer__bottom{justify-content:flex-start;}
+}
+
+@media (max-width: 640px){
   :root{--nav-h:58px;}
 
   body{font-size:14.5px;}
@@ -1759,8 +1834,8 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   .nav__status{padding:7px;}
   .nav__status span:last-child{display:none;}
 
-  .hero{padding-bottom:150px; min-height: 95vh;}
-  .hero__bg { background-position: center 40%; } /* Adjust focus for mobile */
+  .hero{padding-bottom:150px;}
+  .hero__bg{background-position:center 40%;}
   .hero__text{font-size:13px;}
   .chips{gap:6px;margin:16px 0 20px;}
   .chips li{font-size:10px;padding:5px 10px;}
@@ -1812,14 +1887,82 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
   .quote{flex-direction:column;align-items:flex-start;gap:6px;}
 
-  .flow{grid-template-columns:1fr;}
+  .stat-tiles{grid-template-columns:1fr;}
+
+  .stepper-btn{padding:11px 18px;min-height:42px;}
 }
 
-@media (max-width:380px){
+@media (max-width: 480px){
+  .hero__title{font-size:2.6rem;}
+  .hero__actions{gap:8px;}
+  .btn{padding:11px 18px;font-size:12.5px;}
+}
+
+@media (max-width: 380px){
   .readings{grid-template-columns:1fr 1fr;}
   .reading__value{font-size:13px;}
   .hero__title{font-size:2.4rem;}
-  .btn{padding:11px 18px;font-size:12.5px;}
+  .btn{padding:10px 16px;font-size:12px;}
+}
+
+@media (max-height: 550px) and (max-width: 1024px) and (orientation: landscape){
+  .hero{
+    min-height:auto;
+    padding-top:16px;
+    padding-bottom:90px;
+  }
+  .hero__waves{height:90px;}
+
+  .hero__title{font-size:clamp(1.9rem,4vw,2.4rem);margin:8px 0 4px;}
+  .hero__subtitle{font-size:13px;margin-bottom:4px;}
+  .hero__text{
+    font-size:11.5px;
+    line-height:1.5;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    margin-bottom:6px;
+  }
+  .eyebrow{padding:4px 10px;font-size:8.5px;letter-spacing:1.1px;}
+  .chips{margin:6px 0 10px;gap:5px;}
+  .chips li{font-size:9px;padding:3px 8px;}
+  .hero__actions{gap:6px;}
+  .btn{padding:7px 13px;font-size:10.5px;gap:6px;}
+
+  .hero__inner{grid-template-columns:1fr;gap:14px;}
+
+  .live-card{max-width:100%;padding:12px;}
+
+  .readings{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px;
+    margin-top:6px;
+  }
+  .reading{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:1px;
+    padding:6px 8px;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:8px;
+    background:rgba(255,255,255,.05);
+  }
+  .reading:last-child{border-bottom:1px solid rgba(255,255,255,.12);}
+  .reading__icon{display:none;}
+  .reading__name{font-size:8px;}
+  .reading__value{font-size:11px;}
+  .reading__status{font-size:8px;}
+
+  .live-card__head{padding-bottom:8px;}
+  .live-card__title{font-size:9px;}
+  .live-card__tag{font-size:8px;padding:3px 7px;}
+  .live-card__foot{margin-top:6px;padding-top:6px;font-size:8px;}
+
+  .ticker__group{padding:6px 10px;}
+  .ticker__group span{font-size:9.5px;letter-spacing:1.1px;}
 }
 
 /* ============================================================
@@ -1833,19 +1976,15 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     scroll-behavior:auto !important;
   }
   [data-reveal]{opacity:1 !important;transform:none !important;}
-  .hero__bg { animation: none; }
+  .hero__bg{animation:none;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- Ambient bubble layer -->
 <canvas id="bubbleLayer" aria-hidden="true"></canvas>
 
-<!-- ============================================================
-     HEADER
-     ============================================================ -->
 <header class="site-header">
   <div class="container nav">
 
@@ -1884,14 +2023,9 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   </div>
 </header>
 
-<!-- ============================================================
-     HERO
-     ============================================================ -->
 <section class="hero" aria-labelledby="hero-title">
-  
-  <!-- Animated Image Background -->
+
   <div class="hero__bg" aria-hidden="true"></div>
-  
   <div class="hero__grid" aria-hidden="true"></div>
 
   <div class="container hero__inner">
@@ -1964,7 +2098,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
   </div>
 
-  <!-- Animated waves -->
   <div class="hero__waves" aria-hidden="true">
     <svg class="waves waves--back" viewBox="0 0 2880 140" preserveAspectRatio="none">
       <path d="M0,70 C240,20 480,120 720,70 C960,20 1200,120 1440,70 C1680,20 1920,120 2160,70 C2400,20 2640,120 2880,70 L2880,140 L0,140 Z"
@@ -1981,9 +2114,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   </div>
 </section>
 
-<!-- ============================================================
-     TICKER
-     ============================================================ -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker__track">
     <div class="ticker__group">
@@ -2009,14 +2139,9 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   </div>
 </div>
 
-<!-- ============================================================
-     MAIN CONTENT
-     ============================================================ -->
 <main class="container">
 
-  <!-- ---------- HOME ---------- -->
   <div class="tab-panel is-active" id="tab-home" role="tabpanel" aria-label="Home">
-
     <section class="card">
       <div class="section-head">
         <span class="section-head__num" aria-hidden="true">00</span>
@@ -2049,29 +2174,64 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
         </article>
       </div>
 
-      <div class="flow">
-        <div class="flow__step" data-reveal>
-          <b>01</b><strong>Sense</strong>
-          <small>pH, turbidity &amp; temperature probes sample the water.</small>
-        </div>
-        <div class="flow__step" data-reveal>
-          <b>02</b><strong>Transmit</strong>
-          <small>The ESP32 pushes readings to Firebase over Wi-Fi.</small>
-        </div>
-        <div class="flow__step" data-reveal>
-          <b>03</b><strong>Visualise</strong>
-          <small>This dashboard plots the stream in real time.</small>
-        </div>
-        <div class="flow__step" data-reveal>
-          <b>04</b><strong>Act</strong>
-          <small>Trends inform monitoring and community decisions.</small>
-        </div>
+      <!-- NEW: System Anatomy -->
+      <div class="section-head" style="margin-top: 32px; border-bottom: none; padding-bottom: 0;">
+        <span class="section-head__num" aria-hidden="true" style="background: linear-gradient(150deg, var(--aqua), var(--green-600));">01</span>
+        <h2 class="section-head__title">
+          The Anatomy of AquaSense
+          <span class="section-head__sub">Hardware components &amp; their functions</span>
+        </h2>
       </div>
-    </section>
 
+      <div class="anatomy-grid">
+        <article class="anatomy-card" data-reveal>
+          <div class="anatomy-card__head">
+            <span class="anatomy-card__icon" aria-hidden="true">☀️</span>
+            <h3 class="anatomy-card__title">Solar Panel<small>Power Source</small></h3>
+          </div>
+          <p class="anatomy-card__function">
+            <strong>Function</strong>
+            Harnesses sunlight to charge the onboard battery, enabling autonomous, off-grid operation.
+          </p>
+        </article>
+
+        <article class="anatomy-card" data-reveal>
+          <div class="anatomy-card__head">
+            <span class="anatomy-card__icon" aria-hidden="true">🧠</span>
+            <h3 class="anatomy-card__title">ESP32 Controller<small>The Brain</small></h3>
+          </div>
+          <p class="anatomy-card__function">
+            <strong>Function</strong>
+            Processes raw sensor data, manages power consumption, and transmits readings via Wi-Fi.
+          </p>
+        </article>
+
+        <article class="anatomy-card" data-reveal>
+          <div class="anatomy-card__head">
+            <span class="anatomy-card__icon" aria-hidden="true">🌡️</span>
+            <h3 class="anatomy-card__title">Sensor Array<small>Data Acquisition</small></h3>
+          </div>
+          <p class="anatomy-card__function">
+            <strong>Function</strong>
+            Industrial-grade probes continuously measure pH, turbidity, and temperature in the water.
+          </p>
+        </article>
+
+        <article class="anatomy-card" data-reveal>
+          <div class="anatomy-card__head">
+            <span class="anatomy-card__icon" aria-hidden="true">☁️</span>
+            <h3 class="anatomy-card__title">Cloud Link<small>Data Sync</small></h3>
+          </div>
+          <p class="anatomy-card__function">
+            <strong>Function</strong>
+            Securely pushes telemetry to the Firebase Realtime Database every 3 seconds for this dashboard.
+          </p>
+        </article>
+      </div>
+
+    </section>
   </div>
 
-  <!-- ---------- INTRODUCTION ---------- -->
   <div class="tab-panel" id="tab-introduction" role="tabpanel" aria-label="Introduction">
     <section class="card" id="introduction">
 
@@ -2145,7 +2305,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     </section>
   </div>
 
-  <!-- ---------- METHODOLOGY ---------- -->
   <div class="tab-panel" id="tab-methodology" role="tabpanel" aria-label="Methodology">
     <section class="card" id="methodology">
 
@@ -2227,15 +2386,104 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
             </p>
           </div>
 
+          <!-- UPDATED: PROPOSED PROTOTYPE TAB -->
           <div class="method__pane" id="pane-prototype" role="tabpanel">
             <h3>Proposed Prototype (AquaSense)</h3>
-            <p>The system is composed of the following key components:</p>
-            <div class="proto-grid">
-              <div class="proto-item"><b>Solar platform</b>Autonomous floating deployment in water.</div>
-              <div class="proto-item"><b>ESP32 controller</b>The brain of the system for data processing.</div>
-              <div class="proto-item"><b>Sensor array</b>Industrial-grade pH, turbidity &amp; temperature probes.</div>
-              <div class="proto-item"><b>Cloud link</b>Sends data via Wi-Fi to Firebase Realtime Database.</div>
-              <div class="proto-item"><b>Web dashboard</b>Real-time visualisation of water quality data.</div>
+            <p>The system combines hardware and software to deliver real-time telemetry. Here is the data flow and the specific function of each component:</p>
+            
+            <!-- Data Flow Diagram -->
+            <div class="flow-diagram">
+              <div class="flow-node">
+                <div class="flow-node__icon">🌡️</div>
+                <div class="flow-node__label">Sense</div>
+                <div class="flow-node__desc">pH, Turbidity, Temp</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node">
+                <div class="flow-node__icon">🧠</div>
+                <div class="flow-node__label">Process</div>
+                <div class="flow-node__desc">ESP32 formats data</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node">
+                <div class="flow-node__icon">☁️</div>
+                <div class="flow-node__label">Transmit</div>
+                <div class="flow-node__desc">Firebase Cloud</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node">
+                <div class="flow-node__icon">💻</div>
+                <div class="flow-node__label">Visualize</div>
+                <div class="flow-node__desc">This Dashboard</div>
+              </div>
+            </div>
+
+            <div class="blueprint-grid">
+              <div class="blueprint-card">
+                <div class="blueprint-card__header">
+                  <span class="blueprint-card__icon">🛶</span>
+                  <h4 class="blueprint-card__title">Solar Floating Platform</h4>
+                </div>
+                <p class="blueprint-card__role">
+                  <strong>Function</strong>
+                  Provides buoyancy and structural support, allowing the system to float autonomously on the water surface while housing the electronics in a weather-resistant enclosure.
+                </p>
+              </div>
+
+              <div class="blueprint-card">
+                <div class="blueprint-card__header">
+                  <span class="blueprint-card__icon">☀️</span>
+                  <h4 class="blueprint-card__title">Solar Panel &amp; Battery</h4>
+                </div>
+                <p class="blueprint-card__role">
+                  <strong>Function</strong>
+                  Harvests solar energy to power the ESP32 and sensors. The battery stores excess power for nighttime operation, ensuring 24/7 monitoring.
+                </p>
+              </div>
+
+              <div class="blueprint-card">
+                <div class="blueprint-card__header">
+                  <span class="blueprint-card__icon">🧠</span>
+                  <h4 class="blueprint-card__title">ESP32 Controller</h4>
+                </div>
+                <p class="blueprint-card__role">
+                  <strong>Function</strong>
+                  Acts as the central processing unit. It reads analog signals from the sensors, converts them into digital values, and manages the Wi-Fi connection to Firebase.
+                </p>
+              </div>
+
+              <div class="blueprint-card">
+                <div class="blueprint-card__header">
+                  <span class="blueprint-card__icon">🌡️</span>
+                  <h4 class="blueprint-card__title">Sensor Array</h4>
+                </div>
+                <p class="blueprint-card__role">
+                  <strong>Function</strong>
+                  Submerged probes that continuously measure key water quality parameters (pH, turbidity, and temperature) and feed the analog data to the ESP32.
+                </p>
+              </div>
+
+              <div class="blueprint-card">
+                <div class="blueprint-card__header">
+                  <span class="blueprint-card__icon">☁️</span>
+                  <h4 class="blueprint-card__title">Cloud Link (Firebase)</h4>
+                </div>
+                <p class="blueprint-card__role">
+                  <strong>Function</strong>
+                  Serves as the backend. The ESP32 pushes JSON payloads to Firebase every 3 seconds, which acts as a relay for this web dashboard to read from.
+                </p>
+              </div>
+
+              <div class="blueprint-card">
+                <div class="blueprint-card__header">
+                  <span class="blueprint-card__icon">💻</span>
+                  <h4 class="blueprint-card__title">Web Dashboard</h4>
+                </div>
+                <p class="blueprint-card__role">
+                  <strong>Function</strong>
+                  The front-end interface (this website). It listens for updates from Firebase, visualizes trends using charts, and evaluates data against standard thresholds.
+                </p>
+              </div>
             </div>
           </div>
 
@@ -2265,7 +2513,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     </section>
   </div>
 
-  <!-- ---------- RESULTS ---------- -->
   <div class="tab-panel" id="tab-results" role="tabpanel" aria-label="Results and discussion">
     <section class="card" id="results">
 
@@ -2277,7 +2524,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
         </h2>
       </div>
 
-      <!-- Big stat tiles -->
       <div class="stat-tiles">
         <article class="stat" id="statPh" data-state="">
           <span class="stat__label">pH Level</span>
@@ -2300,7 +2546,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
       <div class="results">
 
-        <!-- Latest readings -->
         <section class="panel" aria-label="Latest sensor readings">
           <div class="panel__head">
             <h3>Latest Readings <small>Live from Firebase</small></h3>
@@ -2359,7 +2604,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
           </div>
         </section>
 
-        <!-- Trends -->
         <section class="panel" aria-label="Water quality trends">
           <div class="panel__head">
             <h3>Water Quality Trends <small>Rolling window</small></h3>
@@ -2400,7 +2644,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
           </div>
         </section>
 
-        <!-- System status -->
         <section class="panel panel--status" aria-label="System status">
           <div class="panel__head">
             <h3>System Status <small>Sensor unit &amp; cloud</small></h3>
@@ -2421,7 +2664,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
                 <small id="perfCloud">Checking Firebase…</small>
               </div>
             </li>
-            <!-- NEW: Firebase Storage Showcase -->
             <li class="status-item">
               <span class="status-item__icon" aria-hidden="true">☁️</span>
               <div style="width:100%;">
@@ -2462,7 +2704,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     </section>
   </div>
 
-  <!-- ---------- CONCLUSION ---------- -->
   <div class="tab-panel" id="tab-conclusion" role="tabpanel" aria-label="Conclusion">
     <section class="card" id="conclusion">
 
@@ -2519,9 +2760,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
 </main>
 
-<!-- ============================================================
-     FOOTER
-     ============================================================ -->
 <footer class="site-footer">
   <div class="container">
     <div class="footer__grid">
@@ -2564,9 +2802,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 (() => {
   'use strict';
 
-  /* ==========================================================
-     HELPERS
-     ========================================================== */
   const $  = (id) => document.getElementById(id);
   const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
@@ -2587,21 +2822,16 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
   function parseTs(ts) {
     if (ts === null || ts === undefined || ts === '') return null;
-
     if (typeof ts === 'number') {
       const ms = ts < 1e12 ? ts * 1000 : ts;
       const d = new Date(ms);
       return Number.isNaN(d.getTime()) ? null : d;
     }
-
     const s = String(ts).trim();
-
-    // "YYYY-MM-DD HH:MM(:SS)" → assume Philippine time (UTC+8)
     if (/^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}(:\d{2})?$/.test(s)) {
       const d = new Date(s.replace(' ', 'T') + '+08:00');
       if (!Number.isNaN(d.getTime())) return d;
     }
-
     const d2 = new Date(s);
     return Number.isNaN(d2.getTime()) ? null : d2;
   }
@@ -2621,9 +2851,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     ctx.closePath();
   }
 
-  /* ==========================================================
-     AMBIENT BUBBLE CANVAS
-     ========================================================== */
   const bubCanvas = $('bubbleLayer');
   const bctx = bubCanvas ? bubCanvas.getContext('2d') : null;
 
@@ -2663,23 +2890,18 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   function drawBubbles(step) {
     if (!bctx) return;
     bctx.clearRect(0, 0, BW, BH);
-
     for (const b of bubbles) {
       if (step) {
         b.y -= b.speed;
         b.phase += 0.018;
       }
-      if (b.y < -24) {
-        Object.assign(b, makeBubble(false));
-      }
+      if (b.y < -24) Object.assign(b, makeBubble(false));
       const x = b.x + Math.sin(b.phase) * b.amp * 9;
-
       bctx.beginPath();
       bctx.arc(x, b.y, b.r, 0, Math.PI * 2);
       bctx.strokeStyle = 'rgba(52,78,61,' + b.alpha + ')';
       bctx.lineWidth = 1;
       bctx.stroke();
-
       bctx.beginPath();
       bctx.arc(x - b.r * 0.32, b.y - b.r * 0.34, Math.max(0.55, b.r * 0.24), 0, Math.PI * 2);
       bctx.fillStyle = 'rgba(52,78,61,' + (b.alpha * 1.7) + ')';
@@ -2694,11 +2916,8 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
   if (bctx) {
     sizeBubbles();
-    if (reduceMotion) {
-      drawBubbles(false);
-    } else {
-      bubbleLoop();
-    }
+    if (reduceMotion) drawBubbles(false);
+    else bubbleLoop();
     window.addEventListener('resize', () => {
       sizeBubbles();
       if (reduceMotion) drawBubbles(false);
@@ -2712,9 +2931,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     });
   }
 
-  /* ==========================================================
-     CLICK RIPPLES + EASTER EGG
-     ========================================================== */
   if (!reduceMotion) {
     window.addEventListener('pointerdown', (e) => {
       const r = document.createElement('span');
@@ -2728,13 +2944,11 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
   const brandMark = $('brandMark');
   let brandClicks = 0, brandTimer = null;
-
   if (brandMark) {
     brandMark.addEventListener('click', () => {
       brandClicks++;
       clearTimeout(brandTimer);
       brandTimer = setTimeout(() => { brandClicks = 0; }, 2200);
-
       if (brandClicks >= 5) {
         brandClicks = 0;
         if (reduceMotion) return;
@@ -2747,9 +2961,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     });
   }
 
-  /* ==========================================================
-     TABS + NAVIGATION
-     ========================================================== */
   const TAB_IDS = ['home', 'introduction', 'methodology', 'results', 'conclusion'];
 
   const navLinks = $('navlinks');
@@ -2810,9 +3021,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
     if (options.hash) history.replaceState(null, '', '#' + tabId);
 
-    if (tabId === 'results') {
-      setTimeout(scheduleRedraw, 70);
-    }
+    if (tabId === 'results') setTimeout(scheduleRedraw, 70);
 
     if (!options.scroll) return;
 
@@ -2853,9 +3062,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     moveIndicator();
   });
 
-  /* ==========================================================
-     TILT CARDS + MAGNETIC BUTTONS
-     ========================================================== */
   function initTilt() {
     $$('[data-tilt]').forEach(el => {
       el.addEventListener('pointermove', (e) => {
@@ -2883,9 +3089,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     btn.addEventListener('pointerleave', () => { btn.style.transform = ''; });
   });
 
-  /* ==========================================================
-     METHODOLOGY STEPPER
-     ========================================================== */
   const methodBtns  = $$('.method__btn');
   const methodPanes = $$('.method__pane');
   const stepPrev = $('stepPrev');
@@ -2893,13 +3096,11 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
   function activateStep(index) {
     const i = Math.max(0, Math.min(methodBtns.length - 1, index));
-
     methodBtns.forEach((b, k) => {
       b.classList.toggle('is-active', k === i);
       b.setAttribute('aria-selected', String(k === i));
     });
     methodPanes.forEach((p, k) => p.classList.toggle('is-active', k === i));
-
     if (stepPrev) stepPrev.disabled = i === 0;
     if (stepNext) stepNext.disabled = i === methodBtns.length - 1;
   }
@@ -2913,9 +3114,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
   activateStep(0);
 
-  /* ==========================================================
-     LIVE DATA — FIREBASE
-     ========================================================== */
   const FIREBASE_URL = 'https://aquasense-d03fd-default-rtdb.asia-southeast1.firebasedatabase.app';
   const LATEST_PATH  = '/aquasense/latest.json';
   const HISTORY_PATH = '/aquasense/history.json';
@@ -2928,7 +3126,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     lastSync: null
   };
 
-  /* ---------- Connection indicator ---------- */
   function setConnection(mode) {
     const dot  = $('navLiveDot');
     const text = $('navLiveText');
@@ -2956,7 +3153,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     }
   }
 
-  /* ---------- Status classifiers ---------- */
   function phStatus(v) {
     if (v === null || Number.isNaN(v)) return { text: '—', cls: '', state: '' };
     if (v < 0 || v > 14)     return { text: 'Invalid',      cls: 'txt-bad',  state: 'bad' };
@@ -2992,11 +3188,9 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     el.dataset.state = s.state || '';
   }
 
-  /* ---------- Network ---------- */
   async function getJSON(path) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT);
-
     try {
       const res = await fetch(
         FIREBASE_URL + path + '?t=' + Date.now(),
@@ -3009,41 +3203,29 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     }
   }
 
-  /* ---------- History ---------- */
   function pushHistory(arr, value) {
     if (value === null || value === undefined || Number.isNaN(value)) return;
     arr.push(Number(value));
     while (arr.length > MAX_POINTS) arr.shift();
   }
 
-  /* ==========================================================
-     STORAGE SHOWCASE
-     ========================================================== */
   function updateStorageUI(bytes) {
     const textEl = $('perfStorageText');
     const barEl = $('perfStorageBar');
     if (!textEl || !barEl) return;
 
-    // Format bytes to KB or MB
     let sizeText = '';
     if (bytes < 1024) sizeText = bytes + ' B';
     else if (bytes < 1024 * 1024) sizeText = (bytes / 1024).toFixed(2) + ' KB';
     else sizeText = (bytes / (1024 * 1024)).toFixed(2) + ' MB';
 
-    // 1 GB limit in bytes
     const limitGB = 1024 * 1024 * 1024;
     const pct = (bytes / limitGB) * 100;
-    
-    // Display usage
+
     textEl.textContent = sizeText + ' used (' + pct.toFixed(6) + '%)';
-    
-    // Update the visual bar
-    barEl.style.width = Math.max(pct, 0.5) + '%'; // Keep it slightly visible to show it's active
+    barEl.style.width = Math.max(pct, 0.5) + '%';
   }
 
-  /* ==========================================================
-     CHARTS
-     ========================================================== */
   const charts = [
     { key: 'ph',   canvas: $('phChart'),   values: state.hist.ph,   color: '#526F5B', digits: 2, hover: -1, geo: null },
     { key: 'turb', canvas: $('turbChart'), values: state.hist.turb, color: '#8A7A4E', digits: 3, hover: -1, geo: null },
@@ -3076,7 +3258,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     const plotH = Math.max(1, h - padT - padB);
     const values = chart.values;
 
-    // Grid
     ctx.strokeStyle = '#E3E7DB';
     ctx.lineWidth = 1;
     for (let i = 0; i <= 2; i++) {
@@ -3087,7 +3268,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
       ctx.stroke();
     }
 
-    // Empty state
     if (!values.length) {
       chart.geo = null;
       ctx.fillStyle = '#96A295';
@@ -3098,7 +3278,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
       return;
     }
 
-    // Scale
     let lo = Math.min(...values);
     let hi = Math.max(...values);
 
@@ -3120,7 +3299,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
     chart.geo = { padL, plotW, plotH, padT, xAt, yAt, n: values.length };
 
-    // Area
     const grad = ctx.createLinearGradient(0, padT, 0, padT + plotH);
     grad.addColorStop(0, chart.color + '3D');
     grad.addColorStop(1, chart.color + '00');
@@ -3133,7 +3311,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     ctx.fillStyle = grad;
     ctx.fill();
 
-    // Line
     ctx.beginPath();
     values.forEach((v, i) => {
       if (i === 0) ctx.moveTo(xAt(i), yAt(v));
@@ -3145,7 +3322,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     ctx.lineCap = 'round';
     ctx.stroke();
 
-    // Last point
     const lx = xAt(values.length - 1);
     const ly = yAt(values[values.length - 1]);
 
@@ -3159,7 +3335,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     ctx.fillStyle = chart.color;
     ctx.fill();
 
-    // Hover crosshair
     if (chart.hover >= 0 && chart.hover < values.length) {
       const hx = xAt(chart.hover);
       const hy = yAt(values[chart.hover]);
@@ -3246,9 +3421,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   window.addEventListener('resize', scheduleRedraw);
   window.addEventListener('orientationchange', scheduleRedraw);
 
-  /* ==========================================================
-     RENDER LATEST READING
-     ========================================================== */
   function renderLatest(d) {
     const ph     = pickNum(d.pH, d.PH, d.ph);
     const phVolt = pickNum(d.pHVoltage, d.PHVoltage, d.phVoltage);
@@ -3256,7 +3428,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     const temp   = pickNum(d.temperature, d.Temperature, d.temp, d.Temp);
     const ts     = parseTs(d.timestamp ?? d.Timestamp ?? d.updatedAt ?? d.updated_at);
 
-    /* --- Hero card --- */
     const heroPh = $('heroPh');
     const heroTurb = $('heroTurb');
     const heroTemp = $('heroTemp');
@@ -3290,14 +3461,12 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     applyStatus($('heroTurbStatus'), tbS);
     applyStatus($('heroTempStatus'), tmS);
 
-    /* --- Timestamps --- */
     const stamp = ts ? ts.toLocaleString() : '—';
     const heroLast = $('heroLastSync');
     const perfLast = $('perfLastSync');
     if (heroLast) heroLast.textContent = stamp;
     if (perfLast) perfLast.textContent = stamp;
 
-    /* --- Stat tiles --- */
     const statPhValue = $('statPhValue');
     const statTurbValue = $('statTurbValue');
     const statTempValue = $('statTempValue');
@@ -3314,7 +3483,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     applyStatState($('statTurb'), tbS);
     applyStatState($('statTemp'), tmS);
 
-    /* --- Results table --- */
     const tblPh = $('tblPh');
     const tblTurb = $('tblTurb');
     const tblTemp = $('tblTemp');
@@ -3331,7 +3499,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     applyStatus($('tblTurbStatus'), tbS);
     applyStatus($('tblTempStatus'), tmS);
 
-    /* --- Chart labels --- */
     const phLatest = $('phChartLatest');
     const turbLatest = $('turbChartLatest');
     const tempLatest = $('tempChartLatest');
@@ -3339,7 +3506,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     if (turbLatest) turbLatest.textContent = fmt(turbV, 3);
     if (tempLatest) tempLatest.textContent = fmt(temp, 2);
 
-    /* --- History --- */
     pushHistory(state.hist.ph, ph);
     pushHistory(state.hist.turb, turbV);
     pushHistory(state.hist.temp, temp);
@@ -3347,9 +3513,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     redrawCharts();
   }
 
-  /* ==========================================================
-     POLLING
-     ========================================================== */
   async function fetchLatest() {
     try {
       const data = await getJSON(LATEST_PATH);
@@ -3364,7 +3527,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
         return;
       }
 
-      // Calculate payload size for the storage showcase
       const payloadSize = new Blob([JSON.stringify(data)]).size;
       updateStorageUI(payloadSize);
 
@@ -3392,11 +3554,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
       const data = await getJSON(HISTORY_PATH);
       if (!data || typeof data !== 'object') return;
 
-      // Calculate history payload size for the storage showcase
       const historySize = new Blob([JSON.stringify(data)]).size;
-      
-      // Add to the total storage display (history + latest)
-      // Wait for fetchLatest to finish to get the exact total, but we can update the bar now
       updateStorageUI(historySize);
 
       const keys = Object.keys(data).sort().slice(-MAX_POINTS);
@@ -3424,17 +3582,12 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     }
   }
 
-  /* ==========================================================
-     BOOT
-     ========================================================== */
   async function init() {
     const yearEl = $('year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-    // Hero intro animation
     setTimeout(() => animateReveals(document.querySelector('.hero')), 120);
 
-    // Restore tab from URL hash
     const hash = (location.hash || '').replace('#', '');
     if (TAB_IDS.includes(hash) && hash !== 'home') {
       switchTab(hash, { scroll: false, hash: false });
