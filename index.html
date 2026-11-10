@@ -933,6 +933,139 @@ main{
   align-items:start;
 }
 
+/* ---- Highlight callout for the three intro paragraphs ---- */
+.intro-highlight{
+  position:relative;
+  padding:clamp(22px,3vw,32px) clamp(20px,3vw,30px) clamp(22px,3vw,32px) clamp(24px,3.2vw,36px);
+  border-radius:var(--r-md);
+  background:linear-gradient(135deg,#fff 0%,var(--sand-50) 100%);
+  border:1px solid var(--line);
+  border-left:5px solid var(--green-700);
+  box-shadow:var(--sh-sm);
+  overflow:hidden;
+}
+.intro-highlight::before{
+  content:"";
+  position:absolute;
+  top:-40px;right:-40px;
+  width:140px;height:140px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(79,209,176,.18),transparent 70%);
+  pointer-events:none;
+}
+.intro-highlight::after{
+  content:"";
+  position:absolute;
+  left:0;bottom:0;
+  width:100%;height:3px;
+  background:linear-gradient(90deg,var(--green-700),var(--aqua),transparent);
+  pointer-events:none;
+}
+
+.intro-highlight__label{
+  position:relative;
+  z-index:1;
+  margin-bottom:18px;
+}
+.intro-highlight__badge{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:5px 13px;
+  border-radius:var(--r-full);
+  background:linear-gradient(150deg,var(--green-700),var(--green-900));
+  color:#fff;
+  font-size:9.5px;
+  font-weight:800;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  box-shadow:0 6px 14px -8px rgba(27,42,32,.7);
+}
+.intro-highlight__badge::before{
+  content:"";
+  width:5px;height:5px;
+  border-radius:50%;
+  background:var(--aqua);
+  box-shadow:0 0 8px var(--aqua);
+}
+
+.intro-highlight__lead{
+  position:relative;
+  z-index:1;
+  font-size:clamp(15px,1.55vw,17.5px);
+  line-height:1.82;
+  color:var(--ink);
+  font-weight:500;
+  margin-bottom:20px;
+  padding-bottom:20px;
+  border-bottom:1px dashed var(--line);
+}
+.intro-highlight__body{
+  position:relative;
+  z-index:1;
+  font-size:clamp(14px,1.4vw,15.5px);
+  line-height:1.8;
+  color:var(--ink);
+  margin-bottom:16px;
+}
+.intro-highlight__body:last-child{margin-bottom:0;}
+.intro-highlight strong{
+  color:var(--green-700);
+  font-weight:800;
+  background:linear-gradient(180deg,transparent 62%,rgba(79,209,176,.4) 62%);
+  padding:0 1px;
+}
+.intro-highlight__lead strong{
+  color:var(--green-800);
+  background:linear-gradient(180deg,transparent 55%,rgba(79,209,176,.5) 55%);
+}
+
+/* At-a-glance key points under the callout */
+.intro-points{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:10px;
+  margin-top:18px;
+}
+.intro-point{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:12px 14px;
+  border-radius:var(--r-sm);
+  background:#fff;
+  border:1px solid var(--line);
+  transition:transform .3s var(--ease-out), border-color .3s, box-shadow .3s;
+}
+.intro-point:hover{
+  transform:translateY(-3px);
+  border-color:var(--green-300);
+  box-shadow:var(--sh-xs);
+}
+.intro-point__icon{
+  width:28px;height:28px;
+  flex:0 0 auto;
+  display:grid;place-items:center;
+  border-radius:8px;
+  background:var(--sand-100);
+  font-size:13px;
+}
+.intro-point strong{
+  display:block;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+  color:var(--green-800);
+  margin-bottom:2px;
+}
+.intro-point small{
+  display:block;
+  font-size:10.5px;
+  line-height:1.5;
+  color:var(--muted);
+}
+
 .context{
   background:var(--sand-100);
   border:1px solid var(--line);
@@ -1725,10 +1858,9 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   gap: clamp(20px, 4vw, 40px);
   align-items: stretch;
   min-height: 420px;
-  touch-action: pan-y; /* Allow vertical scroll but handle horizontal swipe */
+  touch-action: pan-y;
 }
 
-/* Left Side - Highlight */
 .researcher-left {
   background: linear-gradient(160deg, var(--green-900), var(--green-800));
   border-radius: var(--r-lg);
@@ -1749,7 +1881,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   box-shadow: 0 20px 40px -20px rgba(79,209,176,0.4), var(--sh-md);
 }
 
-/* Animated Background for Left Panel */
 .researcher-left::before {
   content: "";
   position: absolute;
@@ -1816,7 +1947,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   transition: opacity 0.3s var(--ease), transform 0.3s var(--ease-out);
 }
 
-/* Right Side - Details */
 .researcher-right {
   display: flex;
   flex-direction: column;
@@ -1829,7 +1959,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   overflow: hidden;
 }
 
-/* Subtle background text for right panel */
 .researcher-right::before {
   content: "AQUA";
   position: absolute;
@@ -1873,7 +2002,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   transition: opacity 0.3s var(--ease), transform 0.3s var(--ease-out);
 }
 
-/* Navigation Controls */
 .researcher-nav-controls {
   display: flex;
   align-items: center;
@@ -1944,7 +2072,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   border-radius: 50%;
   background: var(--line);
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy effect */
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .res-dot:hover {
@@ -1953,14 +2081,11 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
 .res-dot.is-active {
   background: var(--aqua);
-  width: 24px; /* Stretch active dot into a pill */
+  width: 24px;
   border-radius: var(--r-full);
   box-shadow: 0 0 10px rgba(79,209,176,0.4);
 }
 
-/* ============================================================
-   RESEARCHER ANIMATIONS (STAGGERED ENTRY)
-   ============================================================ */
 .res-anim-img {
   animation: popIn 0.5s var(--ease-out) both;
 }
@@ -2293,7 +2418,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   .researcher-name-large { font-size: 22px; }
   .researcher-bio-large { font-size: 14px; }
   
-  /* Mobile Swipe Hint */
   .researchers-layout::after {
     content: "← Swipe to navigate →";
     position: absolute;
@@ -2307,6 +2431,10 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     opacity: 0.5;
     pointer-events: none;
   }
+
+  .intro-highlight{padding:18px 16px 18px 20px;}
+  .intro-highlight__lead{font-size:15px;}
+  .intro-highlight__body{font-size:13.5px;}
 }
 
 @media (max-width: 480px){
@@ -2666,25 +2794,61 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
       </div>
 
       <div class="intro">
-        <div class="prose">
-          <p data-reveal>
-            Freshwater ecosystems — especially rivers — are vital for biodiversity,
-            human health, and local communities. Pollution, urbanization, and
-            improper waste disposal, however, contribute to declining water
-            quality in many areas, including communities around Calapan City.
-          </p>
-          <p data-reveal>
-            Traditional water-quality monitoring often relies on manual sampling
-            and laboratory analysis. While these approaches provide useful
-            measurements, they can be time-consuming, labor-intensive, and unable
-            to deliver continuous updates.
-          </p>
-          <p data-reveal>
-            <strong>AquaSense</strong> proposes a solar-powered IoT-based sensor
-            network that monitors pH, turbidity, and temperature. The concept
-            explores how more frequent readings could help identify changes
-            earlier and support informed environmental monitoring.
-          </p>
+        <div data-reveal>
+          <div class="intro-highlight">
+            <div class="intro-highlight__label">
+              <span class="intro-highlight__badge">Why this matters</span>
+            </div>
+            <p class="intro-highlight__lead">
+              <strong>Freshwater ecosystems</strong> — especially rivers — are vital for
+              biodiversity, human health, and local communities. Pollution, urbanization, and
+              improper waste disposal, however, contribute to
+              <strong>declining water quality</strong> in many areas,
+              <strong>including communities around Calapan City</strong>.
+            </p>
+            <p class="intro-highlight__body">
+              Traditional water-quality monitoring often relies on manual sampling and
+              laboratory analysis. While these approaches provide useful measurements, they
+              can be <strong>time-consuming, labor-intensive, and unable to deliver continuous updates</strong>.
+            </p>
+            <p class="intro-highlight__body">
+              <strong>AquaSense</strong> proposes a solar-powered IoT-based sensor network
+              that monitors <strong>pH, turbidity, and temperature</strong>. The concept
+              explores how more frequent readings could help identify changes earlier and
+              support informed environmental monitoring.
+            </p>
+          </div>
+
+          <div class="intro-points" aria-hidden="true">
+            <div class="intro-point">
+              <span class="intro-point__icon">🌊</span>
+              <div>
+                <strong>Rivers</strong>
+                <small>Vital for biodiversity &amp; communities</small>
+              </div>
+            </div>
+            <div class="intro-point">
+              <span class="intro-point__icon">⚠️</span>
+              <div>
+                <strong>Threats</strong>
+                <small>Pollution &amp; improper waste disposal</small>
+              </div>
+            </div>
+            <div class="intro-point">
+              <span class="intro-point__icon">🔬</span>
+              <div>
+                <strong>Gap</strong>
+                <small>Manual sampling is slow &amp; intermittent</small>
+              </div>
+            </div>
+            <div class="intro-point">
+              <span class="intro-point__icon">💡</span>
+              <div>
+                <strong>Solution</strong>
+                <small>Solar-powered IoT sensor network</small>
+              </div>
+            </div>
+          </div>
         </div>
 
         <aside class="context" aria-label="Research context" data-reveal>
@@ -3178,7 +3342,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
             </video>
           </div>
           <div class="doc-card__body">
-           <h3 class="doc-card__title">Prototype Assembly &amp; Bench Testing</h3>
+            <h3 class="doc-card__title">Prototype Assembly &amp; Bench Testing</h3>
             <p class="doc-card__text">
               Step-by-step build of the floating platform, ESP32 wiring, and the
               waterproof sensor housing — followed by the first calibration pass
@@ -3218,7 +3382,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
       <div class="researchers-layout" id="researchersLayout">
         
-        <!-- Left Side: Highlight (Picture & Name) -->
         <div class="researcher-left">
           <div class="researcher-avatar-container">
             <img id="res-img" class="researcher-avatar" src="" alt="Researcher">
@@ -3226,12 +3389,10 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
           <h3 id="res-name" class="researcher-name-large">Name</h3>
         </div>
 
-        <!-- Right Side: Details (Position & Bio) -->
         <div class="researcher-right">
           <div id="res-role" class="researcher-position-badge">Position</div>
           <p id="res-bio" class="researcher-bio-large">Short introduction goes here.</p>
           
-          <!-- Sync Controls -->
           <div class="researcher-nav-controls">
             <button id="res-prev" class="res-nav-btn" aria-label="Previous researcher">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
@@ -3672,7 +3833,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   function renderResearcher(index, direction = 'next') {
     if (isAnimatingRes) return;
     
-    // Wrap around logic
     if (index < 0) index = researchersData.length - 1;
     if (index >= researchersData.length) index = 0;
     activeResearcher = index;
@@ -3680,7 +3840,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     const data = researchersData[index];
     isAnimatingRes = true;
 
-    // Remove animation classes
     const animElements = [
       { el: resImg, cls: 'res-anim-img' },
       { el: resName, cls: 'res-anim-name' },
@@ -3690,25 +3849,20 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
     animElements.forEach(item => item.el.classList.remove(item.cls));
 
-    // Force reflow to restart animation
     void resImg.offsetWidth;
 
-    // Update content
     resImg.src = data.img;
     resImg.alt = data.name;
     resName.textContent = data.name;
     resRole.textContent = data.role;
     resBio.textContent = data.bio;
 
-    // Add animation classes
     animElements.forEach(item => item.el.classList.add(item.cls));
 
-    // Update dots
     Array.from(resDots.children).forEach((dot, i) => {
       dot.classList.toggle('is-active', i === index);
     });
 
-    // Lock animation briefly
     setTimeout(() => { isAnimatingRes = false; }, 500);
   }
 
@@ -3725,13 +3879,12 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
   if (resImg && resName && resRole && resBio) {
     createDots();
-    renderResearcher(0, 'none'); // Initial load
+    renderResearcher(0, 'none');
 
     btnPrev.addEventListener('click', () => renderResearcher(activeResearcher - 1, 'prev'));
     btnNext.addEventListener('click', () => renderResearcher(activeResearcher + 1, 'next'));
   }
 
-  // Swipe support for touch devices
   let touchStartX = 0;
   let touchEndX = 0;
 
@@ -3749,11 +3902,9 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   function handleSwipe() {
     const swipeThreshold = 50;
     if (touchEndX < touchStartX - swipeThreshold) {
-      // Swiped Left -> Next
       renderResearcher(activeResearcher + 1, 'next');
     }
     if (touchEndX > touchStartX + swipeThreshold) {
-      // Swiped Right -> Prev
       renderResearcher(activeResearcher - 1, 'prev');
     }
   }
