@@ -933,7 +933,6 @@ main{
   align-items:start;
 }
 
-/* ---- Highlight callout for the three intro paragraphs ---- */
 .intro-highlight{
   position:relative;
   padding:clamp(22px,3vw,32px) clamp(20px,3vw,30px) clamp(22px,3vw,32px) clamp(24px,3.2vw,36px);
@@ -1020,7 +1019,6 @@ main{
   background:linear-gradient(180deg,transparent 55%,rgba(79,209,176,.5) 55%);
 }
 
-/* At-a-glance key points under the callout */
 .intro-points{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
@@ -1300,7 +1298,6 @@ main{
 }
 .method__pane strong{color:var(--green-800);font-weight:700;}
 
-/* Data Flow Diagram */
 .flow-diagram {
   display: flex;
   align-items: center;
@@ -1361,7 +1358,6 @@ main{
   50% { opacity: 1; transform: translateX(4px); }
 }
 
-/* Blueprint Grid */
 .blueprint-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -1734,7 +1730,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 }
 
 /* ============================================================
-   10.5 DOCUMENTATION (VIDEO GALLERY)
+   10.5 DOCUMENTATION (VIDEO + PHOTO GALLERY)
    ============================================================ */
 .doc-grid{
   display:grid;
@@ -1849,8 +1845,241 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   border-color:var(--green-200);
 }
 
+/* Sub-headers inside the Documentation tab */
+.doc-section-head{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:30px 0 16px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--line);
+}
+.doc-section-head:first-of-type{margin-top:0;}
+.doc-section-head h3{
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--green-800);
+  line-height:1.2;
+}
+.doc-section-head .badge{margin-left:auto;}
+
+/* Photo gallery grid */
+.doc-gallery{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+
+@media (min-width:480px){
+  .doc-gallery{
+    grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+    gap:12px;
+  }
+}
+
+@media (min-width:1024px){
+  .doc-gallery{
+    grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+    gap:14px;
+  }
+}
+
+.doc-gallery__item{
+  position:relative;
+  display:block;
+  aspect-ratio:4 / 3;
+  padding:0;
+  border:1px solid var(--line);
+  border-radius:var(--r-sm);
+  overflow:hidden;
+  background:var(--sand-100);
+  cursor:zoom-in;
+  transition:transform .3s var(--ease-out), box-shadow .3s var(--ease-out), border-color .3s;
+  -webkit-tap-highlight-color:transparent;
+}
+.doc-gallery__item:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--sh-md);
+  border-color:var(--green-300);
+}
+.doc-gallery__item:active{transform:scale(.98);}
+.doc-gallery__item:focus-visible{
+  outline:2px solid var(--aqua);
+  outline-offset:3px;
+}
+
+.doc-gallery__item img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .5s var(--ease-out);
+}
+.doc-gallery__item:hover img{transform:scale(1.06);}
+
+.doc-gallery__expand{
+  position:absolute;
+  top:8px;right:8px;
+  width:26px;height:26px;
+  border-radius:50%;
+  background:rgba(20,33,26,.55);
+  -webkit-backdrop-filter:blur(6px);
+  backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.25);
+  color:#fff;
+  font-size:13px;
+  display:grid;
+  place-items:center;
+  opacity:.7;
+  pointer-events:none;
+  transition:opacity .25s, transform .25s, background .25s;
+}
+.doc-gallery__item:hover .doc-gallery__expand{
+  opacity:1;
+  transform:scale(1.08);
+  background:var(--green-800);
+}
+
+.doc-gallery__caption{
+  position:absolute;
+  left:0;right:0;bottom:0;
+  padding:18px 10px 8px;
+  background:linear-gradient(to top,rgba(14,23,18,.85),transparent);
+  color:#fff;
+  font-size:10px;
+  font-weight:600;
+  line-height:1.3;
+  text-align:left;
+  opacity:0;
+  transform:translateY(4px);
+  transition:opacity .25s, transform .25s;
+  pointer-events:none;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.doc-gallery__item:hover .doc-gallery__caption{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* Lightbox */
+.lightbox{
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(14,23,18,.94);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+}
+.lightbox.is-open{display:flex;}
+
+.lightbox__img{
+  max-width:92vw;
+  max-height:82vh;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  border-radius:var(--r-md);
+  box-shadow:0 30px 80px -20px rgba(0,0,0,.9);
+  animation:lbImgIn .3s var(--ease-out);
+}
+@keyframes lbImgIn{
+  from{opacity:0;transform:scale(.96);}
+  to{opacity:1;transform:none;}
+}
+
+.lightbox__close{
+  position:absolute;
+  top:16px;right:16px;
+  width:44px;height:44px;
+  border-radius:50%;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.22);
+  color:#fff;
+  font-size:22px;
+  line-height:1;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  transition:background .2s, transform .2s;
+  z-index:2;
+}
+.lightbox__close:hover{background:rgba(255,255,255,.24);transform:scale(1.05);}
+
+.lightbox__nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:48px;height:48px;
+  border-radius:50%;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.22);
+  color:#fff;
+  font-size:22px;
+  line-height:1;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  transition:background .2s, transform .2s;
+  z-index:2;
+}
+.lightbox__nav:hover{background:rgba(255,255,255,.24);}
+.lightbox__nav--prev{left:16px;}
+.lightbox__nav--next{right:16px;}
+
+.lightbox__caption{
+  position:absolute;
+  left:50%;
+  bottom:22px;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  max-width:calc(100% - 40px);
+  padding:8px 16px;
+  border-radius:var(--r-full);
+  background:rgba(20,33,26,.75);
+  -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.18);
+  color:#fff;
+  font-size:12px;
+  font-weight:600;
+  z-index:2;
+}
+.lightbox__counter{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  font-weight:700;
+  opacity:.7;
+  padding-right:10px;
+  border-right:1px solid rgba(255,255,255,.2);
+  white-space:nowrap;
+}
+.lightbox__label{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+@media (max-width:640px){
+  .lightbox__nav{width:40px;height:40px;font-size:18px;}
+  .lightbox__nav--prev{left:8px;}
+  .lightbox__nav--next{right:8px;}
+  .lightbox__close{top:10px;right:10px;width:40px;height:40px;font-size:20px;}
+  .lightbox__caption{bottom:14px;padding:6px 12px;font-size:11px;}
+  .lightbox__img{max-width:96vw;max-height:78vh;}
+}
+
 /* ============================================================
-   11. RESEARCHERS (SPLIT VIEW - INTERACTIVE)
+   11. RESEARCHERS
    ============================================================ */
 .researchers-layout {
   display: grid;
@@ -2047,24 +2276,11 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   box-shadow: var(--sh-md);
 }
 
-.res-nav-btn:hover:not(:disabled)::after {
-  transform: scale(1);
-}
+.res-nav-btn:hover:not(:disabled)::after { transform: scale(1); }
+.res-nav-btn:active:not(:disabled) { transform: translateY(0) scale(0.95); }
+.res-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-.res-nav-btn:active:not(:disabled) {
-  transform: translateY(0) scale(0.95);
-}
-
-.res-nav-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-.researcher-dots {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
+.researcher-dots { display: flex; gap: 8px; align-items: center; }
 
 .res-dot {
   width: 10px;
@@ -2074,11 +2290,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-
-.res-dot:hover {
-  background: var(--green-300);
-}
-
+.res-dot:hover { background: var(--green-300); }
 .res-dot.is-active {
   background: var(--aqua);
   width: 24px;
@@ -2086,18 +2298,10 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   box-shadow: 0 0 10px rgba(79,209,176,0.4);
 }
 
-.res-anim-img {
-  animation: popIn 0.5s var(--ease-out) both;
-}
-.res-anim-name {
-  animation: slideUpIn 0.5s var(--ease-out) both 0.1s;
-}
-.res-anim-role {
-  animation: slideInLeft 0.5s var(--ease-out) both 0.15s;
-}
-.res-anim-bio {
-  animation: slideInLeft 0.5s var(--ease-out) both 0.25s;
-}
+.res-anim-img { animation: popIn 0.5s var(--ease-out) both; }
+.res-anim-name { animation: slideUpIn 0.5s var(--ease-out) both 0.1s; }
+.res-anim-role { animation: slideInLeft 0.5s var(--ease-out) both 0.15s; }
+.res-anim-bio { animation: slideInLeft 0.5s var(--ease-out) both 0.25s; }
 
 @keyframes popIn {
   0% { transform: scale(0.8) rotate(-10deg); opacity: 0; }
@@ -2258,18 +2462,10 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 @media (max-width: 1024px){
   .flow-node__label{font-size:9px;}
   .flow-node__desc{font-size:8.5px;}
-  
-  .researchers-layout {
-    grid-template-columns: 1fr;
-  }
-  .researcher-left {
-    padding: 30px 20px;
-  }
-  .researcher-avatar-container {
-    width: 140px;
-    height: 140px;
-    margin-bottom: 16px;
-  }
+
+  .researchers-layout { grid-template-columns: 1fr; }
+  .researcher-left { padding: 30px 20px; }
+  .researcher-avatar-container { width: 140px; height: 140px; margin-bottom: 16px; }
 }
 
 @media (max-width: 900px){
@@ -2413,11 +2609,11 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   .stat-tiles{grid-template-columns:1fr;}
 
   .stepper-btn{padding:11px 18px;min-height:42px;}
-  
+
   .researcher-right { padding: 20px 15px; }
   .researcher-name-large { font-size: 22px; }
   .researcher-bio-large { font-size: 14px; }
-  
+
   .researchers-layout::after {
     content: "← Swipe to navigate →";
     position: absolute;
@@ -2435,12 +2631,17 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   .intro-highlight{padding:18px 16px 18px 20px;}
   .intro-highlight__lead{font-size:15px;}
   .intro-highlight__body{font-size:13.5px;}
+
+  .doc-section-head{margin-top:24px;margin-bottom:14px;}
+  .doc-gallery__expand{width:24px;height:24px;font-size:12px;}
 }
 
 @media (max-width: 480px){
   .hero__title{font-size:2.6rem;}
   .hero__actions{gap:8px;}
   .btn{padding:11px 18px;font-size:12.5px;}
+
+  .doc-gallery__caption{display:none;}
 }
 
 @media (max-width: 380px){
@@ -2448,6 +2649,8 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   .reading__value{font-size:13px;}
   .hero__title{font-size:2.4rem;}
   .btn{padding:10px 16px;font-size:12px;}
+
+  .doc-gallery{gap:8px;}
 }
 
 @media (max-height: 550px) and (max-width: 1024px) and (orientation: landscape){
@@ -2975,7 +3178,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
           <div class="method__pane" id="pane-prototype" role="tabpanel">
             <h3>Proposed Prototype (AquaSense)</h3>
             <p>The system combines hardware and software to deliver real-time telemetry. Here is the data flow and the specific function of each component:</p>
-            
+
             <div class="flow-diagram">
               <div class="flow-node">
                 <div class="flow-node__icon">🌡️</div>
@@ -3296,8 +3499,14 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
         <span class="section-head__num" aria-hidden="true">04</span>
         <h2 class="section-head__title">
           Documentation
-          <span class="section-head__sub">Prototype build and field footage · 1920 × 1080</span>
+          <span class="section-head__sub">Prototype build, field footage &amp; photo gallery</span>
         </h2>
+      </div>
+
+      <!-- Video clips -->
+      <div class="doc-section-head">
+        <h3>Video Clips</h3>
+        <span class="badge">2 Clips · 1920 × 1080</span>
       </div>
 
       <div class="doc-grid">
@@ -3342,11 +3551,10 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
             </video>
           </div>
           <div class="doc-card__body">
-            <h3 class="doc-card__title">Prototype Assembly &amp; Bench Testing</h3>
+            <h3 class="doc-card__title">Field Deployment &amp; Live Testing</h3>
             <p class="doc-card__text">
-              Step-by-step build of the floating platform, ESP32 wiring, and the
-              waterproof sensor housing — followed by the first calibration pass
-              on the bench.
+              Deployment at Barangay Ibaba West with the unit streaming real-time
+              pH, turbidity, and temperature readings straight into this dashboard.
             </p>
             <div class="doc-card__meta">
               <span>1920 × 1080</span>
@@ -3358,11 +3566,100 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
       </div>
 
+      <!-- Photo gallery -->
+      <div class="doc-section-head">
+        <h3>Photo Gallery</h3>
+        <span class="badge">13 Photos</span>
+      </div>
+
+      <div class="doc-gallery" id="docGallery" role="list" aria-label="AquaSense documentation photo gallery">
+
+        <button class="doc-gallery__item" type="button" data-index="0" data-src="photo-01.jpg" data-caption="Floating platform — top view" role="listitem" aria-label="Open photo: Floating platform — top view">
+          <img src="photo-01.jpg" alt="AquaSense floating platform seen from above" loading="lazy" decoding="async">
+          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
+          <span class="doc-gallery__caption" aria-hidden="true">Floating platform — top view</span>
+        </button>
+
+        <button class="doc-gallery__item" type="button" data-index="1" data-src="photo-02.jpg" data-caption="ESP32 wiring &amp; connections" role="listitem" aria-label="Open photo: ESP32 wiring and connections">
+          <img src="photo-02.jpg" alt="ESP32 wiring and connections" loading="lazy" decoding="async">
+          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
+          <span class="doc-gallery__caption" aria-hidden="true">ESP32 wiring &amp; connections</span>
+        </button>
+
+        <button class="doc-gallery__item" type="button" data-index="2" data-src="photo-03.jpg" data-caption="Waterproof sensor housing" role="listitem" aria-label="Open photo: Waterproof sensor housing">
+          <img src="photo-03.jpg" alt="Waterproof sensor housing" loading="lazy" decoding="async">
+          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
+          <span class="doc-gallery__caption" aria-hidden="true">Waterproof sensor housing</span>
+        </button>
+
+        <button class="doc-gallery__item" type="button" data-index="3" data-src="photo-04.jpg" data-caption="Solar panel mounting bracket" role="listitem" aria-label="Open photo: Solar panel mounting bracket">
+          <img src="photo-04.jpg" alt="Solar panel mounting bracket" loading="lazy" decoding="async">
+          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
+          <span class="doc-gallery__caption" aria-hidden="true">Solar panel mounting bracket</span>
+        </button>
+
+        <button class="doc-gallery__item" type="button" data-index="4" data-src="photo-05.jpg" data-caption="Battery compartment detail" role="listitem" aria-label="Open photo: Battery compartment detail">
+          <img src="photo-05.jpg" alt="Battery compartment detail" loading="lazy" decoding="async">
+          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
+          <span class="doc-gallery__caption" aria-hidden="true">Battery compartment detail</span>
+        </button>
+
+        <button class="doc-gallery__item" type="button" data-index="5" data-src="photo-06.jpg" data-caption="pH probe calibration" role="listitem" aria-label="Open photo: pH probe calibration">
+          <img src="photo-06.jpg" alt="pH probe calibration setup" loading="lazy" decoding="async">
+          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
+          <span class="doc-gallery__caption" aria-hidden="true">pH probe calibration</span>
+        </button>
+
+        <button class="doc-gallery__item" type="button" data-index="6" data-src="photo-07.jpg" data-caption="Turbidity sensor check" role="listitem" aria-label="Open photo: Turbidity sensor check">
+          <img src="photo-07.jpg" alt="Turbidity sensor check" loading="lazy" decoding="async">
+          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
+          <span class="doc-gallery__caption" aria-hidden="true">Turbidity sensor check</span>
+        </button>
+
+        <button class="doc-gallery__item" type="button" data-index="7" data-src="photo-08.jpg" data-caption="Temperature probe testing" role="listitem" aria-label="Open photo: Temperature probe testing">
+          <img src="photo-08.jpg" alt="Temperature probe testing" loading="lazy" decoding="async">
+          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
+          <span class="doc-gallery__caption" aria-hidden="true">Temperature probe testing</span>
+        </button>
+
+        <button class="doc-gallery__item" type="button" data-index="8" data-src="photo-09.jpg" data-caption="Field deployment — Barangay Ibaba West" role="listitem" aria-label="Open photo: Field deployment at Barangay Ibaba West">
+          <img src="photo-09.jpg" alt="Field deployment at Barangay Ibaba West" loading="lazy" decoding="async">
+          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
+          <span class="doc-gallery__caption" aria-hidden="true">Field deployment — Barangay Ibaba West</span>
+        </button>
+
+        <button class="doc-gallery__item" type="button" data-index="9" data-src="photo-10.jpg" data-caption="Live dashboard sync in action" role="listitem" aria-label="Open photo: Live dashboard sync in action">
+          <img src="photo-10.jpg" alt="Live dashboard sync in action" loading="lazy" decoding="async">
+          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
+          <span class="doc-gallery__caption" aria-hidden="true">Live dashboard sync in action</span>
+        </button>
+
+        <button class="doc-gallery__item" type="button" data-index="10" data-src="photo-11.jpg" data-caption="Sensor array close-up" role="listitem" aria-label="Open photo: Sensor array close-up">
+          <img src="photo-11.jpg" alt="Sensor array close-up" loading="lazy" decoding="async">
+          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
+          <span class="doc-gallery__caption" aria-hidden="true">Sensor array close-up</span>
+        </button>
+
+        <button class="doc-gallery__item" type="button" data-index="11" data-src="photo-12.jpg" data-caption="Team assembly session" role="listitem" aria-label="Open photo: Team assembly session">
+          <img src="photo-12.jpg" alt="Team assembly session" loading="lazy" decoding="async">
+          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
+          <span class="doc-gallery__caption" aria-hidden="true">Team assembly session</span>
+        </button>
+
+        <button class="doc-gallery__item" type="button" data-index="12" data-src="photo-13.jpg" data-caption="Final prototype overview" role="listitem" aria-label="Open photo: Final prototype overview">
+          <img src="photo-13.jpg" alt="Final prototype overview" loading="lazy" decoding="async">
+          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
+          <span class="doc-gallery__caption" aria-hidden="true">Final prototype overview</span>
+        </button>
+
+      </div>
+
       <div class="info-strip" style="margin-top:18px;">
         <span class="info-strip__icon" aria-hidden="true">ⓘ</span>
         <div>
-          Both clips play <strong>muted by default</strong> and loop automatically.
-          Use the player controls to unmute, pause, or scrub through the footage.
+          Videos play <strong>muted by default</strong> and loop automatically.
+          Click any photo to open it in the viewer — use the <strong>arrow keys</strong>
+          or on-screen buttons to browse.
         </div>
       </div>
 
@@ -3373,7 +3670,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   <div class="tab-panel" id="tab-researchers" role="tabpanel" aria-label="Researchers">
     <section class="card" id="researchers">
       <div class="section-head">
-        <span class="section-head__num" aria-hidden="true">06</span>
+        <span class="section-head__num" aria-hidden="true">05</span>
         <h2 class="section-head__title">
           The Researchers
           <span class="section-head__sub">The minds behind AquaSense</span>
@@ -3381,7 +3678,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
       </div>
 
       <div class="researchers-layout" id="researchersLayout">
-        
+
         <div class="researcher-left">
           <div class="researcher-avatar-container">
             <img id="res-img" class="researcher-avatar" src="" alt="Researcher">
@@ -3392,7 +3689,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
         <div class="researcher-right">
           <div id="res-role" class="researcher-position-badge">Position</div>
           <p id="res-bio" class="researcher-bio-large">Short introduction goes here.</p>
-          
+
           <div class="researcher-nav-controls">
             <button id="res-prev" class="res-nav-btn" aria-label="Previous researcher">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
@@ -3412,7 +3709,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     <section class="card" id="conclusion">
 
       <div class="section-head">
-        <span class="section-head__num" aria-hidden="true">05</span>
+        <span class="section-head__num" aria-hidden="true">06</span>
         <h2 class="section-head__title">
           Conclusion
           <span class="section-head__sub">Findings and future work</span>
@@ -3501,6 +3798,18 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     </div>
   </div>
 </footer>
+
+<!-- LIGHTBOX MODAL -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" aria-hidden="true">
+  <button class="lightbox__close" id="lightboxClose" type="button" aria-label="Close photo viewer">×</button>
+  <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" type="button" aria-label="Previous photo">‹</button>
+  <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" type="button" aria-label="Next photo">›</button>
+  <img class="lightbox__img" id="lightboxImg" src="" alt="">
+  <div class="lightbox__caption">
+    <span class="lightbox__counter" id="lightboxCounter">1 / 13</span>
+    <span class="lightbox__label" id="lightboxLabel"></span>
+  </div>
+</div>
 
 <script>
 (() => {
@@ -3777,7 +4086,98 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   });
 
   /* ==========================================================
-     RESEARCHERS SPLIT-VIEW LOGIC (WITH ANIMATIONS & SWIPE)
+     LIGHTBOX — photo gallery viewer
+     ========================================================== */
+  (function initLightbox() {
+    const lightbox = $('lightbox');
+    if (!lightbox) return;
+
+    const items = $$('.doc-gallery__item');
+    if (!items.length) return;
+
+    const photos = items.map(el => ({
+      src: el.dataset.src || '',
+      caption: el.dataset.caption || '',
+      alt: el.querySelector('img')?.alt || ''
+    }));
+
+    const imgEl = $('lightboxImg');
+    const counterEl = $('lightboxCounter');
+    const labelEl = $('lightboxLabel');
+    const closeBtn = $('lightboxClose');
+    const prevBtn = $('lightboxPrev');
+    const nextBtn = $('lightboxNext');
+
+    let currentIndex = 0;
+    let lastFocus = null;
+
+    function open(index) {
+      currentIndex = ((index % photos.length) + photos.length) % photos.length;
+      const p = photos[currentIndex];
+      imgEl.src = p.src;
+      imgEl.alt = p.alt;
+      counterEl.textContent = (currentIndex + 1) + ' / ' + photos.length;
+      labelEl.textContent = p.caption;
+      lightbox.classList.add('is-open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      lastFocus = document.activeElement;
+      requestAnimationFrame(() => closeBtn.focus());
+    }
+
+    function close() {
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+    }
+
+    function prev() { open(currentIndex - 1); }
+    function next() { open(currentIndex + 1); }
+
+    items.forEach((el, i) => {
+      el.addEventListener('click', () => open(i));
+    });
+
+    closeBtn.addEventListener('click', close);
+    prevBtn.addEventListener('click', prev);
+    nextBtn.addEventListener('click', next);
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) close();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('is-open')) return;
+      if (e.key === 'Escape') { close(); return; }
+      if (e.key === 'ArrowLeft') { prev(); e.preventDefault(); }
+      if (e.key === 'ArrowRight') { next(); e.preventDefault(); }
+    });
+
+    // Swipe support for touch devices
+    let touchStartX = null;
+    let touchStartY = null;
+
+    lightbox.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    lightbox.addEventListener('touchend', (e) => {
+      if (touchStartX === null) return;
+      const dx = e.changedTouches[0].screenX - touchStartX;
+      const dy = e.changedTouches[0].screenY - touchStartY;
+      // Only treat as a swipe if horizontal movement dominates
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+        if (dx < 0) next(); else prev();
+      }
+      touchStartX = null;
+      touchStartY = null;
+    }, { passive: true });
+  })();
+
+  /* ==========================================================
+     RESEARCHERS SPLIT-VIEW LOGIC
      ========================================================== */
   const researchersData = [
     {
@@ -3832,7 +4232,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
   function renderResearcher(index, direction = 'next') {
     if (isAnimatingRes) return;
-    
+
     if (index < 0) index = researchersData.length - 1;
     if (index >= researchersData.length) index = 0;
     activeResearcher = index;
