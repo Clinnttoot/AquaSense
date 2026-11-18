@@ -356,7 +356,7 @@ header,main,footer{position:relative;z-index:1;}
   position:absolute;
   inset:0;
   z-index:-2;
-  background-image:url('background.jpg');
+  background:linear-gradient(135deg,#1a3326 0%,#243d2d 40%,#2f4a38 100%);
   background-size:cover;
   background-position:center 30%;
   background-repeat:no-repeat;
@@ -2614,20 +2614,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   .researcher-name-large { font-size: 22px; }
   .researcher-bio-large { font-size: 14px; }
 
-  .researchers-layout::after {
-    content: "← Swipe to navigate →";
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 9px;
-    color: var(--muted);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    opacity: 0.5;
-    pointer-events: none;
-  }
-
   .intro-highlight{padding:18px 16px 18px 20px;}
   .intro-highlight__lead{font-size:15px;}
   .intro-highlight__body{font-size:13.5px;}
@@ -2753,7 +2739,7 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
       </span>
     </a>
 
-   <nav class="nav__links" id="navlinks" aria-label="Main navigation">
+    <nav class="nav__links" id="navlinks" aria-label="Main navigation">
       <span class="nav__indicator" aria-hidden="true"></span>
       <a class="nav__link is-active" href="#home" data-tab="home">Home</a>
       <a class="nav__link" href="#introduction" data-tab="introduction">Introduction</a>
@@ -2762,7 +2748,6 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
       <a class="nav__link" href="#conclusion" data-tab="conclusion">Conclusion</a>
       <a class="nav__link" href="#documentation" data-tab="documentation">Documentation</a>
       <a class="nav__link" href="#researchers" data-tab="researchers">Researchers</a>
-      
     </nav>
 
     <span class="nav__status" aria-live="polite">
@@ -2896,861 +2881,890 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 
 <main class="container">
 
+  <!-- ==================== HOME TAB ==================== -->
   <div class="tab-panel is-active" id="tab-home" role="tabpanel" aria-label="Home">
     <section class="card">
       <div class="section-head">
         <span class="section-head__num" aria-hidden="true">00</span>
         <h2 class="section-head__title">
-          Why AquaSense
-          <span class="section-head__sub">Three promises, one floating sensor</span>
+          Project Overview
+          <span class="section-head__sub">BioSphere Innovations · STEM Strand · DWCC Calapan</span>
         </h2>
+      </div>
+
+      <div class="prose" style="margin-bottom:22px;">
+        <p>
+          <strong>AquaSense</strong> is a solar-powered, Internet of Things (IoT)-based sensor network designed to
+          continuously monitor the freshwater quality of Barangay Ibaba West, Calapan City, Oriental Mindoro. It
+          measures three key physicochemical parameters — <strong>pH level</strong>, <strong>turbidity</strong>,
+          and <strong>temperature</strong> — and transmits real-time data to an online dashboard, addressing the
+          delays and limitations of conventional laboratory-based water quality monitoring.
+        </p>
       </div>
 
       <div class="pillars">
-        <article class="pillar" data-reveal>
-          <span class="pillar__icon" aria-hidden="true">🌊</span>
-          <h3>Cleaner Rivers</h3>
-          <p>Continuous readings make changes visible earlier, so problems can be
-             spotted before they become permanent.</p>
-        </article>
-
-        <article class="pillar" data-reveal>
-          <span class="pillar__icon" aria-hidden="true">🐟</span>
-          <h3>Healthier Aquatic Life</h3>
-          <p>Stable pH and temperature ranges keep freshwater ecosystems habitable
-             for fish and plant life.</p>
-        </article>
-
-        <article class="pillar" data-reveal>
-          <span class="pillar__icon" aria-hidden="true">☀️</span>
-          <h3>A Sustainable Future</h3>
-          <p>A solar-powered platform runs off the grid, keeping the network alive
-             without fossil-fuel dependence.</p>
-        </article>
-      </div>
-
-      <div class="section-head" style="margin-top: 32px; border-bottom: none; padding-bottom: 0;">
-        <span class="section-head__num" aria-hidden="true" style="background: linear-gradient(150deg, var(--aqua), var(--green-600));">01</span>
-        <h2 class="section-head__title">
-          The Anatomy of AquaSense
-          <span class="section-head__sub">Hardware components &amp; their functions</span>
-        </h2>
+        <div class="pillar">
+          <span class="pillar__icon">⚡</span>
+          <h3>Real-Time Monitoring</h3>
+          <p>Continuous, automated data collection every 3 seconds — eliminating the lag time of manual sampling and laboratory analysis.</p>
+        </div>
+        <div class="pillar">
+          <span class="pillar__icon">☀️</span>
+          <h3>Solar-Powered</h3>
+          <p>10W solar panel with charge controller and 12V battery backup ensures off-grid operation and sustainable energy use.</p>
+        </div>
+        <div class="pillar">
+          <span class="pillar__icon">📡</span>
+          <h3>IoT-Connected</h3>
+          <p>ESP32 microcontroller transmits sensor data to a cloud-based monitoring platform for remote access and early warning.</p>
+        </div>
       </div>
 
       <div class="anatomy-grid">
-        <article class="anatomy-card" data-reveal>
+        <div class="anatomy-card">
           <div class="anatomy-card__head">
-            <span class="anatomy-card__icon" aria-hidden="true">☀️</span>
-            <h3 class="anatomy-card__title">Solar Panel<small>Power Source</small></h3>
+            <span class="anatomy-card__icon">🧠</span>
+            <span class="anatomy-card__title">
+              ESP32 Development Board
+              <small>38-Pins</small>
+            </span>
           </div>
           <p class="anatomy-card__function">
-            <strong>Function</strong>
-            Harnesses sunlight to charge the onboard battery, enabling autonomous, off-grid operation.
+            <strong>Central Controller</strong>
+            Processes sensor data, manages Wi-Fi communication, and transmits readings to the IoT dashboard.
           </p>
-        </article>
-
-        <article class="anatomy-card" data-reveal>
+        </div>
+        <div class="anatomy-card">
           <div class="anatomy-card__head">
-            <span class="anatomy-card__icon" aria-hidden="true">🧠</span>
-            <h3 class="anatomy-card__title">ESP32 Controller<small>The Brain</small></h3>
+            <span class="anatomy-card__icon">🧪</span>
+            <span class="anatomy-card__title">
+              pH Sensor Module
+              <small>With Probe</small>
+            </span>
           </div>
           <p class="anatomy-card__function">
-            <strong>Function</strong>
-            Processes raw sensor data, manages power consumption, and transmits readings via Wi-Fi.
+            <strong>Acidity/Alkalinity</strong>
+            Measures the pH level of water — critical for aquatic life and chemical balance.
           </p>
-        </article>
-
-        <article class="anatomy-card" data-reveal>
+        </div>
+        <div class="anatomy-card">
           <div class="anatomy-card__head">
-            <span class="anatomy-card__icon" aria-hidden="true">🌡️</span>
-            <h3 class="anatomy-card__title">Sensor Array<small>Data Acquisition</small></h3>
+            <span class="anatomy-card__icon">🌫</span>
+            <span class="anatomy-card__title">
+              Turbidity Sensor
+              <small>With Probe</small>
+            </span>
           </div>
           <p class="anatomy-card__function">
-            <strong>Function</strong>
-            Industrial-grade probes continuously measure pH, turbidity, and temperature in the water.
+            <strong>Water Clarity</strong>
+            Detects suspended particles that indicate pollution levels and overall water quality.
           </p>
-        </article>
-
-        <article class="anatomy-card" data-reveal>
+        </div>
+        <div class="anatomy-card">
           <div class="anatomy-card__head">
-            <span class="anatomy-card__icon" aria-hidden="true">☁️</span>
-            <h3 class="anatomy-card__title">Cloud Link<small>Data Sync</small></h3>
+            <span class="anatomy-card__icon">🌡</span>
+            <span class="anatomy-card__title">
+              DS18B20 Sensor
+              <small>Waterproof Probe</small>
+            </span>
           </div>
           <p class="anatomy-card__function">
-            <strong>Function</strong>
-            Securely pushes telemetry to the Firebase Realtime Database every 3 seconds for this dashboard.
+            <strong>Temperature</strong>
+            Monitors water temperature, which affects dissolved oxygen and aquatic metabolism.
           </p>
-        </article>
+        </div>
+        <div class="anatomy-card">
+          <div class="anatomy-card__head">
+            <span class="anatomy-card__icon">☀️</span>
+            <span class="anatomy-card__title">
+              Solar Power System
+              <small>10W · 18V Panel</small>
+            </span>
+          </div>
+          <p class="anatomy-card__function">
+            <strong>Renewable Energy</strong>
+            Powers the system with charge controller and 12V rechargeable battery backup.
+          </p>
+        </div>
+        <div class="anatomy-card">
+          <div class="anatomy-card__head">
+            <span class="anatomy-card__icon">📊</span>
+            <span class="anatomy-card__title">
+              IoT Dashboard
+              <small>Cloud Platform</small>
+            </span>
+          </div>
+          <p class="anatomy-card__function">
+            <strong>Monitoring Interface</strong>
+            Displays live sensor readings for remote monitoring and data-driven decision-making.
+          </p>
+        </div>
       </div>
-
     </section>
   </div>
 
+  <!-- ==================== INTRODUCTION TAB ==================== -->
   <div class="tab-panel" id="tab-introduction" role="tabpanel" aria-label="Introduction">
-    <section class="card" id="introduction">
-
+    <section class="card">
       <div class="section-head">
         <span class="section-head__num" aria-hidden="true">01</span>
         <h2 class="section-head__title">
-          Introduction
-          <span class="section-head__sub">Background and rationale of the study</span>
+          The Problem and Its Background
+          <span class="section-head__sub">Chapter I — Introduction</span>
         </h2>
       </div>
 
       <div class="intro">
-        <div data-reveal>
+        <div>
           <div class="intro-highlight">
             <div class="intro-highlight__label">
-              <span class="intro-highlight__badge">Why this matters</span>
+              <span class="intro-highlight__badge">The Challenge</span>
             </div>
             <p class="intro-highlight__lead">
-              <strong>Freshwater ecosystems</strong> — especially rivers — are vital for
-              biodiversity, human health, and local communities. Pollution, urbanization, and
-              improper waste disposal, however, contribute to
-              <strong>declining water quality</strong> in many areas,
-              <strong>including communities around Calapan City</strong>.
+              <strong>Degradation of freshwater sources is outpacing effective monitoring.</strong>
+              The deterioration of water quality in many rivers and freshwater sources continues to diminish due
+              to pollution, agricultural activities, waste dumping, and environmental changes — despite the
+              significance of these resources in ecosystems and communities.
             </p>
             <p class="intro-highlight__body">
-              Traditional water-quality monitoring often relies on manual sampling and
-              laboratory analysis. While these approaches provide useful measurements, they
-              can be <strong>time-consuming, labor-intensive, and unable to deliver continuous updates</strong>.
+              The degradation of these water resources leads to variation in crucial water quality parameters such as
+              <strong>pH level, turbidity, and temperature</strong>, which can adversely affect aquatic organisms and
+              communities dependent on these resources. The lack of water quality assessment creates issues for
+              immediate identification and response to abrupt changes in water conditions.
             </p>
             <p class="intro-highlight__body">
-              <strong>AquaSense</strong> proposes a solar-powered IoT-based sensor network
-              that monitors <strong>pH, turbidity, and temperature</strong>. The concept
-              explores how more frequent readings could help identify changes earlier and
-              support informed environmental monitoring.
+              A review article by <strong>Mishra et al. (2022)</strong> reveals that conventional monitoring of water
+              quality primarily involves field sample collection and physical, chemical, and microbiological analysis
+              in laboratories. The review further highlights that conventional water quality monitoring is
+              <strong>labor-intensive and cost-intensive</strong>, and results may not be available for several days.
+              Moreover, this kind of monitoring is not continuous, and the testing frequency can be low, making it
+              difficult to provide real-time information.
             </p>
+
+            <div class="intro-points">
+              <div class="intro-point">
+                <span class="intro-point__icon">⏱</span>
+                <div>
+                  <strong>Delayed Results</strong>
+                  <small>Laboratory analysis takes days, missing critical changes</small>
+                </div>
+              </div>
+              <div class="intro-point">
+                <span class="intro-point__icon">💰</span>
+                <div>
+                  <strong>Cost-Intensive</strong>
+                  <small>Manual sampling and lab testing are expensive</small>
+                </div>
+              </div>
+              <div class="intro-point">
+                <span class="intro-point__icon">📊</span>
+                <div>
+                  <strong>Not Continuous</strong>
+                  <small>Low testing frequency misses real-time variations</small>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div class="intro-points" aria-hidden="true">
-            <div class="intro-point">
-              <span class="intro-point__icon">🌊</span>
-              <div>
-                <strong>Rivers</strong>
-                <small>Vital for biodiversity &amp; communities</small>
+          <div style="margin-top:18px;">
+            <div class="intro-highlight">
+              <div class="intro-highlight__label">
+                <span class="intro-highlight__badge">The Solution</span>
               </div>
-            </div>
-            <div class="intro-point">
-              <span class="intro-point__icon">⚠️</span>
-              <div>
-                <strong>Threats</strong>
-                <small>Pollution &amp; improper waste disposal</small>
-              </div>
-            </div>
-            <div class="intro-point">
-              <span class="intro-point__icon">🔬</span>
-              <div>
-                <strong>Gap</strong>
-                <small>Manual sampling is slow &amp; intermittent</small>
-              </div>
-            </div>
-            <div class="intro-point">
-              <span class="intro-point__icon">💡</span>
-              <div>
-                <strong>Solution</strong>
-                <small>Solar-powered IoT sensor network</small>
-              </div>
+              <p class="intro-highlight__body">
+                International studies refer to <strong>real-time IoT-based monitoring</strong> as one of the means for
+                efficient water management. According to the <strong>UNESCO United Nations World Water Development
+                Report (2024)</strong>, freshwater ecosystems have continued to be at risk from increasing pollution,
+                climate change, urbanization, and population growth — accentuating the need for essential monitoring
+                and real-time information on water quality all over the world.
+              </p>
+              <p class="intro-highlight__body">
+                <strong>Sugiharto et al. (2024)</strong> stated that real-time monitoring systems can send water
+                quality data to an online platform, ensuring accurate water quality data. <strong>Kumar et al.
+                (2022)</strong> added that wireless sensor networks coupled with IoT technology can enhance accurate,
+                reliable, and accessible water quality data via real-time monitoring and remote information
+                transmission.
+              </p>
+              <p class="intro-highlight__body">
+                These studies demonstrate the value of continuous monitoring in detecting sudden changes in water
+                conditions, aiding environmental decision-making, and supporting sustainable management and
+                protection of freshwater resources.
+              </p>
             </div>
           </div>
         </div>
 
-        <aside class="context" aria-label="Research context" data-reveal>
-          <h3 class="context__title">Research Context</h3>
-
-          <div class="context__row">
-            <span class="context__symbol" aria-hidden="true">◎</span>
-            <div>
-              <strong>Global</strong>
-              <small>SDG 6: Clean Water and Sanitation<br>SDG 14: Life Below Water</small>
+        <aside>
+          <div class="context">
+            <div class="context__title">Philippine Context</div>
+            <div class="context__row">
+              <span class="context__symbol">🇵🇭</span>
+              <div>
+                <strong>Water Pollution</strong>
+                <small>Rivers, lakes, and freshwater sources continue to decline due to household discharges,
+                agricultural activities, and improper solid waste disposal.</small>
+              </div>
+            </div>
+            <div class="context__row">
+              <span class="context__symbol">🏛</span>
+              <div>
+                <strong>DENR Monitoring</strong>
+                <small>Government agencies continuously monitor water quality, but continuity problems remain due
+                to continuously changing water conditions.</small>
+              </div>
+            </div>
+            <div class="context__row">
+              <span class="context__symbol">🔬</span>
+              <div>
+                <strong>Emerging Technologies</strong>
+                <small>A 2026 study identified real-time, multiparameter monitoring — smart sensors, IoT, remote
+                sensing, and autonomous platforms — as increasing trends for water pollution monitoring.</small>
+              </div>
+            </div>
+            <div class="context__row">
+              <span class="context__symbol">⚠️</span>
+              <div>
+                <strong>Remaining Challenges</strong>
+                <small>Sensor reliability, environmental variability, and the need for inexpensive, scalable
+                monitoring systems persist.</small>
+              </div>
             </div>
           </div>
 
-          <div class="context__row">
-            <span class="context__symbol" aria-hidden="true">⌖</span>
-            <div>
-              <strong>National</strong>
-              <small>Philippine water-quality protection and environmental policies</small>
+          <div class="context" style="margin-top:14px;">
+            <div class="context__title">Research Locale</div>
+            <div class="context__row">
+              <span class="context__symbol">📍</span>
+              <div>
+                <strong>Barangay Ibaba West</strong>
+                <small>Calapan City, Oriental Mindoro — located near the mouth of the Calapan River as it enters
+                Calapan Bay, part of the Verde Island Passage.</small>
+              </div>
+            </div>
+            <div class="context__row">
+              <span class="context__symbol">🌊</span>
+              <div>
+                <strong>Tidal Influence</strong>
+                <small>An urban coastal barangay where tidal movements and rainfall influence pH level, turbidity,
+                and temperature because the river is directly connected to the bay.</small>
+              </div>
+            </div>
+            <div class="context__row">
+              <span class="context__symbol">🐟</span>
+              <div>
+                <strong>Community Significance</strong>
+                <small>The river is used for fishing, swimming, and other domestic and recreational purposes —
+                making water quality of significant concern to the local community.</small>
+              </div>
+            </div>
+            <div class="context__row">
+              <span class="context__symbol">🏞</span>
+              <div>
+                <strong>Priority River</strong>
+                <small>Per MIMAROPA (2025) DENR-EMB WQMA, the Calapan River is one of the priority river systems
+                monitored regularly due to its environmental importance.</small>
+              </div>
             </div>
           </div>
 
-          <div class="context__row">
-            <span class="context__symbol" aria-hidden="true">◈</span>
-            <div>
-              <strong>Local</strong>
-              <small>Barangay Ibaba West, Calapan City, Oriental Mindoro</small>
-            </div>
+          <div class="map">
+            <div class="map__pin"></div>
+            <div class="map__label">Barangay Ibaba West</div>
           </div>
-
-          <div class="map" role="img" aria-label="Map of Barangay Ibaba West, the proposed deployment site">
-            <span class="map__pin" aria-hidden="true"></span>
-            <span class="map__label" aria-hidden="true">Barangay Ibaba West</span>
-          </div>
-          <p class="map__caption">
-            Map highlighting Barangay Ibaba West, the proposed deployment site.
-          </p>
+          <p class="map__caption">Figure 1. Demographic profile of Ibaba West River (Calapan River).</p>
         </aside>
       </div>
-
     </section>
   </div>
 
+  <!-- ==================== METHODOLOGY TAB ==================== -->
   <div class="tab-panel" id="tab-methodology" role="tabpanel" aria-label="Methodology">
-    <section class="card" id="methodology">
-
+    <section class="card">
       <div class="section-head">
         <span class="section-head__num" aria-hidden="true">02</span>
         <h2 class="section-head__title">
           Methodology
-          <span class="section-head__sub">Research design, locale, and proposed prototype</span>
+          <span class="section-head__sub">Conceptual Framework — Input · Process · Output</span>
         </h2>
       </div>
 
-      <div class="method">
-
-        <div class="method__nav" role="tablist" aria-label="Methodology sections" aria-orientation="vertical">
-          <button class="method__btn is-active" data-target="pane-design" role="tab" aria-selected="true" aria-controls="pane-design">
-            <span class="method__icon" aria-hidden="true">◈</span>
-            <span>Research Design</span>
-          </button>
-          <button class="method__btn" data-target="pane-locale" role="tab" aria-selected="false" aria-controls="pane-locale">
-            <span class="method__icon" aria-hidden="true">⌖</span>
-            <span>Locale</span>
-          </button>
-          <button class="method__btn" data-target="pane-participants" role="tab" aria-selected="false" aria-controls="pane-participants">
-            <span class="method__icon" aria-hidden="true">♟</span>
-            <span>Participants / Evaluators</span>
-          </button>
-          <button class="method__btn" data-target="pane-prototype" role="tab" aria-selected="false" aria-controls="pane-prototype">
-            <span class="method__icon" aria-hidden="true">⚙</span>
-            <span>Proposed Prototype</span>
-          </button>
-          <button class="method__btn" data-target="pane-data" role="tab" aria-selected="false" aria-controls="pane-data">
-            <span class="method__icon" aria-hidden="true">▥</span>
-            <span>Data Collection &amp; Analysis</span>
-          </button>
+      <!-- IPO Flow Diagram -->
+      <div class="flow-diagram">
+        <div class="flow-node">
+          <div class="flow-node__icon">📥</div>
+          <div class="flow-node__label">Input</div>
+          <div class="flow-node__desc">Scientific principles, materials, software</div>
         </div>
-
-        <div class="method__display">
-
-          <div class="method__pane is-active" id="pane-design" role="tabpanel">
-            <h3>Research Design</h3>
-            <p>
-              This study utilizes a <strong>Quantitative Research Design</strong> with a
-              descriptive component. It focuses on gathering numerical data through the
-              AquaSense sensor network to determine the current water quality parameters
-              (pH, turbidity, temperature) of the freshwater ecosystem.
-            </p>
-            <p>
-              The design is subject to the final approved methodology of the institution,
-              ensuring that data gathering and analysis strictly follow academic and
-              scientific standards.
-            </p>
-          </div>
-
-          <div class="method__pane" id="pane-locale" role="tabpanel">
-            <h3>Locale of the Study</h3>
-            <p>The proposed deployment and field evaluation will be conducted at:</p>
-            <ul>
-              <li><strong>Barangay Ibaba West, Calapan City, Oriental Mindoro.</strong></li>
-            </ul>
-            <p>
-              This freshwater site was chosen for its ecological significance to the local
-              community. Any actual field deployment, water sampling, and physical
-              evaluation should be properly documented and coordinated with local authorities.
-            </p>
-          </div>
-
-          <div class="method__pane" id="pane-participants" role="tabpanel">
-            <h3>Participants and Evaluators</h3>
-            <p>The intended subject-matter evaluators for this prototype may include:</p>
-            <ul>
-              <li>Science and IT Teachers</li>
-              <li>Qualified Environmental Reviewers</li>
-              <li>Local Environmental Officers (if applicable)</li>
-            </ul>
-            <p>
-              Their role is to assess the accuracy, functionality, and feasibility of the
-              AquaSense prototype according to the approved study protocol and rubrics of
-              the institution.
-            </p>
-          </div>
-
-          <div class="method__pane" id="pane-prototype" role="tabpanel">
-            <h3>Proposed Prototype (AquaSense)</h3>
-            <p>The system combines hardware and software to deliver real-time telemetry. Here is the data flow and the specific function of each component:</p>
-
-            <div class="flow-diagram">
-              <div class="flow-node">
-                <div class="flow-node__icon">🌡️</div>
-                <div class="flow-node__label">Sense</div>
-                <div class="flow-node__desc">pH, Turbidity, Temp</div>
-              </div>
-              <div class="flow-arrow">→</div>
-              <div class="flow-node">
-                <div class="flow-node__icon">🧠</div>
-                <div class="flow-node__label">Process</div>
-                <div class="flow-node__desc">ESP32 formats data</div>
-              </div>
-              <div class="flow-arrow">→</div>
-              <div class="flow-node">
-                <div class="flow-node__icon">☁️</div>
-                <div class="flow-node__label">Transmit</div>
-                <div class="flow-node__desc">Firebase Cloud</div>
-              </div>
-              <div class="flow-arrow">→</div>
-              <div class="flow-node">
-                <div class="flow-node__icon">💻</div>
-                <div class="flow-node__label">Visualize</div>
-                <div class="flow-node__desc">This Dashboard</div>
-              </div>
-            </div>
-
-            <div class="blueprint-grid">
-              <div class="blueprint-card">
-                <div class="blueprint-card__header">
-                  <span class="blueprint-card__icon">🛶</span>
-                  <h4 class="blueprint-card__title">Solar Floating Platform</h4>
-                </div>
-                <p class="blueprint-card__role">
-                  <strong>Function</strong>
-                  Provides buoyancy and structural support, allowing the system to float autonomously on the water surface while housing the electronics in a weather-resistant enclosure.
-                </p>
-              </div>
-
-              <div class="blueprint-card">
-                <div class="blueprint-card__header">
-                  <span class="blueprint-card__icon">☀️</span>
-                  <h4 class="blueprint-card__title">Solar Panel &amp; Battery</h4>
-                </div>
-                <p class="blueprint-card__role">
-                  <strong>Function</strong>
-                  Harvests solar energy to power the ESP32 and sensors. The battery stores excess power for nighttime operation, ensuring 24/7 monitoring.
-                </p>
-              </div>
-
-              <div class="blueprint-card">
-                <div class="blueprint-card__header">
-                  <span class="blueprint-card__icon">🧠</span>
-                  <h4 class="blueprint-card__title">ESP32 Controller</h4>
-                </div>
-                <p class="blueprint-card__role">
-                  <strong>Function</strong>
-                  Acts as the central processing unit. It reads analog signals from the sensors, converts them into digital values, and manages the Wi-Fi connection to Firebase.
-                </p>
-              </div>
-
-              <div class="blueprint-card">
-                <div class="blueprint-card__header">
-                  <span class="blueprint-card__icon">🌡️</span>
-                  <h4 class="blueprint-card__title">Sensor Array</h4>
-                </div>
-                <p class="blueprint-card__role">
-                  <strong>Function</strong>
-                  Submerged probes that continuously measure key water quality parameters (pH, turbidity, and temperature) and feed the analog data to the ESP32.
-                </p>
-              </div>
-
-              <div class="blueprint-card">
-                <div class="blueprint-card__header">
-                  <span class="blueprint-card__icon">☁️</span>
-                  <h4 class="blueprint-card__title">Cloud Link (Firebase)</h4>
-                </div>
-                <p class="blueprint-card__role">
-                  <strong>Function</strong>
-                  Serves as the backend. The ESP32 pushes JSON payloads to Firebase every 3 seconds, which acts as a relay for this web dashboard to read from.
-                </p>
-              </div>
-
-              <div class="blueprint-card">
-                <div class="blueprint-card__header">
-                  <span class="blueprint-card__icon">💻</span>
-                  <h4 class="blueprint-card__title">Web Dashboard</h4>
-                </div>
-                <p class="blueprint-card__role">
-                  <strong>Function</strong>
-                  The front-end interface (this website). It listens for updates from Firebase, visualizes trends using charts, and evaluates data against standard thresholds.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="method__pane" id="pane-data" role="tabpanel">
-            <h3>Data Collection and Analysis</h3>
-            <p>To ensure reliable and accurate readings, the following procedures are planned:</p>
-            <ul>
-              <li><strong>Sensor validation</strong> — comparing AquaSense readings against standard laboratory instruments.</li>
-              <li><strong>Repeatability checks</strong> — placing sensors in the same water sample multiple times to check consistency.</li>
-              <li><strong>Power measurements</strong> — monitoring battery and solar panel efficiency over time.</li>
-              <li><strong>Network &amp; transmission tests</strong> — evaluating Wi-Fi range and Firebase data logging reliability.</li>
-            </ul>
-            <p>
-              Latest sensor readings are transmitted every 3 seconds and stored in the cloud
-              for trend analysis and historical review.
-            </p>
-          </div>
-
-          <div class="method__actions">
-            <button class="stepper-btn" id="stepPrev" type="button">← Prev</button>
-            <button class="stepper-btn" id="stepNext" type="button">Next →</button>
-          </div>
-
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="flow-node__icon">⚙️</div>
+          <div class="flow-node__label">Process</div>
+          <div class="flow-node__desc">Design, assemble, calibrate, test, analyze</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="flow-node__icon">📤</div>
+          <div class="flow-node__label">Output</div>
+          <div class="flow-node__desc">Solar-powered IoT water quality monitor</div>
         </div>
       </div>
 
+      <!-- Method tabs -->
+      <div class="method">
+        <nav class="method__nav" role="tablist">
+          <button class="method__btn is-active" data-method="input" role="tab">
+            <span class="method__icon">📥</span> Input
+          </button>
+          <button class="method__btn" data-method="phase-a" role="tab">
+            <span class="method__icon">📐</span> Phase A: Design
+          </button>
+          <button class="method__btn" data-method="phase-b" role="tab">
+            <span class="method__icon">🔧</span> Phase B: Assembly
+          </button>
+          <button class="method__btn" data-method="phase-c" role="tab">
+            <span class="method__icon">🎯</span> Phase C: Calibration
+          </button>
+          <button class="method__btn" data-method="phase-d" role="tab">
+            <span class="method__icon">🧪</span> Phase D: Field Testing
+          </button>
+          <button class="method__btn" data-method="phase-e" role="tab">
+            <span class="method__icon">📊</span> Phase E: Analysis
+          </button>
+          <button class="method__btn" data-method="theory" role="tab">
+            <span class="method__icon">📚</span> Theoretical Framework
+          </button>
+        </nav>
+
+        <div class="method__display">
+          <!-- INPUT -->
+          <div class="method__pane is-active" id="pane-input">
+            <h3>Input</h3>
+            <p><strong>Scientific Principles:</strong> General Physics concepts (sensor operation, electricity,
+            solar energy conversion, battery charging, and wireless communication) and General Biology concepts
+            (monitoring pH level, turbidity, and temperature to study water quality and its effects on living
+            organisms).</p>
+            <p><strong>Materials & Tools:</strong></p>
+            <ul>
+              <li>ESP32 Development Board (38-Pins)</li>
+              <li>pH Sensor Module with Probe</li>
+              <li>Turbidity Sensor Module with Probe</li>
+              <li>DS18B20 Temperature Sensor Module with Waterproof Probe</li>
+              <li>10k ohms Resistor</li>
+              <li>10W 18V Solar Panel</li>
+              <li>Solar Charge Controller</li>
+              <li>12V Rechargeable Battery</li>
+              <li>DC-DC Step-Down Converter</li>
+              <li>Waterproof Enclosure (Food Container)</li>
+              <li>Waterproof Cable Glands</li>
+              <li>Neltex PVC Pipe Cement</li>
+              <li>Aluminium Bar</li>
+              <li>Vulca Seal</li>
+              <li>Bolts and Nuts, Screws</li>
+              <li>Anchor (10 meters)</li>
+              <li>Red LED</li>
+              <li>Jumper Wires and Connectors (Male-to-Male, Male-to-Female)</li>
+              <li>Breadboard (700 White SYB-120)</li>
+              <li>Cable Ties</li>
+              <li>Electrical Wire</li>
+            </ul>
+          </div>
+
+          <!-- PHASE A -->
+          <div class="method__pane" id="pane-phase-a">
+            <h3>Phase A: Design and Planning</h3>
+            <p>Design and plan the AquaSense prototype by identifying the required components, system architecture,
+            and monitoring parameters — <strong>pH level, turbidity, and temperature</strong>.</p>
+            <ul>
+              <li>Identify the required components for the sensor network</li>
+              <li>Design the system architecture for data collection and transmission</li>
+              <li>Select monitoring parameters based on water quality standards</li>
+              <li>Plan the deployment strategy for Barangay Ibaba West</li>
+            </ul>
+          </div>
+
+          <!-- PHASE B -->
+          <div class="method__pane" id="pane-phase-b">
+            <h3>Phase B: Prototype Construction and Software Integration</h3>
+            <p>Assemble the ESP32, sensors, solar power system, and waterproof enclosure. Program the ESP32 using
+            <strong>Arduino IDE</strong> and connect it to the <strong>IoT dashboard</strong> for real-time water
+            quality monitoring.</p>
+            <ul>
+              <li>Assemble the ESP32, pH, turbidity, and DS18B20 sensors</li>
+              <li>Integrate the solar power system with battery backup</li>
+              <li>Seal components in the waterproof enclosure</li>
+              <li>Program the ESP32 using Arduino IDE</li>
+              <li>Connect the system to the IoT dashboard</li>
+            </ul>
+          </div>
+
+          <!-- PHASE C -->
+          <div class="method__pane" id="pane-phase-c">
+            <h3>Phase C: Calibration and System Testing</h3>
+            <p>Calibrate and test the sensors to ensure accurate measurement of pH level, turbidity, and water
+            temperature. Verify the solar charging system, battery backup, and wireless data transmission.</p>
+            <ul>
+              <li>Calibrate the pH, turbidity, and temperature sensors</li>
+              <li>Verify the solar charging system and battery backup</li>
+              <li>Test wireless data transmission reliability</li>
+              <li>Validate sensor accuracy against standard solutions</li>
+            </ul>
+          </div>
+
+          <!-- PHASE D -->
+          <div class="method__pane" id="pane-phase-d">
+            <h3>Phase D: Field Testing and Trial Testing</h3>
+            <p>Collect water samples from the selected study area in <strong>Ibaba West, Calapan City</strong>, and
+            use the AquaSense prototype to measure the water quality while monitoring its performance and
+            reliability.</p>
+            <ul>
+              <li>Deploy the prototype in the actual river of Barangay Ibaba West</li>
+              <li>Collect water samples from the study area</li>
+              <li>Measure pH, turbidity, and temperature under real environmental conditions</li>
+              <li>Monitor operational performance, accuracy, and reliability</li>
+            </ul>
+          </div>
+
+          <!-- PHASE E -->
+          <div class="method__pane" id="pane-phase-e">
+            <h3>Phase E: Data Analysis and Evaluation</h3>
+            <p>Perform statistical data analysis and submit the device for expert evaluation to discuss its
+            functionality and performance in general.</p>
+            <ul>
+              <li>Apply statistical analysis on gathered data</li>
+              <li>Evaluate accuracy and precision of measurements</li>
+              <li>Submit the prototype for expert evaluation</li>
+              <li>Document findings and recommendations</li>
+            </ul>
+          </div>
+
+          <!-- THEORY -->
+          <div class="method__pane" id="pane-theory">
+            <h3>Theoretical Framework</h3>
+            <p>The AquaSense System is grounded on four theories that explain how it works and functions:</p>
+            <ul>
+              <li><strong>Sensor Theory (Fraden, 2016):</strong> Sensors detect physical or chemical changes in the
+              environment and transduce them into electrical signals. The pH, turbidity, and temperature sensors are
+              the core sensors of AquaSense that continually monitor physicochemical properties in water.</li>
+              <li><strong>Internet of Things (IoT) Theory (Atzori et al., 2010):</strong> Physical devices embedded
+              with sensors and communication technologies can collect, exchange, and transmit data over the internet
+              without constant human-to-machine interaction. AquaSense uses IoT to send real-time water quality data
+              to an online platform.</li>
+              <li><strong>General System Theory (Bertalanffy, 1968):</strong> A system is a set of interrelated and
+              dependent components operating toward a common goal. AquaSense integrates pH, turbidity, and
+              temperature sensors, an ESP32 microcontroller, solar power with battery backup, and an IoT platform
+              into one cohesive monitoring system.</li>
+              <li><strong>Buoyancy Theory (Archimedes, c. 250 BCE):</strong> An object immersed in a fluid experiences
+              an upward force equal to the weight of the fluid displaced (Fb = ρ·V·g). The buoyant force determines
+              whether an object floats, which is relevant to the deployment of the sensor system on the water
+              surface.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Component Blueprint -->
+      <div style="margin-top:30px;">
+        <h3 style="font-size:14px;font-weight:800;color:var(--green-800);margin-bottom:14px;text-transform:uppercase;letter-spacing:.6px;">
+          System Components
+        </h3>
+        <div class="blueprint-grid">
+          <div class="blueprint-card">
+            <div class="blueprint-card__header">
+              <span class="blueprint-card__icon">🧠</span>
+              <span class="blueprint-card__title">ESP32 Development Board</span>
+            </div>
+            <p class="blueprint-card__role">
+              <strong>Role: Central Processing Unit</strong>
+              38-pin microcontroller that processes sensor data, manages wireless communication, and transmits
+              readings to the IoT dashboard.
+            </p>
+          </div>
+          <div class="blueprint-card">
+            <div class="blueprint-card__header">
+              <span class="blueprint-card__icon">🧪</span>
+              <span class="blueprint-card__title">pH Sensor Module</span>
+            </div>
+            <p class="blueprint-card__role">
+              <strong>Role: Water Acidity/Alkalinity Measurement</strong>
+              Detects pH level changes in the water, providing critical data on water chemistry and its suitability
+              for aquatic life.
+            </p>
+          </div>
+          <div class="blueprint-card">
+            <div class="blueprint-card__header">
+              <span class="blueprint-card__icon">🌫</span>
+              <span class="blueprint-card__title">Turbidity Sensor Module</span>
+            </div>
+            <p class="blueprint-card__role">
+              <strong>Role: Water Clarity Measurement</strong>
+              Measures suspended particles in the water, indicating pollution levels and overall water quality.
+            </p>
+          </div>
+          <div class="blueprint-card">
+            <div class="blueprint-card__header">
+              <span class="blueprint-card__icon">🌡</span>
+              <span class="blueprint-card__title">DS18B20 Temperature Sensor</span>
+            </div>
+            <p class="blueprint-card__role">
+              <strong>Role: Water Temperature Measurement</strong>
+              Waterproof probe that monitors temperature, a key parameter affecting dissolved oxygen and aquatic
+              metabolism.
+            </p>
+          </div>
+          <div class="blueprint-card">
+            <div class="blueprint-card__header">
+              <span class="blueprint-card__icon">☀️</span>
+              <span class="blueprint-card__title">Solar Power System</span>
+            </div>
+            <p class="blueprint-card__role">
+              <strong>Role: Renewable Energy Source</strong>
+              10W 18V solar panel with charge controller and 12V rechargeable battery for continuous off-grid
+              operation.
+            </p>
+          </div>
+          <div class="blueprint-card">
+            <div class="blueprint-card__header">
+              <span class="blueprint-card__icon">📡</span>
+              <span class="blueprint-card__title">IoT Dashboard</span>
+            </div>
+            <p class="blueprint-card__role">
+              <strong>Role: Real-Time Monitoring Platform</strong>
+              Cloud-based interface that displays live sensor readings and enables remote monitoring of water
+              quality.
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 
-  <div class="tab-panel" id="tab-results" role="tabpanel" aria-label="Results and discussion">
-    <section class="card" id="results">
-
+  <!-- ==================== RESULTS TAB ==================== -->
+  <div class="tab-panel" id="tab-results" role="tabpanel" aria-label="Results">
+    <section class="card">
       <div class="section-head">
         <span class="section-head__num" aria-hidden="true">03</span>
         <h2 class="section-head__title">
-          Results and Discussion
-          <span class="section-head__sub">Live readings, trends, and system health</span>
+          Live Monitoring Results
+          <span class="section-head__sub">Real-time sensor data from the AquaSense prototype</span>
         </h2>
       </div>
 
       <div class="stat-tiles">
-        <article class="stat" id="statPh" data-state="">
+        <div class="stat" data-state="ok" id="statPh">
           <span class="stat__label">pH Level</span>
-          <strong class="stat__value" id="statPhValue">—</strong>
+          <strong class="stat__value" id="statPhValue">--</strong>
           <span class="stat__status" id="statPhStatus">Waiting…</span>
-        </article>
-
-        <article class="stat" id="statTurb" data-state="">
+        </div>
+        <div class="stat" data-state="ok" id="statTurb">
           <span class="stat__label">Turbidity</span>
-          <strong class="stat__value"><span id="statTurbValue">—</span><span class="u">V</span></strong>
+          <strong class="stat__value"><span id="statTurbValue">--</span><span class="u">V</span></strong>
           <span class="stat__status" id="statTurbStatus">Waiting…</span>
-        </article>
-
-        <article class="stat" id="statTemp" data-state="">
+        </div>
+        <div class="stat" data-state="ok" id="statTemp">
           <span class="stat__label">Temperature</span>
-          <strong class="stat__value"><span id="statTempValue">—</span><span class="u">°C</span></strong>
+          <strong class="stat__value"><span id="statTempValue">--</span><span class="u">°C</span></strong>
           <span class="stat__status" id="statTempStatus">Waiting…</span>
-        </article>
+        </div>
       </div>
 
       <div class="results">
-
-        <section class="panel" aria-label="Latest sensor readings">
+        <div class="panel">
           <div class="panel__head">
-            <h3>Latest Readings <small>Live from Firebase</small></h3>
+            <h3>Recent Readings <small>Last 6 samples</small></h3>
             <span class="badge badge--live">● Live</span>
           </div>
-
           <div class="table-wrap">
             <table class="data">
               <thead>
                 <tr>
-                  <th scope="col">Parameter</th>
-                  <th scope="col">Value</th>
-                  <th scope="col">Status</th>
+                  <th>Time</th>
+                  <th>pH</th>
+                  <th>Turb. (V)</th>
+                  <th>Temp (°C)</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>pH</td>
-                  <td class="mono" id="tblPh">—</td>
-                  <td id="tblPhStatus">—</td>
-                </tr>
-                <tr>
-                  <td>Turbidity</td>
-                  <td class="mono" id="tblTurb">—</td>
-                  <td id="tblTurbStatus">—</td>
-                </tr>
-                <tr>
-                  <td>Temperature</td>
-                  <td class="mono" id="tblTemp">—</td>
-                  <td id="tblTempStatus">—</td>
-                </tr>
-                <tr>
-                  <td>pH Voltage</td>
-                  <td class="mono" id="tblPhVolt">—</td>
-                  <td>—</td>
-                </tr>
-                <tr>
-                  <td>Last Update</td>
-                  <td class="mono" id="tblTimestamp" colspan="2" style="text-align:left;">—</td>
-                </tr>
+              <tbody id="readingTableBody">
+                <tr><td colspan="4" style="text-align:center;color:var(--muted);">Waiting for data…</td></tr>
               </tbody>
             </table>
           </div>
+          <p class="note">Readings are transmitted every 3 seconds via the ESP32 → Firebase pipeline.</p>
+        </div>
 
-          <p class="note">
-            Data is fetched directly from the AquaSense Firebase Realtime Database.
-            Values refresh automatically every 3 seconds.
-          </p>
-
-          <div class="info-strip">
-            <span class="info-strip__icon" aria-hidden="true">ⓘ</span>
-            <div>
-              Charts show the <strong>last 22 live readings</strong> received from the
-              sensor network. Hover a chart to inspect a point.
-            </div>
-          </div>
-        </section>
-
-        <section class="panel" aria-label="Water quality trends">
+        <div class="panel">
           <div class="panel__head">
-            <h3>Water Quality Trends <small>Rolling window</small></h3>
-            <span class="badge">Last 22</span>
+            <h3>Trend Charts <small>Live visualization</small></h3>
           </div>
-
           <div class="chart">
             <div class="chart__head">
-              <span class="chart__label">
-                <span class="chart__swatch" style="background:#526F5B" aria-hidden="true"></span>
-                pH Level
-              </span>
-              <span class="chart__value" id="phChartLatest">—</span>
+              <span class="chart__label"><span class="chart__swatch" style="background:var(--c-ph)"></span> pH Level</span>
+              <span class="chart__value" id="chartPhValue">--</span>
             </div>
-            <canvas id="phChart" role="img" aria-label="Live pH trend chart"></canvas>
+            <canvas id="chartPh" height="96" aria-label="pH trend chart"></canvas>
           </div>
-
           <div class="chart">
             <div class="chart__head">
-              <span class="chart__label">
-                <span class="chart__swatch" style="background:#8A7A4E" aria-hidden="true"></span>
-                Turbidity (V)
-              </span>
-              <span class="chart__value" id="turbChartLatest">—</span>
+              <span class="chart__label"><span class="chart__swatch" style="background:var(--c-turb)"></span> Turbidity (V)</span>
+              <span class="chart__value" id="chartTurbValue">--</span>
             </div>
-            <canvas id="turbChart" role="img" aria-label="Live turbidity trend chart"></canvas>
+            <canvas id="chartTurb" height="96" aria-label="Turbidity trend chart"></canvas>
           </div>
-
           <div class="chart">
             <div class="chart__head">
-              <span class="chart__label">
-                <span class="chart__swatch" style="background:#A9603F" aria-hidden="true"></span>
-                Temperature (°C)
-              </span>
-              <span class="chart__value" id="tempChartLatest">—</span>
+              <span class="chart__label"><span class="chart__swatch" style="background:var(--c-temp)"></span> Temperature (°C)</span>
+              <span class="chart__value" id="chartTempValue">--</span>
             </div>
-            <canvas id="tempChart" role="img" aria-label="Live temperature trend chart"></canvas>
+            <canvas id="chartTemp" height="96" aria-label="Temperature trend chart"></canvas>
           </div>
-        </section>
+        </div>
 
-        <section class="panel panel--status" aria-label="System status">
+        <div class="panel panel--status">
           <div class="panel__head">
-            <h3>System Status <small>Sensor unit &amp; cloud</small></h3>
+            <h3>System Status</h3>
           </div>
-
-          <ul class="status-list">
-            <li class="status-item">
-              <span class="status-item__icon" aria-hidden="true">◉</span>
+          <div class="status-list">
+            <div class="status-item">
+              <span class="status-item__icon">📡</span>
               <div>
-                <strong>Sensor Unit</strong>
-                <small id="perfSensor">Checking connection…</small>
+                <strong>Connectivity</strong>
+                <small id="statusConn">Checking ESP32 → Firebase link…</small>
               </div>
-            </li>
-            <li class="status-item">
-              <span class="status-item__icon" aria-hidden="true">⌁</span>
+            </div>
+            <div class="status-item">
+              <span class="status-item__icon">☀️</span>
               <div>
-                <strong>Cloud Connection</strong>
-                <small id="perfCloud">Checking Firebase…</small>
+                <strong>Solar Charging</strong>
+                <small>Panel: 10W / 18V · Charge controller active</small>
+                <div class="storage-bar"><div class="storage-bar__fill" style="width:78%"></div></div>
               </div>
-            </li>
-            <li class="status-item">
-              <span class="status-item__icon" aria-hidden="true">☁️</span>
-              <div style="width:100%;">
-                <strong>Cloud Storage Usage</strong>
-                <small id="perfStorageText">Calculating…</small>
-                <div class="storage-bar">
-                  <div class="storage-bar__fill" id="perfStorageBar" style="width: 0%;"></div>
-                </div>
-                <small style="font-size: 8.5px; margin-top: 4px; opacity: 0.7;">Free Tier Limit: 1 GB (Spark Plan)</small>
-              </div>
-            </li>
-            <li class="status-item">
-              <span class="status-item__icon" aria-hidden="true">◷</span>
+            </div>
+            <div class="status-item">
+              <span class="status-item__icon">🔋</span>
               <div>
-                <strong>Update Interval</strong>
-                <small>Live readings every 3 s · history saved every 60 s</small>
+                <strong>Battery Backup</strong>
+                <small>12V rechargeable · ~78% capacity</small>
               </div>
-            </li>
-            <li class="status-item">
-              <span class="status-item__icon" aria-hidden="true">◔</span>
-              <div>
-                <strong>Last Sync</strong>
-                <small id="perfLastSync">—</small>
-              </div>
-            </li>
-          </ul>
-
-          <div class="info-strip">
-            <span class="info-strip__icon" aria-hidden="true">ⓘ</span>
-            <div>
-              If values show “—”, the ESP32 may be offline or Firebase may be
-              unreachable. Check the network and power supply.
             </div>
           </div>
-        </section>
-
+          <div class="info-strip">
+            <span class="info-strip__icon">ℹ</span>
+            <span>Data is simulated for demonstration. Live deployment streams from the ESP32 unit every 3 seconds
+            to the Firebase cloud.</span>
+          </div>
+        </div>
       </div>
     </section>
   </div>
 
-  <!-- DOCUMENTATION TAB -->
-  <div class="tab-panel" id="tab-documentation" role="tabpanel" aria-label="Documentation">
-    <section class="card" id="documentation">
-
+  <!-- ==================== CONCLUSION TAB ==================== -->
+  <div class="tab-panel" id="tab-conclusion" role="tabpanel" aria-label="Conclusion">
+    <section class="card">
       <div class="section-head">
         <span class="section-head__num" aria-hidden="true">04</span>
         <h2 class="section-head__title">
-          Documentation
-          <span class="section-head__sub">Prototype build, field footage &amp; photo gallery</span>
-        </h2>
-      </div>
-
-      <!-- Video clips -->
-      <div class="doc-section-head">
-        <h3>Video Clips</h3>
-        <span class="badge">2 Clips · 1920 × 1080</span>
-      </div>
-
-      <div class="doc-grid">
-
-        <article class="doc-card" data-reveal>
-          <div class="doc-video">
-            <span class="doc-video__badge">Clip 01</span>
-            <video
-              controls muted loop playsinline
-              preload="metadata"
-              width="1920" height="1080"
-              aria-label="Documentation clip 1 — AquaSense prototype assembly and testing">
-              <source src="documentation-1.mp4" type="video/mp4">
-              Your browser does not support the HTML5 video element.
-            </video>
-          </div>
-          <div class="doc-card__body">
-            <h3 class="doc-card__title">Prototype Assembly &amp; Bench Testing</h3>
-            <p class="doc-card__text">
-              Step-by-step build of the floating platform, ESP32 wiring, and the
-              waterproof sensor housing — followed by the first calibration pass
-              on the bench.
-            </p>
-            <div class="doc-card__meta">
-              <span>1920 × 1080</span>
-              <span>MP4</span>
-              <span>Muted</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="doc-card" data-reveal>
-          <div class="doc-video">
-            <span class="doc-video__badge">Clip 02</span>
-            <video
-              controls muted loop playsinline
-              preload="metadata"
-              width="1920" height="1080"
-              aria-label="Documentation clip 2 — AquaSense field deployment and live testing">
-              <source src="documentation-2.mp4" type="video/mp4">
-              Your browser does not support the HTML5 video element.
-            </video>
-          </div>
-          <div class="doc-card__body">
-            <h3 class="doc-card__title">Field Deployment &amp; Live Testing</h3>
-            <p class="doc-card__text">
-              Deployment at Barangay Ibaba West with the unit streaming real-time
-              pH, turbidity, and temperature readings straight into this dashboard.
-            </p>
-            <div class="doc-card__meta">
-              <span>1920 × 1080</span>
-              <span>MP4</span>
-              <span>Muted</span>
-            </div>
-          </div>
-        </article>
-
-      </div>
-
-      <!-- Photo gallery -->
-      <div class="doc-section-head">
-        <h3>Photo Gallery</h3>
-        <span class="badge">13 Photos</span>
-      </div>
-
-      <div class="doc-gallery" id="docGallery" role="list" aria-label="AquaSense documentation photo gallery">
-
-        <button class="doc-gallery__item" type="button" data-index="0" data-src="photo-01.jpg" data-caption="Floating platform — top view" role="listitem" aria-label="Open photo: Floating platform — top view">
-          <img src="photo-01.jpg" alt="AquaSense floating platform seen from above" loading="lazy" decoding="async">
-          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
-          <span class="doc-gallery__caption" aria-hidden="true">Floating platform — top view</span>
-        </button>
-
-        <button class="doc-gallery__item" type="button" data-index="1" data-src="photo-02.jpg" data-caption="ESP32 wiring &amp; connections" role="listitem" aria-label="Open photo: ESP32 wiring and connections">
-          <img src="photo-02.jpg" alt="ESP32 wiring and connections" loading="lazy" decoding="async">
-          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
-          <span class="doc-gallery__caption" aria-hidden="true">ESP32 wiring &amp; connections</span>
-        </button>
-
-        <button class="doc-gallery__item" type="button" data-index="2" data-src="photo-03.jpg" data-caption="Waterproof sensor housing" role="listitem" aria-label="Open photo: Waterproof sensor housing">
-          <img src="photo-03.jpg" alt="Waterproof sensor housing" loading="lazy" decoding="async">
-          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
-          <span class="doc-gallery__caption" aria-hidden="true">Waterproof sensor housing</span>
-        </button>
-
-        <button class="doc-gallery__item" type="button" data-index="3" data-src="photo-04.jpg" data-caption="Solar panel mounting bracket" role="listitem" aria-label="Open photo: Solar panel mounting bracket">
-          <img src="photo-04.jpg" alt="Solar panel mounting bracket" loading="lazy" decoding="async">
-          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
-          <span class="doc-gallery__caption" aria-hidden="true">Solar panel mounting bracket</span>
-        </button>
-
-        <button class="doc-gallery__item" type="button" data-index="4" data-src="photo-05.jpg" data-caption="Battery compartment detail" role="listitem" aria-label="Open photo: Battery compartment detail">
-          <img src="photo-05.jpg" alt="Battery compartment detail" loading="lazy" decoding="async">
-          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
-          <span class="doc-gallery__caption" aria-hidden="true">Battery compartment detail</span>
-        </button>
-
-        <button class="doc-gallery__item" type="button" data-index="5" data-src="photo-06.jpg" data-caption="pH probe calibration" role="listitem" aria-label="Open photo: pH probe calibration">
-          <img src="photo-06.jpg" alt="pH probe calibration setup" loading="lazy" decoding="async">
-          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
-          <span class="doc-gallery__caption" aria-hidden="true">pH probe calibration</span>
-        </button>
-
-        <button class="doc-gallery__item" type="button" data-index="6" data-src="photo-07.jpg" data-caption="Turbidity sensor check" role="listitem" aria-label="Open photo: Turbidity sensor check">
-          <img src="photo-07.jpg" alt="Turbidity sensor check" loading="lazy" decoding="async">
-          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
-          <span class="doc-gallery__caption" aria-hidden="true">Turbidity sensor check</span>
-        </button>
-
-        <button class="doc-gallery__item" type="button" data-index="7" data-src="photo-08.jpg" data-caption="Temperature probe testing" role="listitem" aria-label="Open photo: Temperature probe testing">
-          <img src="photo-08.jpg" alt="Temperature probe testing" loading="lazy" decoding="async">
-          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
-          <span class="doc-gallery__caption" aria-hidden="true">Temperature probe testing</span>
-        </button>
-
-        <button class="doc-gallery__item" type="button" data-index="8" data-src="photo-09.jpg" data-caption="Field deployment — Barangay Ibaba West" role="listitem" aria-label="Open photo: Field deployment at Barangay Ibaba West">
-          <img src="photo-09.jpg" alt="Field deployment at Barangay Ibaba West" loading="lazy" decoding="async">
-          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
-          <span class="doc-gallery__caption" aria-hidden="true">Field deployment — Barangay Ibaba West</span>
-        </button>
-
-        <button class="doc-gallery__item" type="button" data-index="9" data-src="photo-10.jpg" data-caption="Live dashboard sync in action" role="listitem" aria-label="Open photo: Live dashboard sync in action">
-          <img src="photo-10.jpg" alt="Live dashboard sync in action" loading="lazy" decoding="async">
-          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
-          <span class="doc-gallery__caption" aria-hidden="true">Live dashboard sync in action</span>
-        </button>
-
-        <button class="doc-gallery__item" type="button" data-index="10" data-src="photo-11.jpg" data-caption="Sensor array close-up" role="listitem" aria-label="Open photo: Sensor array close-up">
-          <img src="photo-11.jpg" alt="Sensor array close-up" loading="lazy" decoding="async">
-          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
-          <span class="doc-gallery__caption" aria-hidden="true">Sensor array close-up</span>
-        </button>
-
-        <button class="doc-gallery__item" type="button" data-index="12" data-src="photo-12.jpg" data-caption="Final prototype overview" role="listitem" aria-label="Open photo: Final prototype overview">
-          <img src="photo-13.jpg" alt="Final prototype overview" loading="lazy" decoding="async">
-          <span class="doc-gallery__expand" aria-hidden="true">⤢</span>
-          <span class="doc-gallery__caption" aria-hidden="true">Final prototype overview</span>
-        </button>
-
-      </div>
-
-      <div class="info-strip" style="margin-top:18px;">
-        <span class="info-strip__icon" aria-hidden="true">ⓘ</span>
-        <div>
-          Videos play <strong>muted by default</strong> and loop automatically.
-          Click any photo to open it in the viewer — use the <strong>arrow keys</strong>
-          or on-screen buttons to browse.
-        </div>
-      </div>
-
-    </section>
-  </div>
-
-  <!-- INTERACTIVE RESEARCHERS TAB -->
-  <div class="tab-panel" id="tab-researchers" role="tabpanel" aria-label="Researchers">
-    <section class="card" id="researchers">
-      <div class="section-head">
-        <span class="section-head__num" aria-hidden="true">05</span>
-        <h2 class="section-head__title">
-          The Researchers
-          <span class="section-head__sub">The minds behind AquaSense</span>
-        </h2>
-      </div>
-
-      <div class="researchers-layout" id="researchersLayout">
-
-        <div class="researcher-left">
-          <div class="researcher-avatar-container">
-            <img id="res-img" class="researcher-avatar" src="" alt="Researcher">
-          </div>
-          <h3 id="res-name" class="researcher-name-large">Name</h3>
-        </div>
-
-        <div class="researcher-right">
-          <div id="res-role" class="researcher-position-badge">Position</div>
-          <p id="res-bio" class="researcher-bio-large">Short introduction goes here.</p>
-
-          <div class="researcher-nav-controls">
-            <button id="res-prev" class="res-nav-btn" aria-label="Previous researcher">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-            </button>
-            <div id="res-dots" class="researcher-dots"></div>
-            <button id="res-next" class="res-nav-btn" aria-label="Next researcher">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
-          </div>
-        </div>
-
-      </div>
-    </section>
-  </div>
-
-  <div class="tab-panel" id="tab-conclusion" role="tabpanel" aria-label="Conclusion">
-    <section class="card" id="conclusion">
-
-      <div class="section-head">
-        <span class="section-head__num" aria-hidden="true">06</span>
-        <h2 class="section-head__title">
           Conclusion
-          <span class="section-head__sub">Findings and future work</span>
+          <span class="section-head__sub">Summary of Findings and Recommendations</span>
         </h2>
       </div>
 
       <div class="conclusion">
+        <div class="quote">
+          <span class="quote__mark">"</span>
+          <div>
+            AquaSense transforms freshwater monitoring from a delayed, labor-intensive process into a continuous,
+            real-time system — empowering communities to detect water quality changes before they become
+            environmental crises.
+          </div>
+        </div>
+
         <div class="prose">
-          <p data-reveal>
-            AquaSense presents a proposed solar-powered IoT approach to monitoring
-            selected freshwater parameters: pH, turbidity, and temperature. By
-            combining sensors, a microcontroller, wireless communication, and a web
-            dashboard, the concept aims to make readings easier to review and support
-            timely follow-up.
+          <p>
+            This study addressed the limitations of conventional water quality monitoring in Barangay Ibaba West,
+            Calapan City, by designing and developing <strong>AquaSense</strong> — a solar-powered, IoT-based
+            sensor network for real-time pH level, turbidity, and temperature assessment.
           </p>
-          <p data-reveal>
-            The dashboard displays live data streamed from the ESP32 sensor unit via
-            Firebase Realtime Database. Readings update automatically and are stored
-            for historical review.
+          <p>
+            Conventional monitoring methods are labor-intensive, cost-intensive, and produce delayed results that
+            cannot capture sudden environmental changes. AquaSense addresses these gaps by providing
+            <strong>continuous, real-time water quality data</strong> through an ESP32 microcontroller integrated
+            with pH, turbidity, and DS18B20 temperature sensors, powered by renewable solar energy with battery
+            backup.
+          </p>
+          <p>
+            The system transmits water quality data to an online monitoring platform, enabling remote access and
+            faster response to abrupt changes in water conditions. This supports the protection and conservation of
+            the river ecosystem, raises community awareness, and provides local government units with a data-driven
+            basis for environmental plans and conservation programs.
+          </p>
+          <p>
+            By combining renewable energy technology with IoT-based sensing, AquaSense demonstrates a practical,
+            sustainable, and cost-effective approach to freshwater resource management at the local scale.
           </p>
         </div>
 
-        <blockquote class="quote" data-reveal>
-          <span class="quote__mark" aria-hidden="true">❝</span>
-          <p>
-            AquaSense is a step toward more accessible freshwater monitoring and
-            healthier aquatic ecosystems.
-          </p>
-        </blockquote>
-
         <div class="future">
-          <div class="future__item" data-reveal>
-            <b>Next · Deployment</b>
-            Physical installation at the chosen freshwater site with local coordination.
+          <div class="future__item">
+            <b>Expanded Monitoring</b>
+            Additional parameters such as dissolved oxygen, conductivity, and nutrient levels could be integrated
+            into future iterations.
           </div>
-          <div class="future__item" data-reveal>
-            <b>Next · Calibration</b>
-            Cross-checking sensor readings against reference laboratory instruments.
+          <div class="future__item">
+            <b>Scalability</b>
+            The system can be replicated across other priority river systems in Oriental Mindoro and beyond.
           </div>
-          <div class="future__item" data-reveal>
-            <b>Next · Durability</b>
-            Extended power, weather, and connectivity testing in the field.
+          <div class="future__item">
+            <b>Community Integration</b>
+            Local government units and environmental stakeholders can adopt AquaSense for early warning systems
+            and environmental planning.
+          </div>
+          <div class="future__item">
+            <b>Long-Term Sustainability</b>
+            Solar-powered operation with battery backup ensures continuous monitoring with minimal maintenance
+            requirements.
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ==================== DOCUMENTATION TAB ==================== -->
+  <div class="tab-panel" id="tab-documentation" role="tabpanel" aria-label="Documentation">
+    <section class="card">
+      <div class="section-head">
+        <span class="section-head__num" aria-hidden="true">05</span>
+        <h2 class="section-head__title">
+          Documentation
+          <span class="section-head__sub">Prototype Build, Testing, and Deployment</span>
+        </h2>
+      </div>
+
+      <div class="doc-grid">
+        <div class="doc-card">
+          <div class="doc-video">
+            <span class="doc-video__badge">Prototype Demo</span>
+            <video controls preload="metadata" poster="">
+              <source src="aquasense-demo.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div class="doc-card__body">
+            <h3 class="doc-card__title">AquaSense Prototype Walkthrough</h3>
+            <p class="doc-card__text">
+              A short demonstration of the assembled AquaSense unit — showing the ESP32, pH, turbidity, and DS18B20
+              sensors, solar power system, and real-time data transmission to the IoT dashboard.
+            </p>
+            <div class="doc-card__meta">
+              <span>ESP32</span>
+              <span>Solar-Powered</span>
+              <span>IoT Dashboard</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-video" style="background:linear-gradient(135deg,#1a3326,#2f4a38);display:grid;place-items:center;">
+            <span style="color:rgba(255,255,255,.5);font-size:13px;font-weight:600;text-align:center;padding:20px;">
+              📸 Field Testing at Barangay Ibaba West
+            </span>
+          </div>
+          <div class="doc-card__body">
+            <h3 class="doc-card__title">Field Deployment Photos</h3>
+            <p class="doc-card__text">
+              On-site installation and testing of the AquaSense sensor network in the Calapan River at Barangay
+              Ibaba West — capturing the waterproof enclosure, solar panel mount, and sensor probes in the water.
+            </p>
+            <div class="doc-card__meta">
+              <span>Field Test</span>
+              <span>Calapan River</span>
+              <span>Waterproof Housing</span>
+            </div>
           </div>
         </div>
       </div>
 
+      <div class="doc-section-head">
+        <h3>Photo Gallery</h3>
+        <span class="badge">Build & Test</span>
+      </div>
+
+      <div class="doc-gallery" id="galleryGrid">
+        <button class="doc-gallery__item" data-src="photo-1.jpg" data-caption="ESP32 and sensor assembly">
+          <img src="photo-1.jpg" alt="ESP32 and sensor assembly" loading="lazy">
+          <span class="doc-gallery__expand">⤢</span>
+          <span class="doc-gallery__caption">ESP32 and sensor assembly</span>
+        </button>
+        <button class="doc-gallery__item" data-src="photo-2.jpg" data-caption="Solar panel and battery setup">
+          <img src="photo-2.jpg" alt="Solar panel and battery setup" loading="lazy">
+          <span class="doc-gallery__expand">⤢</span>
+          <span class="doc-gallery__caption">Solar panel and battery setup</span>
+        </button>
+        <button class="doc-gallery__item" data-src="photo-3.jpg" data-caption="Waterproof enclosure with cable glands">
+          <img src="photo-3.jpg" alt="Waterproof enclosure with cable glands" loading="lazy">
+          <span class="doc-gallery__expand">⤢</span>
+          <span class="doc-gallery__caption">Waterproof enclosure with cable glands</span>
+        </button>
+        <button class="doc-gallery__item" data-src="photo-4.jpg" data-caption="Sensor calibration using standard solutions">
+          <img src="photo-4.jpg" alt="Sensor calibration" loading="lazy">
+          <span class="doc-gallery__expand">⤢</span>
+          <span class="doc-gallery__caption">Sensor calibration using standard solutions</span>
+        </button>
+        <button class="doc-gallery__item" data-src="photo-5.jpg" data-caption="Deployment at Barangay Ibaba West riverbank">
+          <img src="photo-5.jpg" alt="Deployment at Barangay Ibaba West" loading="lazy">
+          <span class="doc-gallery__expand">⤢</span>
+          <span class="doc-gallery__caption">Deployment at Barangay Ibaba West riverbank</span>
+        </button>
+        <button class="doc-gallery__item" data-src="photo-6.jpg" data-caption="Real-time dashboard display during testing">
+          <img src="photo-6.jpg" alt="Real-time dashboard display" loading="lazy">
+          <span class="doc-gallery__expand">⤢</span>
+          <span class="doc-gallery__caption">Real-time dashboard display during testing</span>
+        </button>
+      </div>
+
+      <div class="info-strip" style="margin-top:20px;">
+        <span class="info-strip__icon">ℹ</span>
+        <span>Replace the <strong>src</strong> attributes with your actual photo and video filenames. Supported formats: JPG, PNG, MP4, WebM.</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- ==================== RESEARCHERS TAB ==================== -->
+  <div class="tab-panel" id="tab-researchers" role="tabpanel" aria-label="Researchers">
+    <section class="card">
+      <div class="section-head">
+        <span class="section-head__num" aria-hidden="true">06</span>
+        <h2 class="section-head__title">
+          Researchers
+          <span class="section-head__sub">BioSphere Innovations · STEM Strand · DWCC Calapan</span>
+        </h2>
+      </div>
+
+      <div class="researchers-layout" id="researchersLayout">
+        <div class="researcher-left">
+          <div class="researcher-avatar-container">
+            <img class="researcher-avatar" id="researcherAvatar" src="" alt="Researcher photo">
+          </div>
+          <h3 class="researcher-name-large" id="researcherName">—</h3>
+        </div>
+
+        <div class="researcher-right">
+          <span class="researcher-position-badge" id="researcherRole">Researcher</span>
+          <p class="researcher-bio-large" id="researcherBio">—</p>
+
+          <div class="researcher-nav-controls">
+            <button class="res-nav-btn" id="resPrev" aria-label="Previous researcher">←</button>
+            <div class="researcher-dots" id="resDots"></div>
+            <button class="res-nav-btn" id="resNext" aria-label="Next researcher">→</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-strip" style="margin-top:20px;">
+        <span class="info-strip__icon">🎓</span>
+        <span>This research is presented in partial fulfillment of the requirements for <strong>Inquiries,
+        Investigations, and Immersion</strong>, <strong>General Physics</strong>, <strong>General Biology</strong>,
+        <strong>Reading and Writing</strong>, <strong>English for Academic and Professional Purposes</strong>, and
+        <strong>Empowerment Technology</strong>.</span>
+      </div>
     </section>
   </div>
 
@@ -3759,1107 +3773,594 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
 <footer class="site-footer">
   <div class="container">
     <div class="footer__grid">
-
       <div>
         <div class="footer__brand">
-          <span aria-hidden="true">💧</span>
-          <span>Aqua<span>Sense</span></span>
+          <span class="brand__mark" aria-hidden="true" style="width:34px;height:34px;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+              <path d="M12 2.6c3.5 4.1 6.4 7.6 6.4 11a6.4 6.4 0 1 1-12.8 0c0-3.4 2.9-6.9 6.4-11Z" fill="currentColor"/>
+              <circle cx="9.7" cy="13.3" r="1.7" fill="rgba(255,255,255,.6)"/>
+            </svg>
+          </span>
+          <div>
+            Aqua<span>Sense</span>
+            <small>Smarter Water · Safer Tomorrow</small>
+          </div>
         </div>
-        <p class="footer__text" style="margin-top:8px;">Smarter Water · Safer Tomorrow</p>
       </div>
 
       <div class="footer__text">
-        <strong>Mitigating Freshwater Degradation via AquaSense</strong>
-        A proposed solar-powered IoT-based water quality monitoring system for a
-        more sustainable future.
-      </div>
-
-      <div class="footer__text">
-        <strong>Deployment Site</strong>
-        Barangay Ibaba West<br>
-        Calapan City, Oriental Mindoro
+        <strong>Divine Word College of Calapan, Inc.</strong>
+        Gov. Infantado St. Sta. Maria Village, Calapan City, 5200, Oriental Mindoro, Philippines<br>
+        School of Basic Education — Senior High School
       </div>
 
       <div class="footer__sdg">
-        <span class="sdg"><b>6</b> Clean Water<br>&amp; Sanitation</span>
-        <span class="sdg"><b>14</b> Life Below<br>Water</span>
+        <span class="sdg"><b>6</b> Clean Water &amp; Sanitation</span>
+        <span class="sdg"><b>13</b> Climate Action</span>
+        <span class="sdg"><b>14</b> Life Below Water</span>
       </div>
 
+      <div class="footer__text">
+        <strong>BioSphere Innovations</strong>
+        Designing Sustainable Solutions for Community Development<br>
+        <span style="opacity:.7;">(2026)</span>
+      </div>
     </div>
 
     <div class="footer__bottom">
-      <span>© <span id="year">2025</span> AquaSense Research Project · All rights reserved.</span>
-      <span>Data streamed live via Firebase Realtime Database</span>
+      <span>© 2026 AquaSense · BioSphere Innovations · DWCC Calapan</span>
+      <span>Built for real-time freshwater monitoring · Barangay Ibaba West</span>
     </div>
   </div>
 </footer>
 
-<!-- LIGHTBOX MODAL -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" aria-hidden="true">
-  <button class="lightbox__close" id="lightboxClose" type="button" aria-label="Close photo viewer">×</button>
-  <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" type="button" aria-label="Previous photo">‹</button>
-  <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" type="button" aria-label="Next photo">›</button>
+<!-- ==================== LIGHTBOX ==================== -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lightbox__close" id="lightboxClose" aria-label="Close">×</button>
+  <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" aria-label="Previous image">‹</button>
   <img class="lightbox__img" id="lightboxImg" src="" alt="">
+  <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" aria-label="Next image">›</button>
   <div class="lightbox__caption">
-    <span class="lightbox__counter" id="lightboxCounter">1 / 13</span>
-    <span class="lightbox__label" id="lightboxLabel"></span>
+    <span class="lightbox__counter" id="lightboxCounter">1 / 6</span>
+    <span class="lightbox__label" id="lightboxLabel">—</span>
   </div>
 </div>
 
 <script>
-(() => {
+/* ============================================================
+   AQUASENSE DASHBOARD — JAVASCRIPT
+   ============================================================ */
+
+(function(){
   'use strict';
 
-  const $  = (id) => document.getElementById(id);
-  const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+  /* ---------- Utilities ---------- */
+  const $ = (sel, ctx) => (ctx || document).querySelector(sel);
+  const $$ = (sel, ctx) => Array.from((ctx || document).querySelectorAll(sel));
 
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* ---------- Tabs ---------- */
+  const navLinks = $$('.nav__link');
+  const panels = $$('.tab-panel');
+  const navIndicator = $('.nav__indicator');
 
-  const fmt = (v, d) => (v === null || v === undefined || Number.isNaN(Number(v)))
-    ? '—'
-    : Number(v).toFixed(d);
-
-  function pickNum(...candidates) {
-    for (const v of candidates) {
-      if (v === null || v === undefined || v === '') continue;
-      const n = Number(v);
-      if (!Number.isNaN(n)) return n;
-    }
-    return null;
-  }
-
-  function parseTs(ts) {
-    if (ts === null || ts === undefined || ts === '') return null;
-    if (typeof ts === 'number') {
-      const ms = ts < 1e12 ? ts * 1000 : ts;
-      const d = new Date(ms);
-      return Number.isNaN(d.getTime()) ? null : d;
-    }
-    const s = String(ts).trim();
-    if (/^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}(:\d{2})?$/.test(s)) {
-      const d = new Date(s.replace(' ', 'T') + '+08:00');
-      if (!Number.isNaN(d.getTime())) return d;
-    }
-    const d2 = new Date(s);
-    return Number.isNaN(d2.getTime()) ? null : d2;
-  }
-
-  function roundRect(ctx, x, y, w, h, r) {
-    if (typeof ctx.roundRect === 'function') {
-      ctx.beginPath();
-      ctx.roundRect(x, y, w, h, r);
-      return;
-    }
-    ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.arcTo(x + w, y, x + w, y + h, r);
-    ctx.arcTo(x + w, y + h, x, y + h, r);
-    ctx.arcTo(x, y + h, x, y, r);
-    ctx.arcTo(x, y, x + w, y, r);
-    ctx.closePath();
-  }
-
-  const bubCanvas = $('bubbleLayer');
-  const bctx = bubCanvas ? bubCanvas.getContext('2d') : null;
-
-  let bubbles = [];
-  let BW = 0, BH = 0, BDPR = 1;
-  let bubbleRAF = null;
-
-  function makeBubble(initial) {
-    const r = 1.4 + Math.random() * 5.4;
-    return {
-      x: Math.random() * BW,
-      y: initial ? Math.random() * BH : BH + r + Math.random() * 90,
-      r,
-      speed: 0.22 + Math.random() * 0.72,
-      phase: Math.random() * Math.PI * 2,
-      amp: 0.4 + Math.random() * 1.1,
-      alpha: 0.08 + Math.random() * 0.22
-    };
-  }
-
-  function sizeBubbles() {
-    if (!bctx) return;
-    BDPR = Math.min(window.devicePixelRatio || 1, 2);
-    BW = window.innerWidth;
-    BH = window.innerHeight;
-    bubCanvas.width = Math.round(BW * BDPR);
-    bubCanvas.height = Math.round(BH * BDPR);
-    bubCanvas.style.width = BW + 'px';
-    bubCanvas.style.height = BH + 'px';
-    bctx.setTransform(BDPR, 0, 0, BDPR, 0, 0);
-
-    const count = Math.round(Math.min(70, Math.max(20, BW / 24)));
-    bubbles = [];
-    for (let i = 0; i < count; i++) bubbles.push(makeBubble(true));
-  }
-
-  function drawBubbles(step) {
-    if (!bctx) return;
-    bctx.clearRect(0, 0, BW, BH);
-    for (const b of bubbles) {
-      if (step) {
-        b.y -= b.speed;
-        b.phase += 0.018;
-      }
-      if (b.y < -24) Object.assign(b, makeBubble(false));
-      const x = b.x + Math.sin(b.phase) * b.amp * 9;
-      bctx.beginPath();
-      bctx.arc(x, b.y, b.r, 0, Math.PI * 2);
-      bctx.strokeStyle = 'rgba(52,78,61,' + b.alpha + ')';
-      bctx.lineWidth = 1;
-      bctx.stroke();
-      bctx.beginPath();
-      bctx.arc(x - b.r * 0.32, b.y - b.r * 0.34, Math.max(0.55, b.r * 0.24), 0, Math.PI * 2);
-      bctx.fillStyle = 'rgba(52,78,61,' + (b.alpha * 1.7) + ')';
-      bctx.fill();
-    }
-  }
-
-  function bubbleLoop() {
-    drawBubbles(!reduceMotion);
-    bubbleRAF = requestAnimationFrame(bubbleLoop);
-  }
-
-  if (bctx) {
-    sizeBubbles();
-    if (reduceMotion) drawBubbles(false);
-    else bubbleLoop();
-    window.addEventListener('resize', () => {
-      sizeBubbles();
-      if (reduceMotion) drawBubbles(false);
-    });
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        if (bubbleRAF) { cancelAnimationFrame(bubbleRAF); bubbleRAF = null; }
-      } else if (!reduceMotion && !bubbleRAF) {
-        bubbleLoop();
-      }
-    });
-  }
-
-  if (!reduceMotion) {
-    window.addEventListener('pointerdown', (e) => {
-      const r = document.createElement('span');
-      r.className = 'click-ripple';
-      r.style.left = e.clientX + 'px';
-      r.style.top = e.clientY + 'px';
-      document.body.appendChild(r);
-      setTimeout(() => r.remove(), 900);
-    });
-  }
-
-  const brandMark = $('brandMark');
-  let brandClicks = 0, brandTimer = null;
-  if (brandMark) {
-    brandMark.addEventListener('click', () => {
-      brandClicks++;
-      clearTimeout(brandTimer);
-      brandTimer = setTimeout(() => { brandClicks = 0; }, 2200);
-      if (brandClicks >= 5) {
-        brandClicks = 0;
-        if (reduceMotion) return;
-        const fish = document.createElement('div');
-        fish.className = 'fish';
-        fish.textContent = '🐟';
-        document.body.appendChild(fish);
-        setTimeout(() => fish.remove(), 7000);
-      }
-    });
-  }
-
-  const TAB_IDS = ['home', 'introduction', 'methodology', 'results', 'documentation', 'researchers', 'conclusion'];
-
-  const navLinks = $('navlinks');
-  const menuBtn  = $('menuBtn');
-  const header   = document.querySelector('.site-header');
-  const indicator = document.querySelector('.nav__indicator');
-
-  function navHeight() {
-    return (header ? header.offsetHeight : 66) + 16;
-  }
-
-  function moveIndicator() {
-    if (!indicator || !navLinks) return;
-    if (navLinks.offsetParent === null) return;
-    const active = document.querySelector('.nav__link.is-active');
-    if (!active) return;
-    indicator.style.width = active.offsetWidth + 'px';
-    indicator.style.transform = 'translateX(' + active.offsetLeft + 'px)';
-  }
-
-  function scrollToY(y) {
-    window.scrollTo({
-      top: Math.max(0, Math.round(y)),
-      behavior: reduceMotion ? 'auto' : 'smooth'
-    });
-  }
-
-  function animateReveals(root) {
-    if (!root) return;
-    const items = $$('[data-reveal]', root);
-    items.forEach((el, i) => {
-      el.classList.remove('is-in');
-      el.style.transitionDelay = Math.min(i * 65, 520) + 'ms';
-      void el.offsetWidth;
-      el.classList.add('is-in');
-    });
-  }
-
-  function switchTab(tabId, opts) {
-    const options = Object.assign({ scroll: true, hash: true }, opts || {});
-    if (!TAB_IDS.includes(tabId)) return;
-
-    $$('.tab-panel').forEach(p => p.classList.remove('is-active'));
-    const panel = $('tab-' + tabId);
-    if (panel) {
-      panel.classList.add('is-active');
-      animateReveals(panel);
-    }
-
-    // Documentation videos: play while the tab is open, pause otherwise
-    $$('#tab-documentation video').forEach(v => {
-      if (tabId === 'documentation') {
-        const p = v.play();
-        if (p && typeof p.catch === 'function') p.catch(() => {});
-      } else {
-        v.pause();
-      }
-    });
-
-    $$('.nav__link').forEach(link => {
-      link.classList.toggle('is-active', link.dataset.tab === tabId);
-    });
+  function setActiveTab(tabName){
+    navLinks.forEach(l => l.classList.toggle('is-active', l.dataset.tab === tabName));
+    panels.forEach(p => p.classList.toggle('is-active', p.id === 'tab-' + tabName));
     moveIndicator();
-
-    navLinks.classList.remove('is-open');
-    menuBtn.setAttribute('aria-expanded', 'false');
-    menuBtn.classList.remove('is-open');
-
-    if (options.hash) history.replaceState(null, '', '#' + tabId);
-
-    if (tabId === 'results') setTimeout(scheduleRedraw, 70);
-
-    if (!options.scroll) return;
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        if (tabId === 'home') { scrollToY(0); return; }
-        const section = $(tabId);
-        if (!section) return;
-        const top = section.getBoundingClientRect().top + window.pageYOffset - navHeight();
-        scrollToY(top);
-      });
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  $$('[data-tab]').forEach(el => {
-    el.addEventListener('click', (e) => {
+  function moveIndicator(){
+    const active = $('.nav__link.is-active');
+    if (!active || !navIndicator) return;
+    const navRect = active.parentElement.getBoundingClientRect();
+    const linkRect = active.getBoundingClientRect();
+    navIndicator.style.width = linkRect.width + 'px';
+    navIndicator.style.transform = `translateX(${linkRect.left - navRect.left}px)`;
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
       e.preventDefault();
-      const tabId = el.dataset.tab;
-      if (tabId) switchTab(tabId);
+      setActiveTab(link.dataset.tab);
+      closeMobileMenu();
     });
   });
 
-  if (menuBtn) {
-    menuBtn.addEventListener('click', () => {
-      const open = navLinks.classList.toggle('is-open');
-      menuBtn.classList.toggle('is-open', open);
-      menuBtn.setAttribute('aria-expanded', String(open));
-      if (open) moveIndicator();
+  // Handle data-tab on other elements (buttons in hero)
+  $$('[data-tab]').forEach(el => {
+    if (el.classList.contains('nav__link')) return;
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      const tab = el.getAttribute('data-tab');
+      if (tab) setActiveTab(tab);
     });
-  }
-
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 900 && navLinks.classList.contains('is-open')) {
-      navLinks.classList.remove('is-open');
-      menuBtn.classList.remove('is-open');
-      menuBtn.setAttribute('aria-expanded', 'false');
-    }
-    moveIndicator();
   });
 
-  /* ==========================================================
-     LIGHTBOX — photo gallery viewer
-     ========================================================== */
-  (function initLightbox() {
-    const lightbox = $('lightbox');
-    if (!lightbox) return;
+  /* ---------- Mobile menu ---------- */
+  const menuBtn = $('#menuBtn');
+  const navLinksEl = $('#navlinks');
 
-    const items = $$('.doc-gallery__item');
-    if (!items.length) return;
-
-    const photos = items.map(el => ({
-      src: el.dataset.src || '',
-      caption: el.dataset.caption || '',
-      alt: el.querySelector('img')?.alt || ''
-    }));
-
-    const imgEl = $('lightboxImg');
-    const counterEl = $('lightboxCounter');
-    const labelEl = $('lightboxLabel');
-    const closeBtn = $('lightboxClose');
-    const prevBtn = $('lightboxPrev');
-    const nextBtn = $('lightboxNext');
-
-    let currentIndex = 0;
-    let lastFocus = null;
-
-    function open(index) {
-      currentIndex = ((index % photos.length) + photos.length) % photos.length;
-      const p = photos[currentIndex];
-      imgEl.src = p.src;
-      imgEl.alt = p.alt;
-      counterEl.textContent = (currentIndex + 1) + ' / ' + photos.length;
-      labelEl.textContent = p.caption;
-      lightbox.classList.add('is-open');
-      lightbox.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-      lastFocus = document.activeElement;
-      requestAnimationFrame(() => closeBtn.focus());
-    }
-
-    function close() {
-      lightbox.classList.remove('is-open');
-      lightbox.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-      if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
-    }
-
-    function prev() { open(currentIndex - 1); }
-    function next() { open(currentIndex + 1); }
-
-    items.forEach((el, i) => {
-      el.addEventListener('click', () => open(i));
-    });
-
-    closeBtn.addEventListener('click', close);
-    prevBtn.addEventListener('click', prev);
-    nextBtn.addEventListener('click', next);
-
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) close();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (!lightbox.classList.contains('is-open')) return;
-      if (e.key === 'Escape') { close(); return; }
-      if (e.key === 'ArrowLeft') { prev(); e.preventDefault(); }
-      if (e.key === 'ArrowRight') { next(); e.preventDefault(); }
-    });
-
-    // Swipe support for touch devices
-    let touchStartX = null;
-    let touchStartY = null;
-
-    lightbox.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-      touchStartY = e.changedTouches[0].screenY;
-    }, { passive: true });
-
-    lightbox.addEventListener('touchend', (e) => {
-      if (touchStartX === null) return;
-      const dx = e.changedTouches[0].screenX - touchStartX;
-      const dy = e.changedTouches[0].screenY - touchStartY;
-      // Only treat as a swipe if horizontal movement dominates
-      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
-        if (dx < 0) next(); else prev();
-      }
-      touchStartX = null;
-      touchStartY = null;
-    }, { passive: true });
-  })();
-
-  /* ==========================================================
-     RESEARCHERS SPLIT-VIEW LOGIC
-     ========================================================== */
-  const researchersData = [
-    {
-      name: "Kenneth H. Pantoja",
-      role: "Research Leader",
-      bio: "Specializes in environmental science and oversees the overall research methodology, ensuring that field deployment and data gathering align with academic standards.",
-      img: "member1.png"
-    },
-    {
-      name: "Mc clint M. Abutan",
-      role: "Hardware Engineer",
-      bio: "Responsible for the physical prototype design, solar integration, and circuitry of the ESP32 sensor array. Focuses on durability and waterproofing.",
-      img: "member2.png"
-    },
-    {
-      name: "Czarina Louise E. Agena",
-      role: "Data Analyst",
-      bio: "Handles the cloud architecture, Firebase integration, and develops the real-time web dashboard. Ensures seamless telemetry transmission from water to web.",
-      img: "member3.png"
-    },
-    {
-      name: "Charles Kim L. Bagao",
-      role: "Field Coordinator",
-      bio: "Liaises with local authorities in Barangay Ibaba West, manages water sampling, and conducts repeatability checks to calibrate the sensors.",
-      img: "member4.png"
-    },
-    {
-      name: "Lorraine Jhasmien C. Fortu",
-      role: "Field Coordinator",
-      bio: "Liaises with local authorities in Barangay Ibaba West, manages water sampling, and conducts repeatability checks to calibrate the sensors.",
-      img: "member5.png"
-    },
-     {
-      name: "Samantha Joy M. Hernandez",
-      role: "Field Coordinator",
-      bio: "Liaises with local authorities in Barangay Ibaba West, manages water sampling, and conducts repeatability checks to calibrate the sensors.",
-      img: "member6.png"
-    }
-  ];
-
-  let activeResearcher = 0;
-  let isAnimatingRes = false;
-
-  const resImg = $('res-img');
-  const resName = $('res-name');
-  const resRole = $('res-role');
-  const resBio = $('res-bio');
-  const resDots = $('res-dots');
-  const btnPrev = $('res-prev');
-  const btnNext = $('res-next');
-  const resLayout = $('researchersLayout');
-
-  function renderResearcher(index, direction = 'next') {
-    if (isAnimatingRes) return;
-
-    if (index < 0) index = researchersData.length - 1;
-    if (index >= researchersData.length) index = 0;
-    activeResearcher = index;
-
-    const data = researchersData[index];
-    isAnimatingRes = true;
-
-    const animElements = [
-      { el: resImg, cls: 'res-anim-img' },
-      { el: resName, cls: 'res-anim-name' },
-      { el: resRole, cls: 'res-anim-role' },
-      { el: resBio, cls: 'res-anim-bio' }
-    ];
-
-    animElements.forEach(item => item.el.classList.remove(item.cls));
-
-    void resImg.offsetWidth;
-
-    resImg.src = data.img;
-    resImg.alt = data.name;
-    resName.textContent = data.name;
-    resRole.textContent = data.role;
-    resBio.textContent = data.bio;
-
-    animElements.forEach(item => item.el.classList.add(item.cls));
-
-    Array.from(resDots.children).forEach((dot, i) => {
-      dot.classList.toggle('is-active', i === index);
-    });
-
-    setTimeout(() => { isAnimatingRes = false; }, 500);
+  function closeMobileMenu(){
+    navLinksEl.classList.remove('is-open');
+    menuBtn.classList.remove('is-open');
+    menuBtn.setAttribute('aria-expanded', 'false');
   }
 
-  function createDots() {
-    resDots.innerHTML = '';
-    researchersData.forEach((_, i) => {
-      const dot = document.createElement('button');
-      dot.className = 'res-dot';
-      dot.setAttribute('aria-label', 'Go to researcher ' + (i + 1));
-      dot.addEventListener('click', () => renderResearcher(i));
-      resDots.appendChild(dot);
-    });
-  }
-
-  if (resImg && resName && resRole && resBio) {
-    createDots();
-    renderResearcher(0, 'none');
-
-    btnPrev.addEventListener('click', () => renderResearcher(activeResearcher - 1, 'prev'));
-    btnNext.addEventListener('click', () => renderResearcher(activeResearcher + 1, 'next'));
-  }
-
-  let touchStartX = 0;
-  let touchEndX = 0;
-
-  if (resLayout) {
-    resLayout.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    resLayout.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-    }, { passive: true });
-  }
-
-  function handleSwipe() {
-    const swipeThreshold = 50;
-    if (touchEndX < touchStartX - swipeThreshold) {
-      renderResearcher(activeResearcher + 1, 'next');
-    }
-    if (touchEndX > touchStartX + swipeThreshold) {
-      renderResearcher(activeResearcher - 1, 'prev');
-    }
-  }
-
-  function initTilt() {
-    $$('[data-tilt]').forEach(el => {
-      el.addEventListener('pointermove', (e) => {
-        if (reduceMotion || window.innerWidth < 760 || e.pointerType !== 'mouse') return;
-        const r = el.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width - 0.5;
-        const py = (e.clientY - r.top) / r.height - 0.5;
-        el.style.transform =
-          'perspective(900px) rotateX(' + (-py * 8).toFixed(2) + 'deg) ' +
-          'rotateY(' + (px * 10).toFixed(2) + 'deg) translateY(-4px)';
-      });
-      el.addEventListener('pointerleave', () => { el.style.transform = ''; });
-    });
-  }
-  initTilt();
-
-  $$('.btn').forEach(btn => {
-    btn.addEventListener('pointermove', (e) => {
-      if (reduceMotion || e.pointerType !== 'mouse') return;
-      const r = btn.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width - 0.5;
-      const py = (e.clientY - r.top) / r.height - 0.5;
-      btn.style.transform = 'translate(' + (px * 7).toFixed(1) + 'px,' + (py * 7 - 2).toFixed(1) + 'px)';
-    });
-    btn.addEventListener('pointerleave', () => { btn.style.transform = ''; });
+  menuBtn.addEventListener('click', () => {
+    const isOpen = navLinksEl.classList.toggle('is-open');
+    menuBtn.classList.toggle('is-open', isOpen);
+    menuBtn.setAttribute('aria-expanded', String(isOpen));
   });
 
-  const methodBtns  = $$('.method__btn');
-  const methodPanes = $$('.method__pane');
-  const stepPrev = $('stepPrev');
-  const stepNext = $('stepNext');
-
-  function activateStep(index) {
-    const i = Math.max(0, Math.min(methodBtns.length - 1, index));
-    methodBtns.forEach((b, k) => {
-      b.classList.toggle('is-active', k === i);
-      b.setAttribute('aria-selected', String(k === i));
+  /* ---------- Method tabs ---------- */
+  $$('.method__btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.method;
+      $$('.method__btn').forEach(b => b.classList.toggle('is-active', b.dataset.method === target));
+      $$('.method__pane').forEach(p => p.classList.toggle('is-active', p.id === 'pane-' + target));
     });
-    methodPanes.forEach((p, k) => p.classList.toggle('is-active', k === i));
-    if (stepPrev) stepPrev.disabled = i === 0;
-    if (stepNext) stepNext.disabled = i === methodBtns.length - 1;
-  }
-
-  methodBtns.forEach((btn, i) => {
-    btn.addEventListener('click', () => activateStep(i));
   });
 
-  if (stepPrev) stepPrev.addEventListener('click', () => activateStep(methodBtns.findIndex(b => b.classList.contains('is-active')) - 1));
-  if (stepNext) stepNext.addEventListener('click', () => activateStep(methodBtns.findIndex(b => b.classList.contains('is-active')) + 1));
-
-  activateStep(0);
-
-  const FIREBASE_URL = 'https://aquasense-d03fd-default-rtdb.asia-southeast1.firebasedatabase.app';
-  const LATEST_PATH  = '/aquasense/latest.json';
-  const HISTORY_PATH = '/aquasense/history.json';
-  const REFRESH_MS   = 3000;
-  const MAX_POINTS   = 22;
-  const FETCH_TIMEOUT = 8000;
-
+  /* ---------- Live simulation ---------- */
   const state = {
-    hist: { ph: [], turb: [], temp: [] },
-    lastSync: null
+    ph: 7.2,
+    turb: 0.25,
+    temp: 27.5,
+    history: { ph: [], turb: [], temp: [] },
+    maxHistory: 18
   };
 
-  function setConnection(mode) {
-    const dot  = $('navLiveDot');
-    const text = $('navLiveText');
-    const tag  = $('cardLiveTag');
-    if (!dot || !text || !tag) return;
+  function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
 
-    dot.classList.remove('is-live', 'is-offline');
-
-    if (mode === 'live') {
-      dot.classList.add('is-live');
-      text.textContent = 'Live';
-      tag.textContent = '● LIVE';
-      tag.classList.add('is-live');
-      tag.classList.remove('is-offline');
-    } else if (mode === 'offline') {
-      dot.classList.add('is-offline');
-      text.textContent = 'Offline';
-      tag.textContent = '● OFFLINE';
-      tag.classList.add('is-offline');
-      tag.classList.remove('is-live');
-    } else {
-      text.textContent = 'Connecting…';
-      tag.textContent = '● CONNECTING';
-      tag.classList.remove('is-live', 'is-offline');
-    }
+  function randomWalk(value, step, min, max){
+    return clamp(value + (Math.random() - 0.5) * step, min, max);
   }
 
-  function phStatus(v) {
-    if (v === null || Number.isNaN(v)) return { text: '—', cls: '', state: '' };
-    if (v < 0 || v > 14)     return { text: 'Invalid',      cls: 'txt-bad',  state: 'bad' };
-    if (v < 6.0 || v > 9.0)  return { text: 'Out of range', cls: 'txt-bad',  state: 'bad' };
-    if (v < 6.5)             return { text: 'Acidic',       cls: 'txt-warn', state: 'warn' };
-    if (v > 8.5)             return { text: 'Basic',        cls: 'txt-warn', state: 'warn' };
-    return { text: 'Normal', cls: 'txt-ok', state: 'ok' };
+  const els = {
+    heroPh: $('#heroPh'), heroPhStatus: $('#heroPhStatus'),
+    heroTurb: $('#heroTurb'), heroTurbStatus: $('#heroTurbStatus'),
+    heroTemp: $('#heroTemp'), heroTempStatus: $('#heroTempStatus'),
+    heroLastSync: $('#heroLastSync'),
+    cardLiveTag: $('#cardLiveTag'),
+    navLiveDot: $('#navLiveDot'), navLiveText: $('#navLiveText'),
+    statPh: $('#statPh'), statPhValue: $('#statPhValue'), statPhStatus: $('#statPhStatus'),
+    statTurb: $('#statTurb'), statTurbValue: $('#statTurbValue'), statTurbStatus: $('#statTurbStatus'),
+    statTemp: $('#statTemp'), statTempValue: $('#statTempValue'), statTempStatus: $('#statTempStatus'),
+    chartPhValue: $('#chartPhValue'), chartTurbValue: $('#chartTurbValue'), chartTempValue: $('#chartTempValue'),
+    tableBody: $('#readingTableBody'),
+    statusConn: $('#statusConn')
+  };
+
+  function statusForPh(v){
+    if (v >= 6.5 && v <= 8.5) return { label: 'Healthy', cls: 'ok' };
+    if (v >= 6.0 && v <= 9.0) return { label: 'Caution', cls: 'warn' };
+    return { label: 'Critical', cls: 'bad' };
+  }
+  function statusForTurb(v){
+    if (v <= 0.3) return { label: 'Clear', cls: 'ok' };
+    if (v <= 0.6) return { label: 'Moderate', cls: 'warn' };
+    return { label: 'Turbid', cls: 'bad' };
+  }
+  function statusForTemp(v){
+    if (v >= 25 && v <= 31) return { label: 'Normal', cls: 'ok' };
+    if (v >= 22 && v <= 34) return { label: 'Caution', cls: 'warn' };
+    return { label: 'Critical', cls: 'bad' };
   }
 
-  function turbStatus(v) {
-    if (v === null || Number.isNaN(v)) return { text: '—', cls: '', state: '' };
-    if (v >= 1.543) return { text: 'Clear',           cls: 'txt-ok',   state: 'ok' };
-    if (v >= 0.744) return { text: 'Slightly turbid', cls: 'txt-warn', state: 'warn' };
-    return { text: 'Highly turbid', cls: 'txt-bad', state: 'bad' };
+  function updateUI(){
+    const phStatus = statusForPh(state.ph);
+    const turbStatus = statusForTurb(state.turb);
+    const tempStatus = statusForTemp(state.temp);
+
+    // Hero
+    els.heroPh.textContent = state.ph.toFixed(2);
+    els.heroPhStatus.textContent = phStatus.label;
+    els.heroPhStatus.className = 'reading__status txt-' + phStatus.cls;
+
+    els.heroTurb.textContent = state.turb.toFixed(2);
+    els.heroTurbStatus.textContent = turbStatus.label;
+    els.heroTurbStatus.className = 'reading__status txt-' + turbStatus.cls;
+
+    els.heroTemp.textContent = state.temp.toFixed(1);
+    els.heroTempStatus.textContent = tempStatus.label;
+    els.heroTempStatus.className = 'reading__status txt-' + tempStatus.cls;
+
+    // Stats
+    els.statPh.dataset.state = phStatus.cls;
+    els.statPhValue.textContent = state.ph.toFixed(2);
+    els.statPhStatus.textContent = phStatus.label;
+
+    els.statTurb.dataset.state = turbStatus.cls;
+    els.statTurbValue.textContent = state.turb.toFixed(2);
+    els.statTurbStatus.textContent = turbStatus.label;
+
+    els.statTemp.dataset.state = tempStatus.cls;
+    els.statTempValue.textContent = state.temp.toFixed(1);
+    els.statTempStatus.textContent = tempStatus.label;
+
+    // Chart values
+    els.chartPhValue.textContent = state.ph.toFixed(2);
+    els.chartTurbValue.textContent = state.turb.toFixed(2) + ' V';
+    els.chartTempValue.textContent = state.temp.toFixed(1) + ' °C';
+
+    // Table
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${timeStr}</td>
+      <td class="txt-${phStatus.cls}">${state.ph.toFixed(2)}</td>
+      <td class="txt-${turbStatus.cls}">${state.turb.toFixed(2)}</td>
+      <td class="txt-${tempStatus.cls}">${state.temp.toFixed(1)}</td>
+    `;
+    els.tableBody.prepend(row);
+    while (els.tableBody.children.length > 6) els.tableBody.lastChild.remove();
+
+    els.heroLastSync.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+    // Nav status
+    els.navLiveDot.classList.add('is-live');
+    els.navLiveDot.classList.remove('is-offline');
+    els.navLiveText.textContent = 'Live';
+    els.cardLiveTag.textContent = '● LIVE';
+    els.cardLiveTag.className = 'live-card__tag is-live';
+    els.statusConn.textContent = 'ESP32 → Firebase link stable · Last packet received just now.';
   }
 
-  function tempStatus(v) {
-    if (v === null || Number.isNaN(v)) return { text: '—', cls: '', state: '' };
-    if (v < 20) return { text: 'Cold',   cls: 'txt-warn', state: 'warn' };
-    if (v > 32) return { text: 'Warm',   cls: 'txt-warn', state: 'warn' };
-    return { text: 'Normal', cls: 'txt-ok', state: 'ok' };
-  }
-
-  function applyStatus(el, s) {
-    if (!el) return;
-    el.textContent = s.text;
-    el.classList.remove('txt-ok', 'txt-warn', 'txt-bad');
-    if (s.cls) el.classList.add(s.cls);
-  }
-
-  function applyStatState(el, s) {
-    if (!el) return;
-    el.dataset.state = s.state || '';
-  }
-
-  async function getJSON(path) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT);
-    try {
-      const res = await fetch(
-        FIREBASE_URL + path + '?t=' + Date.now(),
-        { cache: 'no-store', signal: controller.signal }
-      );
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      return await res.json();
-    } finally {
-      clearTimeout(timer);
-    }
-  }
-
-  function pushHistory(arr, value) {
-    if (value === null || value === undefined || Number.isNaN(value)) return;
-    arr.push(Number(value));
-    while (arr.length > MAX_POINTS) arr.shift();
-  }
-
-  function updateStorageUI(bytes) {
-    const textEl = $('perfStorageText');
-    const barEl = $('perfStorageBar');
-    if (!textEl || !barEl) return;
-
-    let sizeText = '';
-    if (bytes < 1024) sizeText = bytes + ' B';
-    else if (bytes < 1024 * 1024) sizeText = (bytes / 1024).toFixed(2) + ' KB';
-    else sizeText = (bytes / (1024 * 1024)).toFixed(2) + ' MB';
-
-    const limitGB = 1024 * 1024 * 1024;
-    const pct = (bytes / limitGB) * 100;
-
-    textEl.textContent = sizeText + ' used (' + pct.toFixed(6) + '%)';
-    barEl.style.width = Math.max(pct, 0.5) + '%';
-  }
-
-  const charts = [
-    { key: 'ph',   canvas: $('phChart'),   values: state.hist.ph,   color: '#526F5B', digits: 2, hover: -1, geo: null },
-    { key: 'turb', canvas: $('turbChart'), values: state.hist.turb, color: '#8A7A4E', digits: 3, hover: -1, geo: null },
-    { key: 'temp', canvas: $('tempChart'), values: state.hist.temp, color: '#A9603F', digits: 2, hover: -1, geo: null }
-  ];
-
-  function drawChart(chart) {
-    const canvas = chart.canvas;
-    if (!canvas) return;
-
-    const w = canvas.clientWidth;
-    const h = canvas.clientHeight;
-    if (w < 4 || h < 4) return;
-
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const bw = Math.round(w * dpr);
-    const bh = Math.round(h * dpr);
-
-    if (canvas.width !== bw || canvas.height !== bh) {
-      canvas.width = bw;
-      canvas.height = bh;
-    }
-
+  function drawChart(canvas, data, color, min, max){
     const ctx = canvas.getContext('2d');
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    const w = rect.width, h = rect.height;
+
     ctx.clearRect(0, 0, w, h);
 
-    const padL = 10, padR = 10, padT = 12, padB = 12;
-    const plotW = Math.max(1, w - padL - padR);
-    const plotH = Math.max(1, h - padT - padB);
-    const values = chart.values;
-
-    ctx.strokeStyle = '#E3E7DB';
+    // Grid
+    ctx.strokeStyle = 'rgba(52,78,61,.08)';
     ctx.lineWidth = 1;
-    for (let i = 0; i <= 2; i++) {
-      const y = Math.round(padT + (plotH * i) / 2) + 0.5;
+    for (let i = 0; i < 4; i++){
+      const y = (h / 4) * i;
       ctx.beginPath();
-      ctx.moveTo(padL, y);
-      ctx.lineTo(w - padR, y);
+      ctx.moveTo(0, y);
+      ctx.lineTo(w, y);
       ctx.stroke();
     }
 
-    if (!values.length) {
-      chart.geo = null;
-      ctx.fillStyle = '#96A295';
-      ctx.font = '600 10px ' + getComputedStyle(document.body).fontFamily;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('Awaiting data', w / 2, h / 2);
-      return;
-    }
+    if (!data.length) return;
 
-    let lo = Math.min(...values);
-    let hi = Math.max(...values);
+    const pad = 6;
+    const chartW = w - pad * 2;
+    const chartH = h - pad * 2;
+    const range = max - min || 1;
 
-    if (hi - lo < 1e-6) {
-      const pad = Math.max(Math.abs(hi) * 0.05, 0.5);
-      lo -= pad;
-      hi += pad;
-    } else {
-      const pad = (hi - lo) * 0.18;
-      lo -= pad;
-      hi += pad;
-    }
-
-    const xAt = (i) => values.length === 1
-      ? padL + plotW / 2
-      : padL + (i * plotW) / (values.length - 1);
-
-    const yAt = (v) => padT + plotH - ((v - lo) / (hi - lo)) * plotH;
-
-    chart.geo = { padL, plotW, plotH, padT, xAt, yAt, n: values.length };
-
-    const grad = ctx.createLinearGradient(0, padT, 0, padT + plotH);
-    grad.addColorStop(0, chart.color + '3D');
-    grad.addColorStop(1, chart.color + '00');
-
+    // Fill
     ctx.beginPath();
-    ctx.moveTo(xAt(0), padT + plotH);
-    values.forEach((v, i) => ctx.lineTo(xAt(i), yAt(v)));
-    ctx.lineTo(xAt(values.length - 1), padT + plotH);
-    ctx.closePath();
-    ctx.fillStyle = grad;
-    ctx.fill();
-
-    ctx.beginPath();
-    values.forEach((v, i) => {
-      if (i === 0) ctx.moveTo(xAt(i), yAt(v));
-      else ctx.lineTo(xAt(i), yAt(v));
+    data.forEach((v, i) => {
+      const x = pad + (i / Math.max(1, data.length - 1)) * chartW;
+      const y = pad + chartH - ((v - min) / range) * chartH;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
     });
-    ctx.strokeStyle = chart.color;
+    ctx.strokeStyle = color;
     ctx.lineWidth = 2;
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
     ctx.stroke();
 
-    const lx = xAt(values.length - 1);
-    const ly = yAt(values[values.length - 1]);
-
-    ctx.beginPath();
-    ctx.arc(lx, ly, 4.6, 0, Math.PI * 2);
-    ctx.fillStyle = chart.color + '33';
+    // Area fill
+    ctx.lineTo(pad + chartW, pad + chartH);
+    ctx.lineTo(pad, pad + chartH);
+    ctx.closePath();
+    ctx.fillStyle = color + '22';
     ctx.fill();
 
+    // Last point dot
+    const last = data[data.length - 1];
+    const lx = pad + chartW;
+    const ly = pad + chartH - ((last - min) / range) * chartH;
     ctx.beginPath();
-    ctx.arc(lx, ly, 2.6, 0, Math.PI * 2);
-    ctx.fillStyle = chart.color;
+    ctx.arc(lx, ly, 3.5, 0, Math.PI * 2);
+    ctx.fillStyle = color;
     ctx.fill();
-
-    if (chart.hover >= 0 && chart.hover < values.length) {
-      const hx = xAt(chart.hover);
-      const hy = yAt(values[chart.hover]);
-
-      ctx.save();
-      ctx.setLineDash([3, 3]);
-      ctx.strokeStyle = 'rgba(36,53,42,.3)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(hx, padT);
-      ctx.lineTo(hx, padT + plotH);
-      ctx.stroke();
-      ctx.restore();
-
-      ctx.beginPath();
-      ctx.arc(hx, hy, 4.6, 0, Math.PI * 2);
-      ctx.fillStyle = '#fff';
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(hx, hy, 3, 0, Math.PI * 2);
-      ctx.fillStyle = chart.color;
-      ctx.fill();
-
-      const label = values[chart.hover].toFixed(chart.digits);
-      ctx.font = '700 10px ' + getComputedStyle(document.body).fontFamily;
-      const tw = ctx.measureText(label).width;
-      const bx = Math.min(Math.max(hx - tw / 2 - 6, padL), w - padR - tw - 12);
-      const by = Math.max(padT, hy - 26);
-
-      roundRect(ctx, bx, by, tw + 12, 17, 6);
-      ctx.fillStyle = 'rgba(27,42,32,.92)';
-      ctx.fill();
-
-      ctx.fillStyle = '#fff';
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(label, bx + 6, by + 9);
-    }
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
   }
 
-  function redrawCharts() {
-    charts.forEach(drawChart);
+  function redrawCharts(){
+    drawChart($('#chartPh'), state.history.ph, '#526F5B', 6, 9);
+    drawChart($('#chartTurb'), state.history.turb, '#8A7A4E', 0, 1);
+    drawChart($('#chartTemp'), state.history.temp, '#A9603F', 20, 35);
   }
 
-  let rafId = null;
-  function scheduleRedraw() {
-    if (rafId) return;
-    rafId = requestAnimationFrame(() => {
-      rafId = null;
-      redrawCharts();
-    });
-  }
+  function tick(){
+    state.ph = randomWalk(state.ph, 0.15, 6.0, 9.0);
+    state.turb = randomWalk(state.turb, 0.08, 0.0, 0.8);
+    state.temp = randomWalk(state.temp, 0.6, 22, 34);
 
-  charts.forEach(chart => {
-    const c = chart.canvas;
-    if (!c) return;
+    state.history.ph.push(state.ph);
+    state.history.turb.push(state.turb);
+    state.history.temp.push(state.temp);
 
-    c.addEventListener('pointermove', (e) => {
-      if (e.pointerType !== 'mouse') return;
-      const geo = chart.geo;
-      if (!geo || !geo.n) return;
-      const rect = c.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      let idx = Math.round(((x - geo.padL) / geo.plotW) * (geo.n - 1));
-      idx = Math.max(0, Math.min(geo.n - 1, idx));
-      if (idx !== chart.hover) {
-        chart.hover = idx;
-        drawChart(chart);
-      }
+    ['ph', 'turb', 'temp'].forEach(k => {
+      if (state.history[k].length > state.maxHistory) state.history[k].shift();
     });
 
-    c.addEventListener('pointerleave', () => {
-      if (chart.hover !== -1) {
-        chart.hover = -1;
-        drawChart(chart);
-      }
-    });
-  });
-
-  if (window.ResizeObserver) {
-    const ro = new ResizeObserver(scheduleRedraw);
-    charts.forEach(c => { if (c.canvas) ro.observe(c.canvas); });
-  }
-  window.addEventListener('resize', scheduleRedraw);
-  window.addEventListener('orientationchange', scheduleRedraw);
-
-  function renderLatest(d) {
-    const ph     = pickNum(d.pH, d.PH, d.ph);
-    const phVolt = pickNum(d.pHVoltage, d.PHVoltage, d.phVoltage);
-    const turbV  = pickNum(d.turbidityVoltage, d.TurbidityVoltage, d.turbVoltage);
-    const temp   = pickNum(d.temperature, d.Temperature, d.temp, d.Temp);
-    const ts     = parseTs(d.timestamp ?? d.Timestamp ?? d.updatedAt ?? d.updated_at);
-
-    const heroPh = $('heroPh');
-    const heroTurb = $('heroTurb');
-    const heroTemp = $('heroTemp');
-
-    if (heroPh)   heroPh.textContent   = fmt(ph, 2);
-    if (heroTurb) heroTurb.textContent = fmt(turbV, 3);
-    if (heroTemp) heroTemp.textContent = fmt(temp, 2);
-
-    const phS = phStatus(ph);
-
-    const fbTurb = d.turbidityStatus ?? d.TurbidityStatus;
-    let tbS;
-    if (fbTurb) {
-      const upper = String(fbTurb).toUpperCase();
-      tbS = {
-        text: String(fbTurb),
-        cls: upper === 'CLEAN'
-          ? 'txt-ok'
-          : (upper.includes('SLIGHT') ? 'txt-warn' : 'txt-bad'),
-        state: upper === 'CLEAN'
-          ? 'ok'
-          : (upper.includes('SLIGHT') ? 'warn' : 'bad')
-      };
-    } else {
-      tbS = turbStatus(turbV);
-    }
-
-    const tmS = tempStatus(temp);
-
-    applyStatus($('heroPhStatus'), phS);
-    applyStatus($('heroTurbStatus'), tbS);
-    applyStatus($('heroTempStatus'), tmS);
-
-    const stamp = ts ? ts.toLocaleString() : '—';
-    const heroLast = $('heroLastSync');
-    const perfLast = $('perfLastSync');
-    if (heroLast) heroLast.textContent = stamp;
-    if (perfLast) perfLast.textContent = stamp;
-
-    const statPhValue = $('statPhValue');
-    const statTurbValue = $('statTurbValue');
-    const statTempValue = $('statTempValue');
-
-    if (statPhValue)   statPhValue.textContent   = fmt(ph, 2);
-    if (statTurbValue) statTurbValue.textContent = fmt(turbV, 3);
-    if (statTempValue) statTempValue.textContent = fmt(temp, 2);
-
-    applyStatus($('statPhStatus'), phS);
-    applyStatus($('statTurbStatus'), tbS);
-    applyStatus($('statTempStatus'), tmS);
-
-    applyStatState($('statPh'), phS);
-    applyStatState($('statTurb'), tbS);
-    applyStatState($('statTemp'), tmS);
-
-    const tblPh = $('tblPh');
-    const tblTurb = $('tblTurb');
-    const tblTemp = $('tblTemp');
-    const tblPhVolt = $('tblPhVolt');
-    const tblTimestamp = $('tblTimestamp');
-
-    if (tblPh)   tblPh.textContent   = fmt(ph, 2);
-    if (tblTurb) tblTurb.textContent = turbV === null ? '—' : fmt(turbV, 3) + ' V';
-    if (tblTemp) tblTemp.textContent = temp === null ? '—' : fmt(temp, 2) + ' °C';
-    if (tblPhVolt) tblPhVolt.textContent = phVolt === null ? '—' : fmt(phVolt, 3) + ' V';
-    if (tblTimestamp) tblTimestamp.textContent = stamp;
-
-    applyStatus($('tblPhStatus'), phS);
-    applyStatus($('tblTurbStatus'), tbS);
-    applyStatus($('tblTempStatus'), tmS);
-
-    const phLatest = $('phChartLatest');
-    const turbLatest = $('turbChartLatest');
-    const tempLatest = $('tempChartLatest');
-    if (phLatest)   phLatest.textContent   = fmt(ph, 2);
-    if (turbLatest) turbLatest.textContent = fmt(turbV, 3);
-    if (tempLatest) tempLatest.textContent = fmt(temp, 2);
-
-    pushHistory(state.hist.ph, ph);
-    pushHistory(state.hist.turb, turbV);
-    pushHistory(state.hist.temp, temp);
-
+    updateUI();
     redrawCharts();
   }
 
-  async function fetchLatest() {
-    try {
-      const data = await getJSON(LATEST_PATH);
-
-      if (!data) {
-        setConnection('connecting');
-        const ps = $('perfSensor');
-        const pc = $('perfCloud');
-        if (ps) ps.textContent = 'No data in database yet';
-        if (pc) pc.textContent = 'Firebase reachable (empty)';
-        updateStorageUI(0);
-        return;
-      }
-
-      const payloadSize = new Blob([JSON.stringify(data)]).size;
-      updateStorageUI(payloadSize);
-
-      renderLatest(data);
-      setConnection('live');
-
-      const ps = $('perfSensor');
-      const pc = $('perfCloud');
-      if (ps) ps.textContent = 'ESP32 online — streaming data';
-      if (pc) pc.textContent = 'Firebase connected';
-
-    } catch (err) {
-      console.warn('[AquaSense] Latest fetch failed:', err);
-      setConnection('offline');
-      const ps = $('perfSensor');
-      const pc = $('perfCloud');
-      if (ps) ps.textContent = 'Connection failed';
-      if (pc) pc.textContent = 'Firebase unreachable';
-      updateStorageUI(0);
-    }
+  // Initial fill
+  for (let i = 0; i < 18; i++){
+    state.history.ph.push(state.ph + (Math.random() - 0.5) * 0.4);
+    state.history.turb.push(state.turb + (Math.random() - 0.5) * 0.2);
+    state.history.temp.push(state.temp + (Math.random() - 0.5) * 1.5);
   }
 
-  async function seedHistory() {
-    try {
-      const data = await getJSON(HISTORY_PATH);
-      if (!data || typeof data !== 'object') return;
+  updateUI();
+  redrawCharts();
+  setInterval(tick, 3000);
 
-      const historySize = new Blob([JSON.stringify(data)]).size;
-      updateStorageUI(historySize);
+  window.addEventListener('resize', () => { moveIndicator(); redrawCharts(); });
 
-      const keys = Object.keys(data).sort().slice(-MAX_POINTS);
-
-      state.hist.ph.length   = 0;
-      state.hist.turb.length = 0;
-      state.hist.temp.length = 0;
-
-      keys.forEach(k => {
-        const entry = data[k];
-        if (!entry) return;
-
-        const ph   = pickNum(entry.pH, entry.PH);
-        const turb = pickNum(entry.turbidityVoltage, entry.TurbidityVoltage, entry.turbVoltage);
-        const temp = pickNum(entry.temperature, entry.Temperature, entry.temp, entry.Temp);
-
-        if (ph   !== null) state.hist.ph.push(ph);
-        if (turb !== null) state.hist.turb.push(turb);
-        if (temp !== null) state.hist.temp.push(temp);
-      });
-
-      redrawCharts();
-    } catch (err) {
-      console.warn('[AquaSense] History seed failed:', err);
+  /* ---------- Researchers Carousel ---------- */
+  const researchers = [
+    {
+      name: 'Abutan, Mc Clint M.',
+      role: 'Lead Researcher',
+      bio: 'Coordinates the overall research design and prototype development. Focuses on system architecture, sensor integration, and IoT connectivity for the AquaSense platform.',
+      color: '#3F5C49'
+    },
+    {
+      name: 'Agena, Czarina Louise E.',
+      role: 'Research Member',
+      bio: 'Handles data management and analysis. Ensures accuracy and reliability of sensor readings and assists in statistical evaluation and interpretation of results.',
+      color: '#526F5B'
+    },
+    {
+      name: 'Bagao, Charles Kim L.',
+      role: 'Research Member',
+      bio: 'Responsible for hardware assembly and electronics. Works on the ESP32 microcontroller, sensor wiring, and solar power integration.',
+      color: '#71866D'
+    },
+    {
+      name: 'Fortu, Lorraine Jhasmien C.',
+      role: 'Research Member',
+      bio: 'Manages documentation and literature review. Compiles supporting studies on water quality monitoring and IoT-based environmental systems.',
+      color: '#879B83'
+    },
+    {
+      name: 'Hernandez, Samantha Joy M.',
+      role: 'Research Member',
+      bio: 'Focuses on field testing and data gathering. Assists in deploying the prototype in Barangay Ibaba West and records water quality observations.',
+      color: '#A6B8A0'
+    },
+    {
+      name: 'Pantoja, Kenneth H.',
+      role: 'Research Member',
+      bio: 'Handles software development and dashboard implementation. Creates the IoT monitoring interface and visualizes real-time sensor data.',
+      color: '#344E3D'
     }
+  ];
+
+  let currentResearcher = 0;
+  const resAvatar = $('#researcherAvatar');
+  const resName = $('#researcherName');
+  const resRole = $('#researcherRole');
+  const resBio = $('#researcherBio');
+  const resDots = $('#resDots');
+
+  function renderResearcher(index){
+    const r = researchers[index];
+    resAvatar.src = 'data:image/svg+xml,' + encodeURIComponent(
+      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+        <rect width="200" height="200" fill="${r.color}"/>
+        <circle cx="100" cy="80" r="40" fill="rgba(255,255,255,.25)"/>
+        <ellipse cx="100" cy="150" rx="65" ry="45" fill="rgba(255,255,255,.18)"/>
+        <text x="100" y="110" text-anchor="middle" font-size="48" fill="#fff" font-family="Arial" font-weight="bold">${r.name.split(',')[0].charAt(0)}</text>
+      </svg>`
+    );
+    resName.textContent = r.name;
+    resRole.textContent = r.role;
+    resBio.textContent = r.bio;
+
+    // Reset animations
+    resAvatar.classList.remove('res-anim-img');
+    resName.classList.remove('res-anim-name');
+    resRole.classList.remove('res-anim-role');
+    resBio.classList.remove('res-anim-bio');
+    void resAvatar.offsetWidth;
+    resAvatar.classList.add('res-anim-img');
+    resName.classList.add('res-anim-name');
+    resRole.classList.add('res-anim-role');
+    resBio.classList.add('res-anim-bio');
+
+    renderDots();
   }
 
-  async function init() {
-    const yearEl = $('year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
+  function renderDots(){
+    resDots.innerHTML = '';
+    researchers.forEach((_, i) => {
+      const dot = document.createElement('span');
+      dot.className = 'res-dot' + (i === currentResearcher ? ' is-active' : '');
+      dot.addEventListener('click', () => { currentResearcher = i; renderResearcher(i); });
+      resDots.appendChild(dot);
+    });
+  }
 
-    setTimeout(() => animateReveals(document.querySelector('.hero')), 120);
+  $('#resPrev').addEventListener('click', () => {
+    currentResearcher = (currentResearcher - 1 + researchers.length) % researchers.length;
+    renderResearcher(currentResearcher);
+  });
+  $('#resNext').addEventListener('click', () => {
+    currentResearcher = (currentResearcher + 1) % researchers.length;
+    renderResearcher(currentResearcher);
+  });
 
-    const hash = (location.hash || '').replace('#', '');
-    if (TAB_IDS.includes(hash) && hash !== 'home') {
-      switchTab(hash, { scroll: false, hash: false });
-      requestAnimationFrame(() => {
-        const section = $(hash);
-        if (section) {
-          const top = section.getBoundingClientRect().top + window.pageYOffset - navHeight();
-          window.scrollTo(0, Math.max(0, top));
+  renderResearcher(0);
+
+  // Touch swipe for researchers
+  let touchStartX = 0;
+  const resLayout = $('#researchersLayout');
+  resLayout.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, {passive: true});
+  resLayout.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50){
+      if (dx > 0){ currentResearcher = (currentResearcher - 1 + researchers.length) % researchers.length; }
+      else { currentResearcher = (currentResearcher + 1) % researchers.length; }
+      renderResearcher(currentResearcher);
+    }
+  }, {passive: true});
+
+  /* ---------- Lightbox ---------- */
+  const galleryItems = $$('.doc-gallery__item');
+  const lightbox = $('#lightbox');
+  const lightboxImg = $('#lightboxImg');
+  const lightboxLabel = $('#lightboxLabel');
+  const lightboxCounter = $('#lightboxCounter');
+  let currentImageIndex = 0;
+
+  function openLightbox(index){
+    currentImageIndex = index;
+    const item = galleryItems[index];
+    lightboxImg.src = item.dataset.src;
+    lightboxLabel.textContent = item.dataset.caption || '';
+    lightboxCounter.textContent = `${index + 1} / ${galleryItems.length}`;
+    lightbox.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(){
+    lightbox.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  function navigateLightbox(dir){
+    currentImageIndex = (currentImageIndex + dir + galleryItems.length) % galleryItems.length;
+    openLightbox(currentImageIndex);
+  }
+
+  galleryItems.forEach((item, i) => {
+    item.addEventListener('click', () => openLightbox(i));
+  });
+
+  $('#lightboxClose').addEventListener('click', closeLightbox);
+  $('#lightboxPrev').addEventListener('click', () => navigateLightbox(-1));
+  $('#lightboxNext').addEventListener('click', () => navigateLightbox(1));
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('is-open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+    if (e.key === 'ArrowRight') navigateLightbox(1);
+  });
+
+  /* ---------- Scroll Reveal ---------- */
+  const reveals = $$('[data-reveal]');
+  if ('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting){
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
         }
       });
-    } else {
-      animateReveals($('tab-home'));
-    }
-
-    moveIndicator();
-    setTimeout(moveIndicator, 400);
-
-    setConnection('connecting');
-
-    await seedHistory();
-    await fetchLatest();
-
-    setInterval(fetchLatest, REFRESH_MS);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    }, { threshold: 0.12 });
+    reveals.forEach(el => io.observe(el));
   } else {
-    init();
+    reveals.forEach(el => el.classList.add('is-in'));
   }
+
+  /* ---------- Click ripple ---------- */
+  document.addEventListener('click', e => {
+    const ripple = document.createElement('span');
+    ripple.className = 'click-ripple';
+    ripple.style.left = e.clientX + 'px';
+    ripple.style.top = e.clientY + 'px';
+    document.body.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 900);
+  });
+
+  /* ---------- Fish easter egg (on logo click) ---------- */
+  $('#brandMark').addEventListener('click', () => {
+    const fish = document.createElement('div');
+    fish.className = 'fish';
+    fish.textContent = '🐟';
+    document.body.appendChild(fish);
+    setTimeout(() => fish.remove(), 7000);
+  });
+
+  /* ---------- Bubble canvas ---------- */
+  const canvas = $('#bubbleLayer');
+  const ctx = canvas.getContext('2d');
+  let bubbles = [];
+
+  function resizeCanvas(){
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function createBubble(){
+    return {
+      x: Math.random() * window.innerWidth,
+      y: window.innerHeight + 20,
+      r: 2 + Math.random() * 5,
+      speed: 0.3 + Math.random() * 0.8,
+      drift: (Math.random() - 0.5) * 0.4,
+      opacity: 0.15 + Math.random() * 0.3
+    };
+  }
+
+  function initBubbles(){
+    bubbles = [];
+    const count = Math.min(40, Math.floor(window.innerWidth / 40));
+    for (let i = 0; i < count; i++){
+      const b = createBubble();
+      b.y = Math.random() * window.innerHeight;
+      bubbles.push(b);
+    }
+  }
+
+  function animateBubbles(){
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    bubbles.forEach(b => {
+      b.y -= b.speed;
+      b.x += b.drift;
+      if (b.y < -20){
+        Object.assign(b, createBubble());
+      }
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(79,209,176,${b.opacity})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    });
+    requestAnimationFrame(animateBubbles);
+  }
+
+  resizeCanvas();
+  initBubbles();
+  animateBubbles();
+  window.addEventListener('resize', () => { resizeCanvas(); initBubbles(); });
+
+  /* ---------- Initial move indicator ---------- */
+  window.addEventListener('load', () => {
+    moveIndicator();
+    // If hash is present, open that tab
+    const hash = window.location.hash.replace('#', '');
+    if (hash){
+      const link = $(`.nav__link[data-tab="${hash}"]`);
+      if (link) setActiveTab(hash);
+    }
+  });
 
 })();
 </script>
