@@ -2713,6 +2713,147 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
   .ticker__group span{font-size:9.5px;letter-spacing:1.1px;}
 }
 
+   
+/* =========================================
+   EXPERT EVALUATION RESULTS
+========================================= */
+
+.assessment-panel {
+  margin-top: 26px;
+}
+
+.assessment-chart {
+  display: grid;
+  gap: 19px;
+  padding: 24px 14px 12px;
+}
+
+.assessment-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 180px) minmax(60px, 1fr) 45px;
+  align-items: center;
+  gap: 13px;
+  font-size: 13px;
+}
+
+.assessment-row > span {
+  color: var(--ink, #344E3D);
+  font-weight: 600;
+}
+
+.assessment-row > strong {
+  text-align: right;
+  color: var(--ink, #344E3D);
+  font-variant-numeric: tabular-nums;
+}
+
+.assessment-track {
+  height: 25px;
+  width: 100%;
+  background: #e9ece5;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.assessment-fill {
+  height: 100%;
+  background: #c49a25;
+  border-radius: 5px;
+  transition: width 0.6s ease;
+}
+
+.assessment-scale {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 52px 24px 205px;
+  color: #777;
+  font-size: 12px;
+}
+
+.assessment-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 20px;
+  margin: 8px 0 25px;
+  background: #f0f1e9;
+  border-radius: 10px;
+  color: #344e3d;
+}
+
+.assessment-summary > div {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.assessment-summary__label {
+  flex-basis: 100%;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.assessment-summary__score {
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.assessment-summary__outof {
+  color: #687568;
+  font-size: 12px;
+}
+
+.assessment-rating {
+  padding: 8px 13px;
+  border-radius: 20px;
+  background: #dce7d8;
+  color: #344e3d;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.assessment-discussion {
+  padding-top: 20px;
+  border-top: 1px solid #e5e8e1;
+  line-height: 1.8;
+}
+
+.assessment-discussion h3 {
+  margin-bottom: 14px;
+  color: #344e3d;
+  font-size: 18px;
+}
+
+.assessment-discussion p {
+  margin-bottom: 15px;
+  color: var(--muted, #606a60);
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+@media (max-width: 600px) {
+  .assessment-row {
+    grid-template-columns: 105px minmax(50px, 1fr) 38px;
+    gap: 8px;
+    font-size: 11px;
+  }
+
+  .assessment-scale {
+    margin-left: 113px;
+    margin-right: 45px;
+  }
+
+  .assessment-summary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+
 /* ============================================================
    15. MOTION PREFERENCES
    ============================================================ */
@@ -3324,196 +3465,322 @@ table.data td.txt-bad{color:var(--bad);font-weight:700;}
     </section>
   </div>
 
-  <div class="tab-panel" id="tab-results" role="tabpanel" aria-label="Results and discussion">
-    <section class="card" id="results">
+ 
+<div class="tab-panel" id="tab-results" role="tabpanel" aria-label="Results and discussion">
+  <section class="card" id="results">
 
-      <div class="section-head">
-        <span class="section-head__num" aria-hidden="true">03</span>
-        <h2 class="section-head__title">
-          Results and Discussion
-          <span class="section-head__sub">Live readings, trends, and system health</span>
-        </h2>
-      </div>
+    <div class="section-head">
+      <span class="section-head__num" aria-hidden="true">03</span>
+      <h2 class="section-head__title">
+        Results and Discussion
+        <span class="section-head__sub">Live readings, trends, system health, and expert evaluation</span>
+      </h2>
+    </div>
 
-      <div class="stat-tiles">
-        <article class="stat" id="statPh" data-state="">
-          <span class="stat__label">pH Level</span>
-          <strong class="stat__value" id="statPhValue">—</strong>
-          <span class="stat__status" id="statPhStatus">Waiting…</span>
-        </article>
+    <!-- LIVE SENSOR SUMMARY -->
+    <div class="stat-tiles">
+      <article class="stat" id="statPh" data-state="">
+        <span class="stat__label">pH Level</span>
+        <strong class="stat__value" id="statPhValue">—</strong>
+        <span class="stat__status" id="statPhStatus">Waiting…</span>
+      </article>
 
-        <article class="stat" id="statTurb" data-state="">
-          <span class="stat__label">Turbidity</span>
-          <strong class="stat__value"><span id="statTurbValue">—</span><span class="u">V</span></strong>
-          <span class="stat__status" id="statTurbStatus">Waiting…</span>
-        </article>
+      <article class="stat" id="statTurb" data-state="">
+        <span class="stat__label">Turbidity</span>
+        <strong class="stat__value">
+          <span id="statTurbValue">—</span><span class="u">V</span>
+        </strong>
+        <span class="stat__status" id="statTurbStatus">Waiting…</span>
+      </article>
 
-        <article class="stat" id="statTemp" data-state="">
-          <span class="stat__label">Temperature</span>
-          <strong class="stat__value"><span id="statTempValue">—</span><span class="u">°C</span></strong>
-          <span class="stat__status" id="statTempStatus">Waiting…</span>
-        </article>
-      </div>
+      <article class="stat" id="statTemp" data-state="">
+        <span class="stat__label">Temperature</span>
+        <strong class="stat__value">
+          <span id="statTempValue">—</span><span class="u">°C</span>
+        </strong>
+        <span class="stat__status" id="statTempStatus">Waiting…</span>
+      </article>
+    </div>
 
-      <div class="results">
+    <div class="results">
 
-        <section class="panel" aria-label="Latest sensor readings">
-          <div class="panel__head">
-            <h3>Latest Readings <small>Live from Firebase</small></h3>
-            <span class="badge badge--live">● Live</span>
+      <!-- LATEST SENSOR READINGS -->
+      <section class="panel" aria-label="Latest sensor readings">
+        <div class="panel__head">
+          <h3>Latest Readings <small>Live from Firebase</small></h3>
+          <span class="badge badge--live">● Live</span>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data">
+            <thead>
+              <tr>
+                <th scope="col">Parameter</th>
+                <th scope="col">Value</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>pH</td>
+                <td class="mono" id="tblPh">—</td>
+                <td id="tblPhStatus">—</td>
+              </tr>
+              <tr>
+                <td>Turbidity</td>
+                <td class="mono" id="tblTurb">—</td>
+                <td id="tblTurbStatus">—</td>
+              </tr>
+              <tr>
+                <td>Temperature</td>
+                <td class="mono" id="tblTemp">—</td>
+                <td id="tblTempStatus">—</td>
+              </tr>
+              <tr>
+                <td>pH Voltage</td>
+                <td class="mono" id="tblPhVolt">—</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>Last Update</td>
+                <td class="mono" id="tblTimestamp" colspan="2" style="text-align:left;">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="note">
+          Data is fetched directly from the AquaSense Firebase Realtime Database.
+          Values refresh automatically every 3 seconds.
+        </p>
+
+        <div class="info-strip">
+          <span class="info-strip__icon" aria-hidden="true">ⓘ</span>
+          <div>
+            Charts show the <strong>last 22 live readings</strong> received from the
+            sensor network. Hover a chart to inspect a point.
           </div>
+        </div>
+      </section>
 
-          <div class="table-wrap">
-            <table class="data">
-              <thead>
-                <tr>
-                  <th scope="col">Parameter</th>
-                  <th scope="col">Value</th>
-                  <th scope="col">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>pH</td>
-                  <td class="mono" id="tblPh">—</td>
-                  <td id="tblPhStatus">—</td>
-                </tr>
-                <tr>
-                  <td>Turbidity</td>
-                  <td class="mono" id="tblTurb">—</td>
-                  <td id="tblTurbStatus">—</td>
-                </tr>
-                <tr>
-                  <td>Temperature</td>
-                  <td class="mono" id="tblTemp">—</td>
-                  <td id="tblTempStatus">—</td>
-                </tr>
-                <tr>
-                  <td>pH Voltage</td>
-                  <td class="mono" id="tblPhVolt">—</td>
-                  <td>—</td>
-                </tr>
-                <tr>
-                  <td>Last Update</td>
-                  <td class="mono" id="tblTimestamp" colspan="2" style="text-align:left;">—</td>
-                </tr>
-              </tbody>
-            </table>
+      <!-- WATER QUALITY TRENDS -->
+      <section class="panel" aria-label="Water quality trends">
+        <div class="panel__head">
+          <h3>Water Quality Trends <small>Rolling window</small></h3>
+          <span class="badge">Last 22</span>
+        </div>
+
+        <div class="chart">
+          <div class="chart__head">
+            <span class="chart__label">
+              <span class="chart__swatch" style="background:#526F5B" aria-hidden="true"></span>
+              pH Level
+            </span>
+            <span class="chart__value" id="phChartLatest">—</span>
           </div>
+          <canvas id="phChart" role="img" aria-label="Live pH trend chart"></canvas>
+        </div>
 
-          <p class="note">
-            Data is fetched directly from the AquaSense Firebase Realtime Database.
-            Values refresh automatically every 3 seconds.
-          </p>
+        <div class="chart">
+          <div class="chart__head">
+            <span class="chart__label">
+              <span class="chart__swatch" style="background:#8A7A4E" aria-hidden="true"></span>
+              Turbidity (V)
+            </span>
+            <span class="chart__value" id="turbChartLatest">—</span>
+          </div>
+          <canvas id="turbChart" role="img" aria-label="Live turbidity trend chart"></canvas>
+        </div>
 
-          <div class="info-strip">
-            <span class="info-strip__icon" aria-hidden="true">ⓘ</span>
+        <div class="chart">
+          <div class="chart__head">
+            <span class="chart__label">
+              <span class="chart__swatch" style="background:#A9603F" aria-hidden="true"></span>
+              Temperature (°C)
+            </span>
+            <span class="chart__value" id="tempChartLatest">—</span>
+          </div>
+          <canvas id="tempChart" role="img" aria-label="Live temperature trend chart"></canvas>
+        </div>
+      </section>
+
+      <!-- SYSTEM STATUS -->
+      <section class="panel panel--status" aria-label="System status">
+        <div class="panel__head">
+          <h3>System Status <small>Sensor unit &amp; cloud</small></h3>
+        </div>
+
+        <ul class="status-list">
+          <li class="status-item">
+            <span class="status-item__icon" aria-hidden="true">◉</span>
             <div>
-              Charts show the <strong>last 22 live readings</strong> received from the
-              sensor network. Hover a chart to inspect a point.
+              <strong>Sensor Unit</strong>
+              <small id="perfSensor">Checking connection…</small>
             </div>
-          </div>
-        </section>
+          </li>
 
-        <section class="panel" aria-label="Water quality trends">
-          <div class="panel__head">
-            <h3>Water Quality Trends <small>Rolling window</small></h3>
-            <span class="badge">Last 22</span>
-          </div>
-
-          <div class="chart">
-            <div class="chart__head">
-              <span class="chart__label">
-                <span class="chart__swatch" style="background:#526F5B" aria-hidden="true"></span>
-                pH Level
-              </span>
-              <span class="chart__value" id="phChartLatest">—</span>
-            </div>
-            <canvas id="phChart" role="img" aria-label="Live pH trend chart"></canvas>
-          </div>
-
-          <div class="chart">
-            <div class="chart__head">
-              <span class="chart__label">
-                <span class="chart__swatch" style="background:#8A7A4E" aria-hidden="true"></span>
-                Turbidity (V)
-              </span>
-              <span class="chart__value" id="turbChartLatest">—</span>
-            </div>
-            <canvas id="turbChart" role="img" aria-label="Live turbidity trend chart"></canvas>
-          </div>
-
-          <div class="chart">
-            <div class="chart__head">
-              <span class="chart__label">
-                <span class="chart__swatch" style="background:#A9603F" aria-hidden="true"></span>
-                Temperature (°C)
-              </span>
-              <span class="chart__value" id="tempChartLatest">—</span>
-            </div>
-            <canvas id="tempChart" role="img" aria-label="Live temperature trend chart"></canvas>
-          </div>
-        </section>
-
-        <section class="panel panel--status" aria-label="System status">
-          <div class="panel__head">
-            <h3>System Status <small>Sensor unit &amp; cloud</small></h3>
-          </div>
-
-          <ul class="status-list">
-            <li class="status-item">
-              <span class="status-item__icon" aria-hidden="true">◉</span>
-              <div>
-                <strong>Sensor Unit</strong>
-                <small id="perfSensor">Checking connection…</small>
-              </div>
-            </li>
-            <li class="status-item">
-              <span class="status-item__icon" aria-hidden="true">⌁</span>
-              <div>
-                <strong>Cloud Connection</strong>
-                <small id="perfCloud">Checking Firebase…</small>
-              </div>
-            </li>
-            <li class="status-item">
-              <span class="status-item__icon" aria-hidden="true">☁️</span>
-              <div style="width:100%;">
-                <strong>Cloud Storage Usage</strong>
-                <small id="perfStorageText">Calculating…</small>
-                <div class="storage-bar">
-                  <div class="storage-bar__fill" id="perfStorageBar" style="width: 0%;"></div>
-                </div>
-                <small style="font-size: 8.5px; margin-top: 4px; opacity: 0.7;">Free Tier Limit: 1 GB (Spark Plan)</small>
-              </div>
-            </li>
-            <li class="status-item">
-              <span class="status-item__icon" aria-hidden="true">◷</span>
-              <div>
-                <strong>Update Interval</strong>
-                <small>Live readings every 3 s · history saved every 60 s</small>
-              </div>
-            </li>
-            <li class="status-item">
-              <span class="status-item__icon" aria-hidden="true">◔</span>
-              <div>
-                <strong>Last Sync</strong>
-                <small id="perfLastSync">—</small>
-              </div>
-            </li>
-          </ul>
-
-          <div class="info-strip">
-            <span class="info-strip__icon" aria-hidden="true">ⓘ</span>
+          <li class="status-item">
+            <span class="status-item__icon" aria-hidden="true">⌁</span>
             <div>
-              If values show “—”, the ESP32 may be offline or Firebase may be
-              unreachable. Check the network and power supply.
+              <strong>Cloud Connection</strong>
+              <small id="perfCloud">Checking Firebase…</small>
             </div>
+          </li>
+
+          <li class="status-item">
+            <span class="status-item__icon" aria-hidden="true">☁️</span>
+            <div style="width:100%;">
+              <strong>Cloud Storage Usage</strong>
+              <small id="perfStorageText">Calculating…</small>
+              <div class="storage-bar">
+                <div class="storage-bar__fill" id="perfStorageBar" style="width: 0%;"></div>
+              </div>
+              <small style="font-size: 8.5px; margin-top: 4px; opacity: 0.7;">
+                Free Tier Limit: 1 GB (Spark Plan)
+              </small>
+            </div>
+          </li>
+
+          <li class="status-item">
+            <span class="status-item__icon" aria-hidden="true">◷</span>
+            <div>
+              <strong>Update Interval</strong>
+              <small>Live readings every 3 s · history saved every 60 s</small>
+            </div>
+          </li>
+
+          <li class="status-item">
+            <span class="status-item__icon" aria-hidden="true">◔</span>
+            <div>
+              <strong>Last Sync</strong>
+              <small id="perfLastSync">—</small>
+            </div>
+          </li>
+        </ul>
+
+        <div class="info-strip">
+          <span class="info-strip__icon" aria-hidden="true">ⓘ</span>
+          <div>
+            If values show “—”, the ESP32 may be offline or Firebase may be
+            unreachable. Check the network and power supply.
           </div>
-        </section>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- EXPERT EVALUATION RESULTS -->
+    <section class="panel assessment-panel" aria-label="Expert evaluation results">
+
+      <div class="panel__head">
+        <h3>Expert Evaluation Results
+          <small>Summary of the five assessment criteria</small>
+        </h3>
+        <span class="badge">Final Evaluation</span>
+      </div>
+
+      <div class="assessment-chart">
+
+        <div class="assessment-row">
+          <span>Power Input</span>
+          <div class="assessment-track">
+            <div class="assessment-fill" style="width:100%;"></div>
+          </div>
+          <strong>4.00</strong>
+        </div>
+
+        <div class="assessment-row">
+          <span>Durability</span>
+          <div class="assessment-track">
+            <div class="assessment-fill" style="width:98%;"></div>
+          </div>
+          <strong>3.92</strong>
+        </div>
+
+        <div class="assessment-row">
+          <span>Network Load</span>
+          <div class="assessment-track">
+            <div class="assessment-fill" style="width:95%;"></div>
+          </div>
+          <strong>3.80</strong>
+        </div>
+
+        <div class="assessment-row">
+          <span>Transmission Interval</span>
+          <div class="assessment-track">
+            <div class="assessment-fill" style="width:93.75%;"></div>
+          </div>
+          <strong>3.75</strong>
+        </div>
+
+        <div class="assessment-row">
+          <span>Sensor Precision</span>
+          <div class="assessment-track">
+            <div class="assessment-fill" style="width:93.75%;"></div>
+          </div>
+          <strong>3.75</strong>
+        </div>
 
       </div>
+
+      <div class="assessment-scale">
+        <span>0</span>
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+        <span>4</span>
+      </div>
+
+      <!-- OVERALL RESULT -->
+      <div class="assessment-summary">
+        <div>
+          <span class="assessment-summary__label">OVERALL GRAND MEAN</span>
+          <strong class="assessment-summary__score">3.84</strong>
+          <span class="assessment-summary__outof">out of 4.00</span>
+        </div>
+        <span class="assessment-rating">Highly Efficient</span>
+      </div>
+
+      <!-- DISCUSSION -->
+      <div class="assessment-discussion">
+        <h3>Discussion</h3>
+
+        <p>
+          The results show that the AquaSense prototype received favorable
+          evaluations across the five assessment criteria, obtaining an
+          overall grand mean of <strong>3.84</strong>, interpreted as
+          <strong>Highly Efficient</strong>. Among the criteria, Power Input
+          achieved the highest grand mean of <strong>4.00</strong>, followed
+          by Durability with <strong>3.92</strong> and Network Load with
+          <strong>3.80</strong>. Meanwhile, Transmission Interval and Sensor
+          Precision both received a mean score of <strong>3.75</strong>.
+        </p>
+
+        <p>
+          These results indicate that the prototype was favorably evaluated
+          in terms of its power-related performance, physical durability,
+          network operation, data transmission interval, and sensor precision.
+          Although Transmission Interval and Sensor Precision obtained the
+          lowest scores among the five criteria, both remained within the
+          Highly Efficient interpretation category.
+        </p>
+
+        <p>
+          Overall, the findings demonstrate the potential of AquaSense as a
+          low-cost, IoT-based water-quality monitoring prototype designed to
+          measure pH level, turbidity, and temperature and transmit the
+          recorded readings through an online monitoring platform. These
+          findings should be understood within the scope of the prototype's
+          evaluation criteria and the testing conditions used in this study.
+        </p>
+      </div>
+
     </section>
-  </div>
+    <!-- END EXPERT EVALUATION RESULTS -->
+
+  </section>
+</div>
+
 
   <!-- DOCUMENTATION TAB -->
   <div class="tab-panel" id="tab-documentation" role="tabpanel" aria-label="Documentation">
